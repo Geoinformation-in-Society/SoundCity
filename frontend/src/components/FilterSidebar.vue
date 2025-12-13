@@ -175,10 +175,24 @@ const onWeightChange = (changedId, newValue) => {
   // Fine-tune to ensure exactly 100%
   const currentTotal = Object.values(localWeights.value).reduce((sum, val) => sum + val, 0)
   if (Math.abs(currentTotal - 100) > 0.01) {
-    const adjustment = (100 - currentTotal) / otherIds.length
-    otherIds.forEach(id => {
-      localWeights.value[id] += adjustment
+    const adjustment = 100 - currentTotal
+    // Only adjust indicators that can handle the adjustment
+    // (i.e., those not at 0 if adjustment is negative)
+    const adjustableIds = otherIds.filter(id => {
+      return adjustment >= 0 || localWeights.value[id] > 0
     })
+    
+    if (adjustableIds.length > 0) {
+      const perIndicatorAdjustment = adjustment / adjustableIds.length
+      adjustableIds.forEach(id => {
+        localWeights.value[id] = Math.max(0, localWeights.value[id] + perIndicatorAdjustment)
+      })
+    } else if (adjustment < 0) {
+      // Edge case: no adjustable indicators but total > 100
+      // This can happen if user set changed indicator too high and all others are at 0
+      // Clamp the changed indicator to bring total to 100
+      localWeights.value[changedId] = Math.max(0, localWeights.value[changedId] + adjustment)
+    }
   }
 }
 
