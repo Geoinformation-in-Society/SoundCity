@@ -187,6 +187,11 @@ const onWeightChange = (changedId, newValue) => {
       adjustableIds.forEach(id => {
         localWeights.value[id] = Math.max(0, localWeights.value[id] + perIndicatorAdjustment)
       })
+    } else if (adjustment < 0) {
+      // Edge case: no adjustable indicators but total > 100
+      // This can happen if user set changed indicator too high and all others are at 0
+      // Clamp the changed indicator to bring total to 100
+      localWeights.value[changedId] = Math.max(0, localWeights.value[changedId] + adjustment)
     }
   }
 }
