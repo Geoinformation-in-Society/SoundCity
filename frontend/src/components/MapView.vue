@@ -31,10 +31,10 @@
           Yellow<br><span class="font-normal text-gray-500 text-[10px]">Moderate</span>
         </div>
         <div class="text-center w-1/5">
-          Blue<br><span class="font-normal text-gray-500 text-[10px]">Very high</span>
+          Green<br><span class="font-normal text-gray-500 text-[10px]">High</span>
         </div>
         <div class="text-center w-1/5">
-          Green<br><span class="font-normal text-gray-500 text-[10px]">High</span>
+          Blue<br><span class="font-normal text-gray-500 text-[10px]">Very high</span>
         </div>
       </div>
 

@@ -33,7 +33,8 @@ Thumbs.db
 
 # Data files (large)
 *.csv
-backend/app/data/
-# But allow committed geojson boundaries (stable reference data)
-!backend/app/data/geojson/
+# Ignore all data subdirectories
+backend/app/data/raw/
+backend/app/data/processed/
+# But always track geojson boundaries (stable reference data)
 !backend/app/data/geojson/neighborhoods_boundaries.geojson
