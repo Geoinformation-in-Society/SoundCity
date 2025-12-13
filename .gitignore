@@ -33,4 +33,7 @@ Thumbs.db
 
 # Data files (large)
 *.csv
-backend/app/data
+backend/app/data/
+# But allow committed geojson boundaries (stable reference data)
+!backend/app/data/geojson/
+!backend/app/data/geojson/neighborhoods_boundaries.geojson
