@@ -71,10 +71,10 @@
           🌿 Nature
         </button>
         <button
-          @click="applyPreset('urban')"
+          @click="applyPreset('cooling')"
           class="text-xs py-2 px-3 rounded bg-gray-100 hover:bg-gray-200 transition font-medium"
         >
-          🏙️ Urban
+          🌳 Cooling
         </button>
       </div>
     </div>
@@ -117,7 +117,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue'
+import { ref, watch } from 'vue'
 import { useNeighborhoodStore } from '@/stores/neighborhoods'
 
 const store = useNeighborhoodStore()
@@ -142,11 +142,6 @@ const initializeState = () => {
 }
 
 initializeState()
-
-// Computed property for total weight
-const totalWeight = computed(() => {
-  return Object.values(localWeights.value).reduce((sum, val) => sum + (val || 0), 0)
-})
 
 // Weight change handler - maintains 100% total by redistributing other weights
 const onWeightChange = (changedId, newValue) => {
@@ -209,21 +204,20 @@ const onFilterChange = (filterId, isChecked) => {
       })
     }
   } else {
-    // When checking, give it equal share from other checked indicators
+    // When checking, distribute weights equally among all checked indicators
     const checkedIds = indicators
-      .filter(i => i.id !== filterId && localFilters.value[i.id])
+      .filter(i => localFilters.value[i.id])
       .map(i => i.id)
     
     if (checkedIds.length > 0) {
-      // Take 5% from each checked indicator to give to newly checked one
-      const takePerIndicator = 5 / checkedIds.length
-      checkedIds.forEach(id => {
-        localWeights.value[id] -= takePerIndicator
+      const weightPerIndicator = 100 / checkedIds.length
+      indicators.forEach(i => {
+        if (checkedIds.includes(i.id)) {
+          localWeights.value[i.id] = weightPerIndicator
+        } else {
+          localWeights.value[i.id] = 0
+        }
       })
-      localWeights.value[filterId] = 5
-    } else {
-      // If no other indicators checked, give it 100%
-      localWeights.value[filterId] = 100
     }
   }
 }
