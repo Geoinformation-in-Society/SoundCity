@@ -41,33 +41,35 @@ apiClient.interceptors.response.use(
 export default {
   /**
    * Get all neighborhoods with optional weight parameters
-   * @param {number} airWeight - Weight for air quality (0-1)
-   * @param {number} noiseWeight - Weight for noise level (0-1)
+   * @param {Object} weights - Weight object with all indicators
    * @returns {Promise} API response with neighborhood list
    */
-  getNeighborhoods(airWeight = 0.5, noiseWeight = 0.5) {
-    return apiClient.get('/neighborhoods', {
-      params: {
-        air_weight: airWeight,
-        noise_weight: noiseWeight
-      }
-    })
+  getNeighborhoods(weights = {}) {
+    const params = {
+      air_weight: weights.air || 0.2,
+      noise_weight: weights.noise || 0.2,
+      green_spaces_weight: weights.greenSpaces || 0.2,
+      tree_greenness_weight: weights.treeGreenness || 0.2,
+      urban_heat_weight: weights.urbanHeat || 0.2,
+    }
+    return apiClient.get('/neighborhoods', { params })
   },
 
   /**
    * Get detailed information for a specific neighborhood
    * @param {string} id - Neighborhood ID
-   * @param {number} airWeight - Weight for air quality (0-1)
-   * @param {number} noiseWeight - Weight for noise level (0-1)
+   * @param {Object} weights - Weight object with all indicators
    * @returns {Promise} API response with neighborhood details
    */
-  getNeighborhoodDetail(id, airWeight = 0.5, noiseWeight = 0.5) {
-    return apiClient.get(`/neighborhoods/${id}`, {
-      params: {
-        air_weight: airWeight,
-        noise_weight: noiseWeight
-      }
-    })
+  getNeighborhoodDetail(id, weights = {}) {
+    const params = {
+      air_weight: weights.air || 0.2,
+      noise_weight: weights.noise || 0.2,
+      green_spaces_weight: weights.greenSpaces || 0.2,
+      tree_greenness_weight: weights.treeGreenness || 0.2,
+      urban_heat_weight: weights.urbanHeat || 0.2,
+    }
+    return apiClient.get(`/neighborhoods/${id}`, { params })
   },
 
   /**

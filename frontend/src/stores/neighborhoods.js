@@ -8,12 +8,18 @@ export const useNeighborhoodStore = defineStore('neighborhoods', {
     compareNeighborhood1: null,
     compareNeighborhood2: null,
     filters: {
-      airQuality: true,
-      noise: true
+      air: true,
+      noise: true,
+      greenSpaces: true,
+      treeGreenness: true,
+      urbanHeat: true,
     },
     weights: {
-      air: 50,
-      noise: 50
+      air: 20,
+      noise: 20,
+      greenSpaces: 20,
+      treeGreenness: 20,
+      urbanHeat: 20,
     },
     loading: false,
     error: null
@@ -30,12 +36,17 @@ export const useNeighborhoodStore = defineStore('neighborhoods', {
     },
 
     /**
-     * Get weight values as decimals (0-1)
+     * Get weight values as decimals (0-1) - always normalized to sum to 1
      */
-    normalizedWeights: (state) => ({
-      air: state.weights.air / 100,
-      noise: state.weights.noise / 100
-    }),
+    normalizedWeights: (state) => {
+      const total = Object.values(state.weights).reduce((a, b) => a + b, 0)
+      const normalized = {}
+      Object.entries(state.weights).forEach(([key, value]) => {
+        // Always normalize to sum to 1.0 for scoring
+        normalized[key] = total > 0 ? value / total : 0
+      })
+      return normalized
+    },
 
     /**
      * Check if data is loaded
@@ -54,7 +65,7 @@ export const useNeighborhoodStore = defineStore('neighborhoods', {
       try {
         const weights = this.normalizedWeights
         console.log('Fetching neighborhoods with weights:', weights)
-        const response = await api.getNeighborhoods(weights.air, weights.noise)
+        const response = await api.getNeighborhoods(weights)
         console.log(response.data)
         this.neighborhoods = response.data
         console.log(`Loaded ${this.neighborhoods.length} neighborhoods`)
@@ -77,7 +88,7 @@ export const useNeighborhoodStore = defineStore('neighborhoods', {
 
       try {
         const weights = this.normalizedWeights
-        const response = await api.getNeighborhoodDetail(id, weights.air, weights.noise)
+        const response = await api.getNeighborhoodDetail(id, weights)
         this.selectedNeighborhood = response.data
         console.log(`Loaded details for ${this.selectedNeighborhood.name}`)
       } catch (error) {
@@ -91,21 +102,24 @@ export const useNeighborhoodStore = defineStore('neighborhoods', {
 
     /**
      * Update weight values and refresh data
-     * @param {number} air - Air quality weight (0-100)
-     * @param {number} noise - Noise level weight (0-100)
+     * @param {Object} weights - Weight object with all indicators
      */
-    async updateWeights(air, noise) {
-      this.weights.air = air
-      this.weights.noise = noise
+    async updateWeights(weights) {
+      this.weights = { ...this.weights, ...weights }
       await this.fetchNeighborhoods()
     },
 
     /**
-     * Reset weights to default (50/50)
+     * Reset weights to default
      */
     async resetWeights() {
-      this.weights.air = 50
-      this.weights.noise = 50
+      this.weights = {
+        air: 20,
+        noise: 20,
+        greenSpaces: 20,
+        treeGreenness: 20,
+        urbanHeat: 20,
+      }
       await this.fetchNeighborhoods()
     },
 
