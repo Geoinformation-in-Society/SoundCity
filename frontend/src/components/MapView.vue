@@ -182,15 +182,14 @@ const updatePolygons = () => {
       try {
       // Create polygon from GeoJSON
       const geoJsonLayer = L.geoJSON(neighborhood.geojson, {
-        smoothFactor: 0,
-        tolerance: 0,
-        simplifyFactor: 0,
         style: {
           fillColor: color,
           fillOpacity: 0.65,
           color: color,
-          weight: 1,
-          opacity: 0.8
+          weight: 2,
+          opacity: 0.9,
+          lineCap: 'round',
+          lineJoin: 'round'
         }
       }).addTo(map)
 

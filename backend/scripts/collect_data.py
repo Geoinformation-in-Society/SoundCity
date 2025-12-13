@@ -30,27 +30,77 @@ class MunsterDataCollector:
     
     def load_neighborhoods(self) -> List[Dict]:
         """
-        Load neighborhoods from the list file created by fetch_neighborhoods.py
+        Load neighborhoods directly from the geojson boundaries file.
         
         Returns:
-            List of neighborhoods
+            List of neighborhoods with center coordinates
         """
-        list_file = self.geojson_path / "neighborhoods_list.json"
+        geojson_file = self.geojson_path / "neighborhoods_boundaries.geojson"
         
-        if not list_file.exists():
-            print("⚠ Neighborhoods list not found!")
+        if not geojson_file.exists():
+            print("⚠ Neighborhoods GeoJSON not found!")
             print("  Please run: python scripts/fetch_neighborhoods.py first")
             print("\n  Using default neighborhoods as fallback...")
             return self._get_default_neighborhoods()
         
         try:
-            with open(list_file, 'r', encoding='utf-8') as f:
-                neighborhoods = json.load(f)
-            print(f"✓ Loaded {len(neighborhoods)} neighborhoods from OpenStreetMap data")
+            with open(geojson_file, 'r', encoding='utf-8') as f:
+                geojson_data = json.load(f)
+            
+            neighborhoods = []
+            for feature in geojson_data.get('features', []):
+                props = feature.get('properties', {})
+                geometry = feature.get('geometry', {})
+                
+                # Extract neighborhood name
+                name = props.get('NAME_STATI') or feature.get('id', 'Unknown')
+                neighborhood_id = name.lower().replace(' ', '-').replace('ü', 'ue').replace('ö', 'oe').replace('ä', 'ae')
+                
+                # Calculate centroid from geometry
+                center = self._calculate_centroid(geometry)
+                
+                neighborhood = {
+                    'id': neighborhood_id,
+                    'name': name,
+                    'latitude': center['lat'],
+                    'longitude': center['lon'],
+                    'osm_id': props.get('OBJECTID', 0)
+                }
+                
+                neighborhoods.append(neighborhood)
+            
+            print(f"✓ Loaded {len(neighborhoods)} neighborhoods from GeoJSON boundaries")
             return neighborhoods
         except Exception as e:
-            print(f"✗ Error loading neighborhoods: {e}")
+            print(f"✗ Error loading neighborhoods from GeoJSON: {e}")
             return self._get_default_neighborhoods()
+    
+    def _calculate_centroid(self, geometry: Dict) -> Dict:
+        """
+        Calculate centroid of a polygon geometry.
+        
+        Args:
+            geometry: GeoJSON geometry object
+            
+        Returns:
+            Dictionary with lat and lon
+        """
+        if geometry.get('type') != 'Polygon':
+            return {'lat': 51.9607, 'lon': 7.6261}  # Default to Münster center
+        
+        coords = geometry.get('coordinates', [[]])[0]
+        if not coords:
+            return {'lat': 51.9607, 'lon': 7.6261}
+        
+        # Simple centroid calculation
+        total_lat = sum(c[1] for c in coords)
+        total_lon = sum(c[0] for c in coords)
+        count = len(coords)
+        
+        return {
+            'lat': round(total_lat / count, 4),
+            'lon': round(total_lon / count, 4)
+        }
     
     def load_boundaries(self) -> Dict:
         """
@@ -71,11 +121,17 @@ class MunsterDataCollector:
             
             boundaries = {}
             for feature in geojson_data.get('features', []):
-                neighborhood_id = feature.get('id') or feature.get('properties', {}).get('id')
-                if neighborhood_id:
-                    boundaries[neighborhood_id] = feature['geometry']
+                props = feature.get('properties', {})
+                geometry = feature.get('geometry')
+                
+                # Use NAME_STATI property to create neighborhood ID
+                name = props.get('NAME_STATI', 'Unknown')
+                neighborhood_id = name.lower().replace(' ', '-').replace('ü', 'ue').replace('ö', 'oe').replace('ä', 'ae')
+                
+                if neighborhood_id and geometry:
+                    boundaries[neighborhood_id] = geometry
             
-            print(f"✓ Loaded {len(boundaries)} neighborhood boundaries")
+            print(f"✓ Loaded {len(boundaries)} neighborhood boundaries from GeoJSON")
             return boundaries
         except Exception as e:
             print(f"✗ Error loading boundaries: {e}")
