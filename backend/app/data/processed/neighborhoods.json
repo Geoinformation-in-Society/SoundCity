@@ -5,7 +5,7 @@
     "latitude": 51.9574,
     "longitude": 7.633,
     "air_quality": 3.2,
-    "noise_level": 2.0,
+    "noise_level": 4.0,
     "green_score": 0.6,
     "tree_cnt": 489,
     "heat_score": 4.5,
@@ -440,16 +440,16 @@
       "osm_id": 15,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 54.9,
       "green_coverage_pct": 12.4,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:11.720393"
+      "last_updated": "2025-12-14T18:51:40.206659"
     }
   },
   {
@@ -458,7 +458,7 @@
     "latitude": 51.917,
     "longitude": 7.5261,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 3.0,
     "green_score": 0.0,
     "tree_cnt": 1385,
     "heat_score": 5.0,
@@ -1725,16 +1725,16 @@
       "osm_id": 16,
       "pm25_raw": 12.7,
       "pm10_raw": 19.7,
-      "estimated_db": 70.0,
+      "estimated_db": 59.2,
       "green_coverage_pct": 0.5,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:14.161585"
+      "last_updated": "2025-12-14T18:51:41.860362"
     }
   },
   {
@@ -1743,7 +1743,7 @@
     "latitude": 51.9155,
     "longitude": 7.7013,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.2,
     "tree_cnt": 530,
     "heat_score": 4.8,
@@ -3382,16 +3382,16 @@
       "osm_id": 17,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 45.6,
       "green_coverage_pct": 4.0,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:16.933564"
+      "last_updated": "2025-12-14T18:51:43.480200"
     }
   },
   {
@@ -3400,7 +3400,7 @@
     "latitude": 51.9708,
     "longitude": 7.6221,
     "air_quality": 3.2,
-    "noise_level": 2.0,
+    "noise_level": 5.0,
     "green_score": 0.4,
     "tree_cnt": 1378,
     "heat_score": 4.7,
@@ -3887,16 +3887,16 @@
       "osm_id": 18,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 44.2,
       "green_coverage_pct": 8.4,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:20.610755"
+      "last_updated": "2025-12-14T18:51:45.039981"
     }
   },
   {
@@ -3905,7 +3905,7 @@
     "latitude": 51.9256,
     "longitude": 7.6283,
     "air_quality": 4.3,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.5,
     "tree_cnt": 503,
     "heat_score": 4.6,
@@ -4380,16 +4380,16 @@
       "osm_id": 19,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 46.3,
       "green_coverage_pct": 9.3,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:27.558736"
+      "last_updated": "2025-12-14T18:51:46.655064"
     }
   },
   {
@@ -4398,7 +4398,7 @@
     "latitude": 51.9319,
     "longitude": 7.6115,
     "air_quality": 4.2,
-    "noise_level": 2.0,
+    "noise_level": 4.0,
     "green_score": 0.3,
     "tree_cnt": 499,
     "heat_score": 4.7,
@@ -5241,16 +5241,16 @@
       "osm_id": 20,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 51.8,
       "green_coverage_pct": 6.3,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:30.932158"
+      "last_updated": "2025-12-14T18:51:48.401529"
     }
   },
   {
@@ -5259,7 +5259,7 @@
     "latitude": 51.9017,
     "longitude": 7.6234,
     "air_quality": 4.0,
-    "noise_level": 2.0,
+    "noise_level": 5.0,
     "green_score": 0.2,
     "tree_cnt": 732,
     "heat_score": 4.8,
@@ -6114,16 +6114,16 @@
       "osm_id": 21,
       "pm25_raw": 18.6,
       "pm10_raw": 34.0,
-      "estimated_db": 70.0,
+      "estimated_db": 44.8,
       "green_coverage_pct": 4.1,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:33.820156"
+      "last_updated": "2025-12-14T18:51:49.986354"
     }
   },
   {
@@ -6132,7 +6132,7 @@
     "latitude": 51.9527,
     "longitude": 7.6261,
     "air_quality": 3.2,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.5,
     "tree_cnt": 571,
     "heat_score": 4.6,
@@ -6755,16 +6755,16 @@
       "osm_id": 22,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 48.8,
       "green_coverage_pct": 10.3,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:37.911132"
+      "last_updated": "2025-12-14T18:51:51.550179"
     }
   },
   {
@@ -6773,7 +6773,7 @@
     "latitude": 51.8974,
     "longitude": 7.6827,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 5.0,
     "green_score": 0.2,
     "tree_cnt": 461,
     "heat_score": 4.8,
@@ -7812,16 +7812,16 @@
       "osm_id": 23,
       "pm25_raw": 2.2,
       "pm10_raw": 3.4,
-      "estimated_db": 70.0,
+      "estimated_db": 41.0,
       "green_coverage_pct": 4.2,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:40.426670"
+      "last_updated": "2025-12-14T18:51:53.134164"
     }
   },
   {
@@ -7830,7 +7830,7 @@
     "latitude": 51.9526,
     "longitude": 7.6144,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.1,
     "tree_cnt": 448,
     "heat_score": 5.0,
@@ -8167,18 +8167,18 @@
     },
     "metadata": {
       "osm_id": 24,
-      "pm25_raw": 5.3,
-      "pm10_raw": 12.2,
-      "estimated_db": 70.0,
+      "pm25_raw": 5.2,
+      "pm10_raw": 11.5,
+      "estimated_db": 49.7,
       "green_coverage_pct": 1.2,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:43.996591"
+      "last_updated": "2025-12-14T18:51:54.696222"
     }
   },
   {
@@ -8187,7 +8187,7 @@
     "latitude": 51.9725,
     "longitude": 7.5713,
     "air_quality": 3.0,
-    "noise_level": 2.0,
+    "noise_level": 4.0,
     "green_score": 0.3,
     "tree_cnt": 2120,
     "heat_score": 4.7,
@@ -9162,16 +9162,16 @@
       "osm_id": 25,
       "pm25_raw": 18.5,
       "pm10_raw": 40.8,
-      "estimated_db": 70.0,
+      "estimated_db": 52.8,
       "green_coverage_pct": 6.3,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:47.425959"
+      "last_updated": "2025-12-14T18:51:56.487690"
     }
   },
   {
@@ -9180,7 +9180,7 @@
     "latitude": 51.9453,
     "longitude": 7.6274,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.1,
     "tree_cnt": 614,
     "heat_score": 4.9,
@@ -9735,16 +9735,16 @@
       "osm_id": 26,
       "pm25_raw": 9.8,
       "pm10_raw": 14.0,
-      "estimated_db": 70.0,
+      "estimated_db": 47.9,
       "green_coverage_pct": 2.9,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:51.322840"
+      "last_updated": "2025-12-14T18:51:58.071283"
     }
   },
   {
@@ -9753,7 +9753,7 @@
     "latitude": 51.9778,
     "longitude": 7.6422,
     "air_quality": 1.0,
-    "noise_level": 2.0,
+    "noise_level": 5.0,
     "green_score": 0.1,
     "tree_cnt": 1388,
     "heat_score": 4.9,
@@ -10312,16 +10312,16 @@
       "osm_id": 27,
       "pm25_raw": 45.9,
       "pm10_raw": 138.5,
-      "estimated_db": 70.0,
+      "estimated_db": 44.5,
       "green_coverage_pct": 2.6,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:56.229068"
+      "last_updated": "2025-12-14T18:51:59.785134"
     }
   },
   {
@@ -10330,7 +10330,7 @@
     "latitude": 52.0122,
     "longitude": 7.6814,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.1,
     "tree_cnt": 699,
     "heat_score": 4.9,
@@ -13105,16 +13105,16 @@
       "osm_id": 28,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 45.5,
       "green_coverage_pct": 2.6,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:17:58.769436"
+      "last_updated": "2025-12-14T18:52:01.565698"
     }
   },
   {
@@ -13123,7 +13123,7 @@
     "latitude": 51.9671,
     "longitude": 7.6548,
     "air_quality": 4.3,
-    "noise_level": 2.0,
+    "noise_level": 5.0,
     "green_score": 0.9,
     "tree_cnt": 1050,
     "heat_score": 4.2,
@@ -13646,16 +13646,16 @@
       "osm_id": 29,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 44.9,
       "green_coverage_pct": 18.8,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:02.453868"
+      "last_updated": "2025-12-14T18:52:03.183082"
     }
   },
   {
@@ -13664,7 +13664,7 @@
     "latitude": 51.9294,
     "longitude": 7.7322,
     "air_quality": 4.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.2,
     "tree_cnt": 1011,
     "heat_score": 4.9,
@@ -16631,16 +16631,16 @@
       "osm_id": 30,
       "pm25_raw": 14.7,
       "pm10_raw": 25.2,
-      "estimated_db": 70.0,
+      "estimated_db": 46.2,
       "green_coverage_pct": 3.4,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:04.920879"
+      "last_updated": "2025-12-14T18:52:05.140812"
     }
   },
   {
@@ -16649,7 +16649,7 @@
     "latitude": 51.9528,
     "longitude": 7.51,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.1,
     "tree_cnt": 1868,
     "heat_score": 4.9,
@@ -19820,16 +19820,16 @@
       "osm_id": 31,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 49.6,
       "green_coverage_pct": 1.6,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:07.562261"
+      "last_updated": "2025-12-14T18:52:07.009309"
     }
   },
   {
@@ -19838,7 +19838,7 @@
     "latitude": 51.9616,
     "longitude": 7.6434,
     "air_quality": 4.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.4,
     "tree_cnt": 564,
     "heat_score": 4.7,
@@ -20277,16 +20277,16 @@
       "osm_id": 32,
       "pm25_raw": 12.4,
       "pm10_raw": 23.4,
-      "estimated_db": 70.0,
+      "estimated_db": 45.3,
       "green_coverage_pct": 8.4,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:11.195195"
+      "last_updated": "2025-12-14T18:52:08.625752"
     }
   },
   {
@@ -20295,7 +20295,7 @@
     "latitude": 51.9589,
     "longitude": 7.6234,
     "air_quality": 3.3,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 1.4,
     "tree_cnt": 270,
     "heat_score": 3.8,
@@ -20686,16 +20686,16 @@
       "osm_id": 1,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 49.2,
       "green_coverage_pct": 29.0,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:14.861124"
+      "last_updated": "2025-12-14T18:52:10.223126"
     }
   },
   {
@@ -20704,7 +20704,7 @@
     "latitude": 51.9604,
     "longitude": 7.6102,
     "air_quality": 3.5,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.6,
     "tree_cnt": 2075,
     "heat_score": 4.5,
@@ -21315,16 +21315,16 @@
       "osm_id": 2,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 49.2,
       "green_coverage_pct": 11.5,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:18.947461"
+      "last_updated": "2025-12-14T18:52:11.871194"
     }
   },
   {
@@ -21333,7 +21333,7 @@
     "latitude": 51.9616,
     "longitude": 7.6276,
     "air_quality": 2.9,
-    "noise_level": 2.0,
+    "noise_level": 5.0,
     "green_score": 0.6,
     "tree_cnt": 570,
     "heat_score": 4.5,
@@ -21996,16 +21996,16 @@
       "osm_id": 3,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 44.8,
       "green_coverage_pct": 12.3,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:23.385568"
+      "last_updated": "2025-12-14T18:52:13.559981"
     }
   },
   {
@@ -22014,7 +22014,7 @@
     "latitude": 51.9649,
     "longitude": 7.631,
     "air_quality": 4.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.9,
     "tree_cnt": 320,
     "heat_score": 4.3,
@@ -22381,16 +22381,16 @@
       "osm_id": 4,
       "pm25_raw": 11.9,
       "pm10_raw": 23.8,
-      "estimated_db": 70.0,
+      "estimated_db": 47.4,
       "green_coverage_pct": 18.0,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:31.976420"
+      "last_updated": "2025-12-14T18:52:15.259522"
     }
   },
   {
@@ -22399,7 +22399,7 @@
     "latitude": 51.9566,
     "longitude": 7.6418,
     "air_quality": 3.6,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.7,
     "tree_cnt": 364,
     "heat_score": 4.4,
@@ -22818,16 +22818,16 @@
       "osm_id": 5,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 46.4,
       "green_coverage_pct": 14.8,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:35.644659"
+      "last_updated": "2025-12-14T18:52:16.847609"
     }
   },
   {
@@ -22835,8 +22835,8 @@
     "name": "Geist",
     "latitude": 51.9403,
     "longitude": 7.6157,
-    "air_quality": 3.7,
-    "noise_level": 2.0,
+    "air_quality": 5.0,
+    "noise_level": 4.5,
     "green_score": 0.3,
     "tree_cnt": 953,
     "heat_score": 4.8,
@@ -23565,18 +23565,18 @@
     },
     "metadata": {
       "osm_id": 6,
-      "pm25_raw": null,
-      "pm10_raw": null,
-      "estimated_db": 70.0,
+      "pm25_raw": 3.0,
+      "pm10_raw": 5.0,
+      "estimated_db": 47.8,
       "green_coverage_pct": 5.1,
       "data_sources": {
-        "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:39.350833"
+      "last_updated": "2025-12-14T18:52:18.583002"
     }
   },
   {
@@ -23585,7 +23585,7 @@
     "latitude": 51.995,
     "longitude": 7.6121,
     "air_quality": 4.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.3,
     "tree_cnt": 952,
     "heat_score": 4.7,
@@ -24388,16 +24388,16 @@
       "osm_id": 7,
       "pm25_raw": 18.3,
       "pm10_raw": 29.8,
-      "estimated_db": 70.0,
+      "estimated_db": 47.2,
       "green_coverage_pct": 6.7,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:42.535899"
+      "last_updated": "2025-12-14T18:52:20.366095"
     }
   },
   {
@@ -24406,7 +24406,7 @@
     "latitude": 51.9362,
     "longitude": 7.6842,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 5.0,
     "green_score": 0.2,
     "tree_cnt": 750,
     "heat_score": 4.8,
@@ -25317,16 +25317,16 @@
       "osm_id": 8,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 41.9,
       "green_coverage_pct": 5.0,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:45.435229"
+      "last_updated": "2025-12-14T18:52:22.132803"
     }
   },
   {
@@ -25335,7 +25335,7 @@
     "latitude": 51.9476,
     "longitude": 7.6406,
     "air_quality": 3.5,
-    "noise_level": 2.0,
+    "noise_level": 4.0,
     "green_score": 0.1,
     "tree_cnt": 123,
     "heat_score": 4.9,
@@ -25738,16 +25738,16 @@
       "osm_id": 9,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 50.9,
       "green_coverage_pct": 2.1,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:48.754383"
+      "last_updated": "2025-12-14T18:52:23.726015"
     }
   },
   {
@@ -25756,7 +25756,7 @@
     "latitude": 51.9593,
     "longitude": 7.6676,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.3,
     "tree_cnt": 1061,
     "heat_score": 4.8,
@@ -26683,16 +26683,16 @@
       "osm_id": 10,
       "pm25_raw": 0.5,
       "pm10_raw": 0.5,
-      "estimated_db": 70.0,
+      "estimated_db": 48.5,
       "green_coverage_pct": 6.2,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:52.508498"
+      "last_updated": "2025-12-14T18:52:25.411812"
     }
   },
   {
@@ -26701,7 +26701,7 @@
     "latitude": 52.004,
     "longitude": 7.639,
     "air_quality": 4.7,
-    "noise_level": 3.5,
+    "noise_level": 5.0,
     "green_score": 0.1,
     "tree_cnt": 727,
     "heat_score": 4.9,
@@ -27572,16 +27572,16 @@
       "osm_id": 11,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 55.0,
+      "estimated_db": 42.0,
       "green_coverage_pct": 2.7,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:55.052939"
+      "last_updated": "2025-12-14T18:52:27.048037"
     }
   },
   {
@@ -27590,7 +27590,7 @@
     "latitude": 51.9658,
     "longitude": 7.6242,
     "air_quality": 3.0,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.3,
     "tree_cnt": 296,
     "heat_score": 4.8,
@@ -28077,16 +28077,16 @@
       "osm_id": 12,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 48.5,
       "green_coverage_pct": 5.6,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:18:58.785611"
+      "last_updated": "2025-12-14T18:52:28.599419"
     }
   },
   {
@@ -28095,7 +28095,7 @@
     "latitude": 51.9695,
     "longitude": 7.6086,
     "air_quality": 3.6,
-    "noise_level": 2.0,
+    "noise_level": 4.0,
     "green_score": 0.4,
     "tree_cnt": 372,
     "heat_score": 4.6,
@@ -28470,16 +28470,16 @@
       "osm_id": 13,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 50.3,
       "green_coverage_pct": 8.8,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:02.476725"
+      "last_updated": "2025-12-14T18:52:30.175010"
     }
   },
   {
@@ -28488,7 +28488,7 @@
     "latitude": 51.9627,
     "longitude": 7.6211,
     "air_quality": 2.9,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.2,
     "tree_cnt": 115,
     "heat_score": 4.9,
@@ -28919,16 +28919,16 @@
       "osm_id": 14,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 48.4,
       "green_coverage_pct": 3.3,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:06.222468"
+      "last_updated": "2025-12-14T18:52:31.729533"
     }
   },
   {
@@ -28937,7 +28937,7 @@
     "latitude": 51.9971,
     "longitude": 7.5966,
     "air_quality": 4.7,
-    "noise_level": 2.0,
+    "noise_level": 4.0,
     "green_score": 0.1,
     "tree_cnt": 1333,
     "heat_score": 4.9,
@@ -30124,16 +30124,16 @@
       "osm_id": 33,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 54.1,
       "green_coverage_pct": 1.7,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:09.148134"
+      "last_updated": "2025-12-14T18:52:33.362982"
     }
   },
   {
@@ -30142,7 +30142,7 @@
     "latitude": 51.9594,
     "longitude": 7.6527,
     "air_quality": 4.2,
-    "noise_level": 2.0,
+    "noise_level": 5.0,
     "green_score": 1.1,
     "tree_cnt": 495,
     "heat_score": 4.1,
@@ -30685,16 +30685,16 @@
       "osm_id": 34,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 44.0,
       "green_coverage_pct": 22.7,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:13.208898"
+      "last_updated": "2025-12-14T18:52:35.011686"
     }
   },
   {
@@ -30703,7 +30703,7 @@
     "latitude": 51.9679,
     "longitude": 7.6365,
     "air_quality": 3.3,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.3,
     "tree_cnt": 998,
     "heat_score": 4.7,
@@ -31162,16 +31162,16 @@
       "osm_id": 35,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 48.5,
       "green_coverage_pct": 7.0,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:16.977108"
+      "last_updated": "2025-12-14T18:52:36.584770"
     }
   },
   {
@@ -31180,7 +31180,7 @@
     "latitude": 51.9957,
     "longitude": 7.7057,
     "air_quality": 5.0,
-    "noise_level": 2.5,
+    "noise_level": 5.0,
     "green_score": 0.1,
     "tree_cnt": 697,
     "heat_score": 4.9,
@@ -35355,16 +35355,16 @@
       "osm_id": 36,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 65.0,
+      "estimated_db": 42.6,
       "green_coverage_pct": 1.3,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:19.407918"
+      "last_updated": "2025-12-14T18:52:38.311797"
     }
   },
   {
@@ -35373,7 +35373,7 @@
     "latitude": 51.9427,
     "longitude": 7.6039,
     "air_quality": 4.1,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.5,
     "tree_cnt": 1762,
     "heat_score": 4.6,
@@ -35952,16 +35952,16 @@
       "osm_id": 37,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 48.9,
       "green_coverage_pct": 9.2,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:22.662358"
+      "last_updated": "2025-12-14T18:52:39.926817"
     }
   },
   {
@@ -35970,7 +35970,7 @@
     "latitude": 52.0281,
     "longitude": 7.6155,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 4.0,
     "green_score": 0.0,
     "tree_cnt": 738,
     "heat_score": 5.0,
@@ -38209,16 +38209,16 @@
       "osm_id": 38,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 53.6,
       "green_coverage_pct": 0.2,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:29.055997"
+      "last_updated": "2025-12-14T18:52:41.692359"
     }
   },
   {
@@ -38227,7 +38227,7 @@
     "latitude": 51.9362,
     "longitude": 7.6612,
     "air_quality": 4.6,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.3,
     "tree_cnt": 1185,
     "heat_score": 4.7,
@@ -39178,16 +39178,16 @@
       "osm_id": 39,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 47.6,
       "green_coverage_pct": 6.5,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:32.309943"
+      "last_updated": "2025-12-14T18:52:43.341308"
     }
   },
   {
@@ -39196,7 +39196,7 @@
     "latitude": 51.8774,
     "longitude": 7.5919,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 4.0,
     "green_score": 0.1,
     "tree_cnt": 1335,
     "heat_score": 4.9,
@@ -41819,16 +41819,16 @@
       "osm_id": 40,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 53.4,
       "green_coverage_pct": 1.3,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:35.045599"
+      "last_updated": "2025-12-14T18:52:45.367350"
     }
   },
   {
@@ -41837,7 +41837,7 @@
     "latitude": 51.9309,
     "longitude": 7.5812,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 3.0,
     "green_score": 0.4,
     "tree_cnt": 1017,
     "heat_score": 4.7,
@@ -42580,16 +42580,16 @@
       "osm_id": 41,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 56.1,
       "green_coverage_pct": 7.2,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:38.000492"
+      "last_updated": "2025-12-14T18:52:47.246727"
     }
   },
   {
@@ -42598,7 +42598,7 @@
     "latitude": 51.9779,
     "longitude": 7.6163,
     "air_quality": 3.6,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.3,
     "tree_cnt": 1211,
     "heat_score": 4.8,
@@ -43097,16 +43097,16 @@
       "osm_id": 42,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 46.5,
       "green_coverage_pct": 5.8,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:41.724459"
+      "last_updated": "2025-12-14T18:52:48.993067"
     }
   },
   {
@@ -43115,7 +43115,7 @@
     "latitude": 52.0063,
     "longitude": 7.5462,
     "air_quality": 3.0,
-    "noise_level": 2.0,
+    "noise_level": 4.0,
     "green_score": 0.1,
     "tree_cnt": 2436,
     "heat_score": 4.9,
@@ -45102,16 +45102,16 @@
       "osm_id": 43,
       "pm25_raw": 17.1,
       "pm10_raw": 37.1,
-      "estimated_db": 70.0,
+      "estimated_db": 53.3,
       "green_coverage_pct": 2.1,
       "data_sources": {
-        "air_quality": "Sensor.Community",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "air_quality": "Sensor.Community + Official (LANUV)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:44.250762"
+      "last_updated": "2025-12-14T18:52:50.877839"
     }
   },
   {
@@ -45120,7 +45120,7 @@
     "latitude": 51.9575,
     "longitude": 7.5891,
     "air_quality": 4.4,
-    "noise_level": 2.0,
+    "noise_level": 4.5,
     "green_score": 0.4,
     "tree_cnt": 3801,
     "heat_score": 4.7,
@@ -46315,16 +46315,16 @@
       "osm_id": 44,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 45.2,
       "green_coverage_pct": 8.5,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:47.526745"
+      "last_updated": "2025-12-14T18:52:52.586339"
     }
   },
   {
@@ -46333,7 +46333,7 @@
     "latitude": 51.8949,
     "longitude": 7.6469,
     "air_quality": 5.0,
-    "noise_level": 2.0,
+    "noise_level": 5.0,
     "green_score": 0.3,
     "tree_cnt": 848,
     "heat_score": 4.7,
@@ -47308,16 +47308,16 @@
       "osm_id": 45,
       "pm25_raw": null,
       "pm10_raw": null,
-      "estimated_db": 70.0,
+      "estimated_db": 44.8,
       "green_coverage_pct": 6.9,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
-        "noise": "OSM road analysis",
-        "boundaries": "OpenStreetMap (Overpass API)",
+        "noise": "Official Noise Map (2022)",
+        "boundaries": "OpenStreetMap",
         "trees": "Baumkataster WFS",
-        "heat": "Heuristic (Inverse Green)"
+        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:19:50.689115"
+      "last_updated": "2025-12-14T18:52:54.354100"
     }
   }
 ]

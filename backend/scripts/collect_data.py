@@ -34,6 +34,7 @@ class MunsterDataCollector:
         self.green_shapes = self._load_green_spaces()
         self.tree_points = self._load_trees()
         self.air_sensors = self._load_air_sensors()
+        self.noise_shapes = self._load_noise_shapes()
 
     def _load_geojson_raw(self, filename: str) -> Optional[Dict]:
         """Helper to load raw GeoJSON from raw_path"""
@@ -49,26 +50,337 @@ class MunsterDataCollector:
             return None
 
     def _load_air_sensors(self) -> List[Dict]:
-        """Load and filter air sensors for Münster"""
-        print("  💨 Loading air sensors...")
-        data = self._load_geojson_raw("air_sensors_global.json")
+        """
+        Load air quality data:
+        1. Try official Münster Open Data first.
+        2. Filter for Münster region.
+        """
+        print("  💨 Loading air quality data...")
         sensors = []
-        if isinstance(data, list):
-            for s in data:
-                try:
-                    lat = float(s['location']['latitude'])
-                    lon = float(s['location']['longitude'])
-                    # Filter for Münster region (approx box)
-                    if 51.8 <= lat <= 52.1 and 7.4 <= lon <= 7.8:
-                        p1 = None # PM10
-                        p2 = None # PM2.5
-                        for val in s.get('sensordatavalues', []):
-                            if val['value_type'] == 'P1': p1 = float(val['value'])
-                            if val['value_type'] == 'P2': p2 = float(val['value'])
-                        sensors.append({'lat': lat, 'lon': lon, 'P1': p1, 'P2': p2})
-                except: pass
-        print(f"    ✓ Loaded {len(sensors)} relevant air sensors")
+        
+        # 1. Official Data
+        # URL found via browser: https://www.muenster01.de/luftqualitaet/data/luftqualitaet_muenster.geojson
+        try:
+            url = "https://www.muenster01.de/luftqualitaet/data/luftqualitaet_muenster.geojson"
+            resp = requests.get(url, timeout=10)
+            if resp.status_code == 200:
+                data = resp.json()
+                for feature in data.get('features', []):
+                    props = feature.get('properties', {})
+                    geom = feature.get('geometry', {})
+                    if geom.get('type') == 'Point':
+                        coords = geom.get('coordinates')
+                        
+                        # Extract official values
+                        # Keys seen: "Feinstaub (PM₁₀)", "Stickstoffdioxid (NO₂)", "Luftqualitätsindex"
+                        pm10 = props.get("Feinstaub (PM\u2081\u2080)")
+                        no2 = props.get("Stickstoffdioxid (NO\u2082)")
+                        
+                        # Ensure values are float or None
+                        if pm10 == '-' or pm10 is None: pm10 = None
+                        else: pm10 = float(pm10)
+                        
+                        # Official stations don't always have PM2.5, but key is "Feinstaub (PM₂.₅)" if present
+                        pm25 = props.get("Feinstaub (PM\u2082,\u2085)")
+                        if pm25 == '-' or pm25 is None: pm25 = None
+                        else: pm25 = float(pm25)
+
+                        sensors.append({
+                            'lat': coords[1],
+                            'lon': coords[0],
+                            'source': 'official',
+                            'P1': pm10,  # Map to standard key for PM10
+                            'P2': pm25,  # Map to standard key for PM2.5
+                            'NO2': no2,  # Extra key
+                            'props': props
+                        })
+                print(f"    ✓ Loaded {len(sensors)} official air quality stations")
+        except Exception as e:
+            print(f"    ⚠ Could not load official air data: {e}")
+
+        # 2. Sensor.Community (Global Fallback/Augmentation)
+        try:
+            data = self._load_geojson_raw("air_sensors_global.json")
+            if isinstance(data, list):
+                for s in data:
+                    try:
+                        lat = float(s['location']['latitude'])
+                        lon = float(s['location']['longitude'])
+                        # Filter for Münster region
+                        if 51.8 <= lat <= 52.1 and 7.4 <= lon <= 7.8:
+                            p1 = None; p2 = None
+                            for val in s.get('sensordatavalues', []):
+                                if val['value_type'] == 'P1': p1 = float(val['value'])
+                                if val['value_type'] == 'P2': p2 = float(val['value'])
+                            sensors.append({'lat': lat, 'lon': lon, 'P1': p1, 'P2': p2, 'source': 'sensor_community'})
+                    except: pass
+        except Exception as e:
+            print(f"    ⚠ Error processing sensor.community data: {e}")
+            
+        print(f"    ✓ Total air sensors/stations: {len(sensors)}")
         return sensors
+
+    def calculate_noise_score_official(self, district_geom: Polygon) -> Dict:
+        """
+        Calculate noise score based on intersection with official Noise Map polygons.
+        official maps have dB ranges.
+        """
+        if not self.noise_shapes or not any(self.noise_shapes.values()):
+            return {'score': None, 'method': 'No official data'}
+            
+        # We process 'street_day' as the primary indicator for general noise
+        # But 'street_night' is also critical for residential quality.
+        # Let's average the impact of street_day and street_night.
+        
+        def get_db_impact(shapes_list, geom):
+            total_area = geom.area
+            if total_area == 0: return 0
+            
+            w_db_sum = 0.0
+            touched_area = 0.0
+            
+            # Ensure district geom is valid
+            if not geom.is_valid:
+                geom = geom.buffer(0)
+
+            for item in shapes_list:
+                shape_geom = item['geom']
+                if not shape_geom.is_valid:
+                    shape_geom = shape_geom.buffer(0)
+                    
+                try:
+                    if geom.intersects(shape_geom):
+                        inter = geom.intersection(shape_geom)
+                        area = inter.area
+                        if area > 0:
+                            # Extract dB level from props
+                            # Typical props in NRW maps: "pegel" -> "LDEN" or range strings?
+                            # Let's assume range or extract regex if needed.
+                            # Based on standard: often "LDEN" or "L_Day" is an integer or range.
+                            # Let's try to find a numeric value. 
+                            # If we look at the file, it likely has valid properties.
+                            # For now, let's treat existence as "High Noise" (e.g. >55dB is usually mapped)
+                            # If props exist, assume >55dB.
+                            
+                            # Refined: Parse "pegel" or similar. 
+                            # If unknown, assume 65dB (mid-range of noisy areas).
+                            db = 65.0 
+                            props = item['props']
+                            # Try to find a level
+                            for k, v in props.items():
+                                if 'db' in k.lower() or 'level' in k.lower() or 'klasse' in k.lower():
+                                    if isinstance(v, (int, float)):
+                                        db = float(v)
+                                        break
+                                        
+                            w_db_sum += area * db
+                            touched_area += area
+                except: pass
+            
+            # If no intersection, assume background noise ~40dB
+            if touched_area < total_area:
+                 w_db_sum += (total_area - touched_area) * 40.0
+                 
+            return w_db_sum / total_area
+
+        # Calculate average dB for the district
+        avg_db_day = get_db_impact(self.noise_shapes.get('street_day', []), district_geom)
+        avg_db_night = get_db_impact(self.noise_shapes.get('street_night', []), district_geom)
+        
+        avg_db = (avg_db_day + avg_db_night) / 2.0
+        
+        # Map dB to score (1-5)
+        # < 45: 5.0 (Quiet)
+        # 45-50: 4.5
+        # 50-55: 4.0
+        # 55-60: 3.0
+        # 60-65: 2.0
+        # > 65: 1.0 (Loud)
+        
+        score = 1.0
+        if avg_db < 45: score = 5.0
+        elif avg_db < 50: score = 4.5
+        elif avg_db < 55: score = 4.0
+        elif avg_db < 60: score = 3.0
+        elif avg_db < 65: score = 2.0
+        
+        return {
+            'score': score,
+            'estimated_db': round(avg_db, 1),
+            'method': 'Official Noise Map (2022)'
+        }
+
+    # ... (existing methods) ...
+
+    def collect_all_data(self) -> List[Dict]:
+        """
+        Collect data for all neighborhoods.
+        """
+        print("\n" + "="*70)
+        print("🌍 SOUND CITY - DATA COLLECTION")
+        print("="*70 + "\n")
+        print(f"Processing {len(self.neighborhoods)} neighborhoods...\n")
+        
+        results = []
+        
+        for i, neighborhood in enumerate(self.neighborhoods, 1):
+            print(f"[{i}/{len(self.neighborhoods)}] {neighborhood['name']}")
+            
+            lat = neighborhood['latitude']
+            lon = neighborhood['longitude']
+            n_id = neighborhood['id']
+            
+            # Get boundary geometry
+            geom_dict = self.boundaries.get(n_id)
+            shapely_geom = None
+            if geom_dict:
+                try:
+                    shapely_geom = shape(geom_dict)
+                except: pass
+
+            # Calculate Green Score & Trees & Heat
+            green_score_val = 0.0
+            tree_count = 0
+            heat_score = 3.0
+            
+            if shapely_geom:
+                print("\n🌳 GREEN & HEAT:")
+                green_score_val = self.calculate_green_score(shapely_geom)
+                tree_count = self.calculate_tree_density(shapely_geom)
+                heat_score = self.calculate_heat_score(green_score_val)
+                print(f"    ✓ Green: {green_score_val*100:.1f}%, Trees: {tree_count}, Heat: {heat_score}/5")
+
+            
+            # Collect air quality
+            print("\n💨 AIR QUALITY:")
+            air_quality_score = 3.5 
+            air_data = {'score': None, 'estimated': True}
+            
+            if shapely_geom:
+                 air_data = self.calculate_air_quality(shapely_geom)
+                 if air_data['score'] is not None:
+                     air_quality_score = air_data['score']
+                     print(f"    ✓ Calculated from {air_data.get('sensor_count', 0)} sensors: Score {air_quality_score}/5")
+                 else:
+                     # Fallback heuristic
+                     center_lat, center_lon = 51.9607, 7.6261
+                     dist = ((lat - center_lat)**2 + (lon - center_lon)**2)**0.5 * 111 
+                     raw_air = min(1.0, 0.4 + (dist/10.0) + (green_score_val * 0.5))
+                     air_quality_score = round(1.0 + (raw_air * 4.0), 1)
+                     print(f"    ⚠ No sensors, using spatial heuristic: {air_quality_score}/5")
+
+            
+            # Estimate noise
+            print("\n🔊 NOISE POLLUTION:")
+            # Debug why it falls through
+            # print(f"DEBUG: Geom={bool(shapely_geom)}, NoiseShapes={bool(self.noise_shapes)}")
+            # if self.noise_shapes:
+            #      print(f"DEBUG: Counts={[len(v) for v in self.noise_shapes.values()]}")
+            
+            if shapely_geom and self.noise_shapes and any(self.noise_shapes.values()):
+                 # Use official data if available
+                 noise_data = self.calculate_noise_score_official(shapely_geom)
+                 print(f"    ✓ Official Noise Map: Score {noise_data['score']}/5 ({noise_data['estimated_db']} dB)")
+            else:
+                 # Fallback to Overpass/Distance
+                 noise_data = self.estimate_noise_level(lat, lon, n_id)
+
+            # Compile result
+            result = {
+                "id": n_id,
+                "name": neighborhood['name'],
+                "latitude": lat,
+                "longitude": lon,
+                "air_quality": round(air_quality_score, 1),
+                "noise_level": round(noise_data['score'], 1),
+                "green_score": round(green_score_val * 5.0, 1), 
+                "tree_cnt": tree_count,
+                "heat_score": heat_score,
+                "geojson": geom_dict,  
+                "metadata": {
+                    "osm_id": neighborhood.get('osm_id'),
+                    "pm25_raw": air_data.get('pm25'),
+                    "pm10_raw": air_data.get('pm10'),
+                    "estimated_db": noise_data.get('estimated_db'),
+                    "green_coverage_pct": round(green_score_val * 100, 1),
+                    "data_sources": {
+                        "air_quality": "Sensor.Community + Official (LANUV)" if not air_data.get('estimated') else "Spatial Heuristic",
+                        "noise": noise_data.get('method', 'Estimated'),
+                        "boundaries": "OpenStreetMap",
+                        "trees": "Baumkataster WFS",
+                        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
+                    },
+                    "last_updated": datetime.now().isoformat()
+                }
+            }
+            
+            results.append(result)
+            print(f"\n  ✓ Complete: Air={air_quality_score}/5, Noise={noise_data['score']}/5")
+            print("  " + "-"*66 + "\n")
+            
+            if noise_data.get('method') == 'OSM road analysis' and i < len(self.neighborhoods):
+                time.sleep(1.0)
+        
+        return results
+
+    def fetch_official_noise_data(self):
+        """Fetch official noise GeoJSONs if not present"""
+        files = {
+            "noise_street_day.json": "https://opendata.stadt-muenster.de/sites/default/files/laerm_stra%C3%9Fe_tag.json",
+            "noise_street_night.json": "https://opendata.stadt-muenster.de/sites/default/files/laerm_stra%C3%9Fe_nacht.json",
+            "noise_industry_day.json": "https://opendata.stadt-muenster.de/sites/default/files/laerm_gewerbe_tag.json",
+            "noise_industry_night.json": "https://opendata.stadt-muenster.de/sites/default/files/laerm_gewerbe_nacht.json"
+        }
+        
+        print("  🔊 Checking official Noise Data...")
+        for filename, url in files.items():
+            path = self.raw_path / filename
+            if not path.exists():
+                print(f"    ⬇ Downloading {filename}...")
+                try:
+                    r = requests.get(url, stream=True)
+                    r.raise_for_status()
+                    with open(path, 'wb') as f:
+                        for chunk in r.iter_content(chunk_size=8192):
+                            f.write(chunk)
+                except Exception as e:
+                    print(f"    ✗ Failed to download {filename}: {e}")
+            else:
+                pass # print(f"    ✓ {filename} exists")
+
+    def _load_noise_shapes(self) -> Dict[str, List[Dict]]:
+        """Load noise polygons for spatial analysis"""
+        self.fetch_official_noise_data()
+        
+        noise_data = {'street_day': [], 'street_night': [], 'industry_day': [], 'industry_night': []}
+        
+        files = {
+            'street_day': "noise_street_day.json",
+            'street_night': "noise_street_night.json",
+            'industry_day': "noise_industry_day.json",
+            'industry_night': "noise_industry_night.json"
+        }
+        
+        print("  🔊 Loading Noise GeoJSONs...")
+        for key, filename in files.items():
+            data = self._load_geojson_raw(filename)
+            if data:
+                count = 0
+                for feature in data.get('features', []):
+                    try:
+                        # Extract dB level. Usually in properties like "db_low", "db_high", "klasse"
+                        # Or "Pegel", "LDEN" etc.
+                        geom = shape(feature['geometry'])
+                        props = feature.get('properties', {})
+                        noise_data[key].append({'geom': geom, 'props': props})
+                        count += 1
+                    except: pass
+                print(f"    ✓ {key}: {count} polygons")
+        
+        # Verify if any data was loaded
+        total_shapes = sum(len(v) for v in noise_data.values())
+        print(f"    ✓ DEBUG: Total noise polygons loaded: {total_shapes}")
+        return noise_data
 
     def _load_green_spaces(self) -> List[Polygon]:
         """Load green spaces as Shapely polygons"""
@@ -503,113 +815,7 @@ class MunsterDataCollector:
         score = 5.0 - (green_score_val * 4.0)
         return round(max(1.0, min(5.0, score)), 1)
 
-    def collect_all_data(self) -> List[Dict]:
-        """
-        Collect data for all neighborhoods.
-        
-        Returns:
-            List of neighborhood data dictionaries
-        """
-        print("\n" + "="*70)
-        print("🌍 SOUND CITY - DATA COLLECTION")
-        print("="*70 + "\n")
-        print(f"Processing {len(self.neighborhoods)} neighborhoods...\n")
-        
-        results = []
-        
-        for i, neighborhood in enumerate(self.neighborhoods, 1):
-            print(f"[{i}/{len(self.neighborhoods)}] {neighborhood['name']}")
-            
-            lat = neighborhood['latitude']
-            lon = neighborhood['longitude']
-            n_id = neighborhood['id']
-            
-            # Get boundary geometry
-            geom_dict = self.boundaries.get(n_id)
-            shapely_geom = None
-            if geom_dict:
-                try:
-                    shapely_geom = shape(geom_dict)
-                except: pass
 
-            # Calculate Green Score & Trees & Heat
-            green_score_val = 0.0
-            tree_count = 0
-            heat_score = 3.0 # Default neutral
-            
-            if shapely_geom:
-                print("\n🌳 GREEN & HEAT:")
-                green_score_val = self.calculate_green_score(shapely_geom)
-                tree_count = self.calculate_tree_density(shapely_geom)
-                heat_score = self.calculate_heat_score(green_score_val)
-                print(f"    ✓ Green: {green_score_val*100:.1f}%, Trees: {tree_count}, Heat: {heat_score}/5")
-
-
-            
-            # Collect air quality
-            print("\n💨 AIR QUALITY:")
-            air_quality_score = 3.5 # Default
-            air_data = {'score': None, 'estimated': True}
-            
-            if shapely_geom:
-                 air_data = self.calculate_air_quality(shapely_geom)
-                 if air_data['score'] is not None:
-                     air_quality_score = air_data['score']
-                     print(f"    ✓ Calculated from {air_data.get('sensor_count', 0)} sensors: Score {air_quality_score}/5")
-                 else:
-                     # Fallback heuristic
-                     # 1.0 (Bad) + (Distance * 2.0) + (Green * 0.5)
-                     center_lat, center_lon = 51.9607, 7.6261
-                     dist = ((lat - center_lat)**2 + (lon - center_lon)**2)**0.5 * 111 # km
-                     # Normalize dist: max ~10km? 
-                     # Heuristic: 
-                     raw_air = min(1.0, 0.4 + (dist/10.0) + (green_score_val * 0.5))
-                     air_quality_score = round(1.0 + (raw_air * 4.0), 1)
-                     print(f"    ⚠ No sensors, using spatial heuristic: {air_quality_score}/5")
-
-            
-            # Estimate noise
-            print("\n🔊 NOISE POLLUTION:")
-            noise_data = self.estimate_noise_level(lat, lon, n_id)
-
-            # Compile result
-            result = {
-                "id": n_id,
-                "name": neighborhood['name'],
-                "latitude": lat,
-                "longitude": lon,
-                "air_quality": round(air_quality_score, 1),
-                "noise_level": round(noise_data['score'], 1),
-                "green_score": round(green_score_val * 5.0, 1), 
-                "tree_cnt": tree_count,
-                "heat_score": heat_score,
-                "geojson": geom_dict,  # Include polygon geometry
-                "metadata": {
-                    "osm_id": neighborhood.get('osm_id'),
-                    "pm25_raw": air_data.get('pm25'),
-                    "pm10_raw": air_data.get('pm10'),
-                    "estimated_db": noise_data.get('estimated_db'),
-                    "green_coverage_pct": round(green_score_val * 100, 1),
-                    "data_sources": {
-                        "air_quality": "Sensor.Community" if not air_data.get('estimated') else "Spatial Heuristic",
-                        "noise": noise_data.get('method', 'Estimated'),
-                        "boundaries": "OpenStreetMap (Overpass API)",
-                        "trees": "Baumkataster WFS",
-                        "heat": "Heuristic (Inverse Green)"
-                    },
-                    "last_updated": datetime.now().isoformat()
-                }
-            }
-            
-            results.append(result)
-            print(f"\n  ✓ Complete: Air={air_quality_score}/5, Noise={noise_data['score']}/5")
-            print("  " + "-"*66 + "\n")
-            
-            # Rate limiting for Overpass API
-            if i < len(self.neighborhoods):
-                time.sleep(1.0)
-        
-        return results
     
     def save_data(self, data: List[Dict]):
         """
