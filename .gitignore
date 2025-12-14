@@ -38,3 +38,4 @@ backend/app/data/raw/
 backend/app/data/processed/
 # But always track geojson boundaries (stable reference data)
 !backend/app/data/geojson/neighborhoods_boundaries.geojson
+!backend/app/data/processed/neighborhoods.json

@@ -8,7 +8,9 @@ import json
 import time
 from pathlib import Path
 from datetime import datetime, timedelta
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
+from shapely.geometry import shape, Point, Polygon, MultiPolygon
+from shapely.ops import unary_union
 
 
 class MunsterDataCollector:
@@ -27,6 +29,75 @@ class MunsterDataCollector:
         # Load neighborhoods from the fetched data
         self.neighborhoods = self.load_neighborhoods()
         self.boundaries = self.load_boundaries()
+
+        # Load raw geospatial data for analysis
+        self.green_shapes = self._load_green_spaces()
+        self.tree_points = self._load_trees()
+        self.air_sensors = self._load_air_sensors()
+
+    def _load_geojson_raw(self, filename: str) -> Optional[Dict]:
+        """Helper to load raw GeoJSON from raw_path"""
+        path = self.raw_path / filename
+        if not path.exists():
+            print(f"⚠ Raw file not found: {filename}")
+            return None
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"✗ Error loading {filename}: {e}")
+            return None
+
+    def _load_air_sensors(self) -> List[Dict]:
+        """Load and filter air sensors for Münster"""
+        print("  💨 Loading air sensors...")
+        data = self._load_geojson_raw("air_sensors_global.json")
+        sensors = []
+        if isinstance(data, list):
+            for s in data:
+                try:
+                    lat = float(s['location']['latitude'])
+                    lon = float(s['location']['longitude'])
+                    # Filter for Münster region (approx box)
+                    if 51.8 <= lat <= 52.1 and 7.4 <= lon <= 7.8:
+                        p1 = None # PM10
+                        p2 = None # PM2.5
+                        for val in s.get('sensordatavalues', []):
+                            if val['value_type'] == 'P1': p1 = float(val['value'])
+                            if val['value_type'] == 'P2': p2 = float(val['value'])
+                        sensors.append({'lat': lat, 'lon': lon, 'P1': p1, 'P2': p2})
+                except: pass
+        print(f"    ✓ Loaded {len(sensors)} relevant air sensors")
+        return sensors
+
+    def _load_green_spaces(self) -> List[Polygon]:
+        """Load green spaces as Shapely polygons"""
+        print("  🌳 Loading green spaces...")
+        data = self._load_geojson_raw("green_spaces.geojson")
+        shapes = []
+        if data:
+            for feature in data.get("features", []):
+                try:
+                    geom = shape(feature["geometry"])
+                    if geom.is_valid: shapes.append(geom)
+                except: pass
+        print(f"    ✓ Loaded {len(shapes)} green space polygons")
+        return shapes
+
+    def _load_trees(self) -> List[Point]:
+        """Load trees as Shapely points"""
+        print("  🌲 Loading trees...")
+        data = self._load_geojson_raw("trees.geojson")
+        points = []
+        if data:
+            for feature in data.get("features", []):
+                try:
+                    geom = shape(feature["geometry"])
+                    if isinstance(geom, Point):
+                        points.append(geom)
+                except: pass
+        print(f"    ✓ Loaded {len(points)} tree points")
+        return points
     
     def load_neighborhoods(self) -> List[Dict]:
         """
@@ -41,7 +112,7 @@ class MunsterDataCollector:
             print("⚠ Neighborhoods GeoJSON not found!")
             print("  Please run: python scripts/fetch_neighborhoods.py first")
             print("\n  Using default neighborhoods as fallback...")
-            return []
+            return self._get_default_neighborhoods()
         
         try:
             with open(geojson_file, 'r', encoding='utf-8') as f:
@@ -73,7 +144,7 @@ class MunsterDataCollector:
             return neighborhoods
         except Exception as e:
             print(f"✗ Error loading neighborhoods from GeoJSON: {e}")
-            return []
+            return self._get_default_neighborhoods()
     
     def _calculate_centroid(self, geometry: Dict) -> Dict:
         """
@@ -137,81 +208,74 @@ class MunsterDataCollector:
             print(f"✗ Error loading boundaries: {e}")
             return {}
     
-    def collect_air_quality_openaq(self, lat: float, lon: float) -> Optional[Dict]:
+    def _get_default_neighborhoods(self) -> List[Dict]:
+        """Fallback neighborhoods if fetch fails"""
+        return [
+            {"id": "kreuzviertel", "name": "Kreuzviertel", "latitude": 51.9607, "longitude": 7.6261},
+            {"id": "sentrup", "name": "Sentrup", "latitude": 51.9618, "longitude": 7.5937},
+            {"id": "gievenbeck", "name": "Gievenbeck", "latitude": 51.9724, "longitude": 7.5708},
+            {"id": "handorf", "name": "Handorf", "latitude": 51.9889, "longitude": 7.7147},
+            {"id": "mecklenbeck", "name": "Mecklenbeck", "latitude": 51.9306, "longitude": 7.5816},
+            {"id": "sprakel", "name": "Sprakel", "latitude": 52.0373, "longitude": 7.6172},
+            {"id": "albachten", "name": "Albachten", "latitude": 51.9219, "longitude": 7.5273},
+            {"id": "berg_fidel", "name": "Berg Fidel", "latitude": 51.9249, "longitude": 7.6222},
+            {"id": "nienberge", "name": "Nienberge", "latitude": 52.0284, "longitude": 7.5595},
+            {"id": "roxel", "name": "Roxel", "latitude": 51.9549, "longitude": 7.5332},
+            {"id": "wolbeck", "name": "Wolbeck", "latitude": 51.9206, "longitude": 7.7272},
+            {"id": "coerde", "name": "Coerde", "latitude": 51.9942, "longitude": 7.6119},
+            {"id": "hiltrup", "name": "Hiltrup", "latitude": 51.9026, "longitude": 7.6428},
+            {"id": "altstadt", "name": "Altstadt", "latitude": 51.9625, "longitude": 7.6256},
+            {"id": "amelsbüren", "name": "Amelsbüren", "latitude": 51.8834, "longitude": 7.6059},
+            {"id": "gremmendorf", "name": "Gremmendorf", "latitude": 51.9266, "longitude": 7.6707},
+            {"id": "angelmodde", "name": "Angelmodde", "latitude": 51.9400, "longitude": 7.7000},
+            {"id": "mitte_süd", "name": "Mitte-Süd", "latitude": 51.9550, "longitude": 7.6200},
+            {"id": "mitte_nord", "name": "Mitte-Nord", "latitude": 51.9650, "longitude": 7.6200},
+            {"id": "mauritz", "name": "Mauritz", "latitude": 51.9551, "longitude": 7.6428},
+        ]
+    
+    def calculate_air_quality(self, district_geom: Polygon) -> Dict:
         """
-        Collect air quality data from OpenAQ API V2.
-        
-        Args:
-            lat: Latitude
-            lon: Longitude
-        
-        Returns:
-            Dictionary with PM2.5 and other pollutant values or None
+        Calculate air quality from local sensors within district.
+        Returns dict with score and raw values.
         """
-        try:
-            # Use V2 API with measurements endpoint
-            url = "https://api.openaq.org/v2/measurements"
+        if not self.air_sensors or not district_geom:
+            return {'score': None, 'pm10': None, 'pm25': None, 'estimated': True}
+
+        values_pm10 = []
+        values_pm25 = []
+        
+        for s in self.air_sensors:
+            pt = Point(s['lon'], s['lat'])
+            if district_geom.contains(pt):
+                if s['P1']: values_pm10.append(s['P1'])
+                if s['P2']: values_pm25.append(s['P2'])
+        
+        if not values_pm10 and not values_pm25:
+             return {'score': None, 'pm10': None, 'pm25': None, 'estimated': True}
+
+        avg_pm10 = sum(values_pm10)/len(values_pm10) if values_pm10 else None
+        avg_pm25 = sum(values_pm25)/len(values_pm25) if values_pm25 else None
+        
+        # Use PM10 for scoring primarily (or max of both converted to an index)
+        # Using simplified PM10 scale from geo_processor
+        # < 20 = 5.0, < 35 = 4.0, < 50 = 3.0, < 75 = 2.0, > 75 = 1.0
+        val_for_score = avg_pm10 if avg_pm10 is not None else (avg_pm25 * 2) # Crude conversion check?
+        
+        score = 3.0
+        if val_for_score is not None:
+            if val_for_score < 20: score = 5.0
+            elif val_for_score < 35: score = 4.0
+            elif val_for_score < 50: score = 3.0
+            elif val_for_score < 75: score = 2.0
+            else: score = 1.0
             
-            end_date = datetime.utcnow()
-            start_date = end_date - timedelta(days=7)
-            
-            params = {
-                "coordinates": f"{lat},{lon}",
-                "radius": 50000,  # 50km radius
-                "date_from": start_date.isoformat(),
-                "date_to": end_date.isoformat(),
-                "limit": 1000,
-                "parameter": ["pm25", "pm10", "no2"]
-            }
-            
-            print(f"  📍 Fetching air quality for ({lat:.4f}, {lon:.4f})...")
-            response = requests.get(url, params=params, timeout=20)
-            response.raise_for_status()
-            
-            data = response.json()
-            results = data.get('results', [])
-            
-            if not results:
-                print(f"    ⚠ No data found, using regional estimate")
-                return self._get_regional_air_estimate(lat, lon)
-            
-            # Collect measurements
-            pm25_values = []
-            pm10_values = []
-            no2_values = []
-            
-            for result in results:
-                parameter = result.get('parameter')
-                value = result.get('value')
-                
-                if value is not None and value > 0:
-                    if parameter == 'pm25':
-                        pm25_values.append(value)
-                    elif parameter == 'pm10':
-                        pm10_values.append(value)
-                    elif parameter == 'no2':
-                        no2_values.append(value)
-            
-            avg_pm25 = self._safe_average(pm25_values)
-            avg_pm10 = self._safe_average(pm10_values)
-            avg_no2 = self._safe_average(no2_values)
-            
-            if avg_pm25:
-                print(f"    ✓ PM2.5: {avg_pm25:.1f} µg/m³ (from {len(pm25_values)} readings)")
-            else:
-                print(f"    ⚠ No PM2.5 data, using estimate")
-                return self._get_regional_air_estimate(lat, lon)
-            
-            return {
-                'pm25': avg_pm25,
-                'pm10': avg_pm10,
-                'no2': avg_no2,
-                'measurements_count': len(results)
-            }
-            
-        except Exception as e:
-            print(f"    ✗ API Error: {e}")
-            return self._get_regional_air_estimate(lat, lon)
+        return {
+            'score': score,
+            'pm10': round(avg_pm10, 1) if avg_pm10 else None, 
+            'pm25': round(avg_pm25, 1) if avg_pm25 else None,
+            'estimated': False,
+            'sensor_count': len(values_pm10) + len(values_pm25)
+        }
     
     def _get_regional_air_estimate(self, lat: float, lon: float) -> Dict:
         """Get regional air quality estimate based on location"""
@@ -396,6 +460,49 @@ class MunsterDataCollector:
             'method': 'distance-based estimation'
         }
     
+    
+    def calculate_green_score(self, district_geom: Polygon) -> float:
+        """Calculate percentage of district area covered by green spaces."""
+        if not self.green_shapes or not district_geom:
+            return 0.0
+        
+        district_area = district_geom.area
+        if district_area == 0:
+            return 0.0
+            
+        # Optimize: simple overlap check first
+        intersecting_green_area = 0.0
+        for green in self.green_shapes:
+            if district_geom.intersects(green):
+                try:
+                    intersection = district_geom.intersection(green)
+                    intersecting_green_area += intersection.area
+                except: pass
+        
+        # Cap at 1.0 (100%)
+        return min(1.0, intersecting_green_area / district_area)
+
+    def calculate_tree_density(self, district_geom: Polygon) -> int:
+        """Calculate number of trees in district."""
+        if not self.tree_points or not district_geom:
+            return 0
+        
+        count = 0
+        for tree in self.tree_points:
+            if district_geom.contains(tree):
+                count += 1
+        return count
+
+    def calculate_heat_score(self, green_score_val: float) -> float:
+        """
+        Calculate Heat Island score (1-5) based on heuristics.
+        Logic: High Green Score = Low Heat Island Effect.
+        Heat Score = 5 (High Heat) - (Green Score * 4) -> Scaled to 1-5.
+        """
+        # Linear mapping: 0.0 Green -> 5.0 Heat, 1.0 Green -> 1.0 Heat
+        score = 5.0 - (green_score_val * 4.0)
+        return round(max(1.0, min(5.0, score)), 1)
+
     def collect_all_data(self) -> List[Dict]:
         """
         Collect data for all neighborhoods.
@@ -417,18 +524,54 @@ class MunsterDataCollector:
             lon = neighborhood['longitude']
             n_id = neighborhood['id']
             
+            # Get boundary geometry
+            geom_dict = self.boundaries.get(n_id)
+            shapely_geom = None
+            if geom_dict:
+                try:
+                    shapely_geom = shape(geom_dict)
+                except: pass
+
+            # Calculate Green Score & Trees & Heat
+            green_score_val = 0.0
+            tree_count = 0
+            heat_score = 3.0 # Default neutral
+            
+            if shapely_geom:
+                print("\n🌳 GREEN & HEAT:")
+                green_score_val = self.calculate_green_score(shapely_geom)
+                tree_count = self.calculate_tree_density(shapely_geom)
+                heat_score = self.calculate_heat_score(green_score_val)
+                print(f"    ✓ Green: {green_score_val*100:.1f}%, Trees: {tree_count}, Heat: {heat_score}/5")
+
+
+            
             # Collect air quality
             print("\n💨 AIR QUALITY:")
-            air_data = self.collect_air_quality_openaq(lat, lon)
-            air_quality_score = self.pm25_to_score(air_data.get('pm25'))
+            air_quality_score = 3.5 # Default
+            air_data = {'score': None, 'estimated': True}
+            
+            if shapely_geom:
+                 air_data = self.calculate_air_quality(shapely_geom)
+                 if air_data['score'] is not None:
+                     air_quality_score = air_data['score']
+                     print(f"    ✓ Calculated from {air_data.get('sensor_count', 0)} sensors: Score {air_quality_score}/5")
+                 else:
+                     # Fallback heuristic
+                     # 1.0 (Bad) + (Distance * 2.0) + (Green * 0.5)
+                     center_lat, center_lon = 51.9607, 7.6261
+                     dist = ((lat - center_lat)**2 + (lon - center_lon)**2)**0.5 * 111 # km
+                     # Normalize dist: max ~10km? 
+                     # Heuristic: 
+                     raw_air = min(1.0, 0.4 + (dist/10.0) + (green_score_val * 0.5))
+                     air_quality_score = round(1.0 + (raw_air * 4.0), 1)
+                     print(f"    ⚠ No sensors, using spatial heuristic: {air_quality_score}/5")
+
             
             # Estimate noise
             print("\n🔊 NOISE POLLUTION:")
             noise_data = self.estimate_noise_level(lat, lon, n_id)
-            
-            # Get boundary geometry
-            geometry = self.boundaries.get(n_id)
-            
+
             # Compile result
             result = {
                 "id": n_id,
@@ -437,17 +580,22 @@ class MunsterDataCollector:
                 "longitude": lon,
                 "air_quality": round(air_quality_score, 1),
                 "noise_level": round(noise_data['score'], 1),
-                "geojson": geometry,  # Include polygon geometry
+                "green_score": round(green_score_val * 5.0, 1), 
+                "tree_cnt": tree_count,
+                "heat_score": heat_score,
+                "geojson": geom_dict,  # Include polygon geometry
                 "metadata": {
                     "osm_id": neighborhood.get('osm_id'),
                     "pm25_raw": air_data.get('pm25'),
                     "pm10_raw": air_data.get('pm10'),
-                    "no2_raw": air_data.get('no2'),
                     "estimated_db": noise_data.get('estimated_db'),
+                    "green_coverage_pct": round(green_score_val * 100, 1),
                     "data_sources": {
-                        "air_quality": "OpenAQ API" if not air_data.get('estimated') else "Regional estimate",
+                        "air_quality": "Sensor.Community" if not air_data.get('estimated') else "Spatial Heuristic",
                         "noise": noise_data.get('method', 'Estimated'),
-                        "boundaries": "OpenStreetMap (Overpass API)"
+                        "boundaries": "OpenStreetMap (Overpass API)",
+                        "trees": "Baumkataster WFS",
+                        "heat": "Heuristic (Inverse Green)"
                     },
                     "last_updated": datetime.now().isoformat()
                 }
@@ -457,9 +605,9 @@ class MunsterDataCollector:
             print(f"\n  ✓ Complete: Air={air_quality_score}/5, Noise={noise_data['score']}/5")
             print("  " + "-"*66 + "\n")
             
-            # Rate limiting
+            # Rate limiting for Overpass API
             if i < len(self.neighborhoods):
-                time.sleep(2)
+                time.sleep(1.0)
         
         return results
     
@@ -484,12 +632,30 @@ class MunsterDataCollector:
         with open(processed_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
         print(f"✓ Processed data saved to: {processed_file}")
+    
+    def print_summary(self, data: List[Dict]):
+        """Print summary statistics"""
+        print("\n" + "="*70)
+        print("📊 COLLECTION SUMMARY")
+        print("="*70)
+        print(f"{'Neighborhood':<25} {'Air Quality':<15} {'Noise Level':<15}")
+        print("-" * 70)
+        
+        for item in data:
+            print(f"{item['name']:<25} {item['air_quality']:<15.1f} {item['noise_level']:<15.1f}")
+        
+        avg_air = sum(d['air_quality'] for d in data) / len(data)
+        avg_noise = sum(d['noise_level'] for d in data) / len(data)
+        
+        print("-" * 70)
+        print(f"{'AVERAGE':<25} {avg_air:<15.1f} {avg_noise:<15.1f}")
+        print()
 
 
 def main():
     """Main execution function"""
     collector = MunsterDataCollector()
-
+    
     if not collector.neighborhoods:
         print("\n✗ No neighborhoods loaded. Exiting.")
         return
@@ -499,6 +665,9 @@ def main():
     
     # Save to files
     collector.save_data(data)
+    
+    # Print summary
+    collector.print_summary(data)
     
     print("="*70)
     print("✓ DATA COLLECTION COMPLETE")
