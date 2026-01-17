@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import NeighborhoodDetailView from '../views/NeighborhoodDetailView.vue'
+import ComparisonView from '../views/ComparisonView.vue'
 import AboutView from '../views/AboutView.vue'
 
 const router = createRouter({
@@ -17,6 +18,12 @@ const router = createRouter({
       name: 'neighborhood-detail',
       component: NeighborhoodDetailView,
       meta: { title: 'Neighborhood Details - Sound City' }
+    },
+    {
+      path: '/compare',
+      name: 'compare',
+      component: ComparisonView,
+      meta: { title: 'Compare Neighborhoods - Sound City' }
     },
     {
       path: '/about',

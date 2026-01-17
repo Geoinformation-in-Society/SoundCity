@@ -41,7 +41,7 @@ class MunsterDataCollector:
             print("⚠ Neighborhoods GeoJSON not found!")
             print("  Please run: python scripts/fetch_neighborhoods.py first")
             print("\n  Using default neighborhoods as fallback...")
-            return self._get_default_neighborhoods()
+            return []
         
         try:
             with open(geojson_file, 'r', encoding='utf-8') as f:
@@ -73,7 +73,7 @@ class MunsterDataCollector:
             return neighborhoods
         except Exception as e:
             print(f"✗ Error loading neighborhoods from GeoJSON: {e}")
-            return self._get_default_neighborhoods()
+            return []
     
     def _calculate_centroid(self, geometry: Dict) -> Dict:
         """
@@ -136,31 +136,6 @@ class MunsterDataCollector:
         except Exception as e:
             print(f"✗ Error loading boundaries: {e}")
             return {}
-    
-    def _get_default_neighborhoods(self) -> List[Dict]:
-        """Fallback neighborhoods if fetch fails"""
-        return [
-            {"id": "kreuzviertel", "name": "Kreuzviertel", "latitude": 51.9607, "longitude": 7.6261},
-            {"id": "sentrup", "name": "Sentrup", "latitude": 51.9618, "longitude": 7.5937},
-            {"id": "gievenbeck", "name": "Gievenbeck", "latitude": 51.9724, "longitude": 7.5708},
-            {"id": "handorf", "name": "Handorf", "latitude": 51.9889, "longitude": 7.7147},
-            {"id": "mecklenbeck", "name": "Mecklenbeck", "latitude": 51.9306, "longitude": 7.5816},
-            {"id": "sprakel", "name": "Sprakel", "latitude": 52.0373, "longitude": 7.6172},
-            {"id": "albachten", "name": "Albachten", "latitude": 51.9219, "longitude": 7.5273},
-            {"id": "berg_fidel", "name": "Berg Fidel", "latitude": 51.9249, "longitude": 7.6222},
-            {"id": "nienberge", "name": "Nienberge", "latitude": 52.0284, "longitude": 7.5595},
-            {"id": "roxel", "name": "Roxel", "latitude": 51.9549, "longitude": 7.5332},
-            {"id": "wolbeck", "name": "Wolbeck", "latitude": 51.9206, "longitude": 7.7272},
-            {"id": "coerde", "name": "Coerde", "latitude": 51.9942, "longitude": 7.6119},
-            {"id": "hiltrup", "name": "Hiltrup", "latitude": 51.9026, "longitude": 7.6428},
-            {"id": "altstadt", "name": "Altstadt", "latitude": 51.9625, "longitude": 7.6256},
-            {"id": "amelsbüren", "name": "Amelsbüren", "latitude": 51.8834, "longitude": 7.6059},
-            {"id": "gremmendorf", "name": "Gremmendorf", "latitude": 51.9266, "longitude": 7.6707},
-            {"id": "angelmodde", "name": "Angelmodde", "latitude": 51.9400, "longitude": 7.7000},
-            {"id": "mitte_süd", "name": "Mitte-Süd", "latitude": 51.9550, "longitude": 7.6200},
-            {"id": "mitte_nord", "name": "Mitte-Nord", "latitude": 51.9650, "longitude": 7.6200},
-            {"id": "mauritz", "name": "Mauritz", "latitude": 51.9551, "longitude": 7.6428},
-        ]
     
     def collect_air_quality_openaq(self, lat: float, lon: float) -> Optional[Dict]:
         """
@@ -509,30 +484,12 @@ class MunsterDataCollector:
         with open(processed_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
         print(f"✓ Processed data saved to: {processed_file}")
-    
-    def print_summary(self, data: List[Dict]):
-        """Print summary statistics"""
-        print("\n" + "="*70)
-        print("📊 COLLECTION SUMMARY")
-        print("="*70)
-        print(f"{'Neighborhood':<25} {'Air Quality':<15} {'Noise Level':<15}")
-        print("-" * 70)
-        
-        for item in data:
-            print(f"{item['name']:<25} {item['air_quality']:<15.1f} {item['noise_level']:<15.1f}")
-        
-        avg_air = sum(d['air_quality'] for d in data) / len(data)
-        avg_noise = sum(d['noise_level'] for d in data) / len(data)
-        
-        print("-" * 70)
-        print(f"{'AVERAGE':<25} {avg_air:<15.1f} {avg_noise:<15.1f}")
-        print()
 
 
 def main():
     """Main execution function"""
     collector = MunsterDataCollector()
-    
+
     if not collector.neighborhoods:
         print("\n✗ No neighborhoods loaded. Exiting.")
         return
@@ -542,9 +499,6 @@ def main():
     
     # Save to files
     collector.save_data(data)
-    
-    # Print summary
-    collector.print_summary(data)
     
     print("="*70)
     print("✓ DATA COLLECTION COMPLETE")
