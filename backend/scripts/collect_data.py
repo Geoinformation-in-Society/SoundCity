@@ -497,7 +497,7 @@ def main():
     # Collect data
     data = collector.collect_all_data()
     
-    # # Save to files
+    # Save to files
     collector.save_data(data)
     
     print("="*70)
