@@ -86,6 +86,7 @@ export const useNeighborhoodStore = defineStore('neighborhoods', {
       try {
         const weights = this.normalizedWeights
         const response = await api.getNeighborhoodDetail(id, weights)
+
         this.selectedNeighborhood = response.data
       } catch (error) {
         this.error = 'Failed to fetch neighborhood details.'

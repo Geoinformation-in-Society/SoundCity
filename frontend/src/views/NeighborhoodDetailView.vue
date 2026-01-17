@@ -97,6 +97,72 @@
                   {{ getNoiseLevelDescription(neighborhood.noise_level) }}
                 </p>
               </div>
+
+              <!-- Green Spaces -->
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-semibold text-gray-700 flex items-center gap-2">
+                    <span>🌳</span>
+                    Green Spaces
+                  </span>
+                  <span class="text-gray-500 text-sm">{{ neighborhood.green_space }}/5</span>
+                </div>
+                <div class="flex gap-1">
+                  <div
+                    v-for="n in 5"
+                    :key="n"
+                    class="h-3 flex-1 rounded"
+                    :class="n <= Math.round(neighborhood.green_space) ? 'bg-emerald-500' : 'bg-gray-200'"
+                  ></div>
+                </div>
+                <p class="text-xs text-gray-600 mt-1">
+                  {{ getGreenSpacesDescription(neighborhood.green_space) }}
+                </p>
+              </div>
+
+              <!-- Tree Greenness -->
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-semibold text-gray-700 flex items-center gap-2">
+                    <span>🌲</span>
+                    Tree Greenness
+                  </span>
+                  <span class="text-gray-500 text-sm">{{ neighborhood.tree_greenness }}/5</span>
+                </div>
+                <div class="flex gap-1">
+                  <div
+                    v-for="n in 5"
+                    :key="n"
+                    class="h-3 flex-1 rounded"
+                    :class="n <= Math.round(neighborhood.tree_greenness) ? 'bg-emerald-500' : 'bg-gray-200'"
+                  ></div>
+                </div>
+                <p class="text-xs text-gray-600 mt-1">
+                  {{ getTreeGreennessDescription(neighborhood.tree_greenness) }}
+                </p>
+              </div>
+
+              <!-- Urban Heat -->
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <span class="font-semibold text-gray-700 flex items-center gap-2">
+                    <span>☀️</span>
+                    Urban Heat
+                  </span>
+                  <span class="text-gray-500 text-sm">{{ neighborhood.urban_heat }}/5</span>
+                </div>
+                <div class="flex gap-1">
+                  <div
+                    v-for="n in 5"
+                    :key="n"
+                    class="h-3 flex-1 rounded"
+                    :class="n <= Math.round(neighborhood.urban_heat) ? 'bg-emerald-500' : 'bg-gray-200'"
+                  ></div>
+                </div>
+                <p class="text-xs text-gray-600 mt-1">
+                  {{ getUrbanHeatDescription(neighborhood.urban_heat) }}
+                </p>
+              </div>
             </div>
 
             <!-- Overall Score Display -->
@@ -157,6 +223,16 @@
             </div>
           </div>
         </div>
+
+        <!-- Visual Radar Chart -->
+        <div class="bg-white rounded-2xl shadow-xl p-8 mt-8">
+          <h2 class="text-xl font-bold text-gray-800 mb-6">📊 Environmental Indicators Overview</h2>
+          <div class="flex justify-center">
+            <div class="w-full max-w-xl">
+              <RadarChart :datasets="radarDataset" />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -167,12 +243,32 @@ import { computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useNeighborhoodStore } from '@/stores/neighborhoods'
 import L from 'leaflet'
+import RadarChart from '@/components/RadarChart.vue'
 
 const route = useRoute()
 const router = useRouter()
 const store = useNeighborhoodStore()
 
 const neighborhood = computed(() => store.selectedNeighborhood)
+
+// Radar chart dataset
+const radarDataset = computed(() => {
+  if (!neighborhood.value) return []
+  
+  return [
+    {
+      label: neighborhood.value.name,
+      data: [
+        neighborhood.value.air_quality,
+        neighborhood.value.noise_level,
+        neighborhood.value.green_space,
+        neighborhood.value.tree_greenness,
+        neighborhood.value.urban_heat
+      ],
+      color: '#10b981' // emerald-500
+    }
+  ]
+})
 
 // Helper functions
 const getScoreColor = (score) => {
@@ -197,6 +293,24 @@ const getNoiseLevelDescription = (score) => {
   if (score >= 4.0) return 'Very quiet area'
   if (score >= 3.0) return 'Moderate noise levels'
   return 'Higher noise exposure'
+}
+
+const getGreenSpacesDescription = (score) => {
+  if (score >= 4.0) return 'Abundant green spaces and parks'
+  if (score >= 3.0) return 'Some green areas available'
+  return 'Limited access to green spaces'
+}
+
+const getTreeGreennessDescription = (score) => {
+  if (score >= 4.0) return 'Lush tree coverage'
+  if (score >= 3.0) return 'Moderate tree presence'
+  return 'Sparse tree coverage'
+}
+
+const getUrbanHeatDescription = (score) => {
+  if (score >= 4.0) return 'Cool urban environment'
+  if (score >= 3.0) return 'Moderate urban heat levels'
+  return 'Higher urban heat effects'
 }
 
 const formatDate = (dateString) => {

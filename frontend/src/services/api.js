@@ -48,7 +48,7 @@ export default {
     const params = {
       air_weight: weights.air || 0.2,
       noise_weight: weights.noise || 0.2,
-      green_spaces_weight: weights.greenSpaces || 0.2,
+      green_space_weight: weights.greenSpaces || 0.2,
       tree_greenness_weight: weights.treeGreenness || 0.2,
       urban_heat_weight: weights.urbanHeat || 0.2,
     }
@@ -65,7 +65,7 @@ export default {
     const params = {
       air_weight: weights.air || 0.2,
       noise_weight: weights.noise || 0.2,
-      green_spaces_weight: weights.greenSpaces || 0.2,
+      green_space_weight: weights.greenSpaces || 0.2,
       tree_greenness_weight: weights.treeGreenness || 0.2,
       urban_heat_weight: weights.urbanHeat || 0.2,
     }
@@ -76,16 +76,17 @@ export default {
    * Compare two neighborhoods
    * @param {string} id1 - First neighborhood ID
    * @param {string} id2 - Second neighborhood ID
-   * @param {number} airWeight - Weight for air quality (0-1)
-   * @param {number} noiseWeight - Weight for noise level (0-1)
+   * @param {Object} weights - Weight object with all indicators
    * @returns {Promise} API response with comparison data
    */
-  compareNeighborhoods(id1, id2, airWeight = 0.5, noiseWeight = 0.5) {
-    return apiClient.get(`/neighborhoods/${id1}/compare/${id2}`, {
-      params: {
-        air_weight: airWeight,
-        noise_weight: noiseWeight
-      }
-    })
+  compareNeighborhoods(id1, id2, weights = {}) {
+    const params = {
+      air_weight: weights.air || 0.2,
+      noise_weight: weights.noise || 0.2,
+      green_space_weight: weights.greenSpaces || 0.2,
+      tree_greenness_weight: weights.treeGreenness || 0.2,
+      urban_heat_weight: weights.urbanHeat || 0.2
+    }
+    return apiClient.get(`/neighborhoods/${id1}/compare/${id2}`, { params })
   }
 }

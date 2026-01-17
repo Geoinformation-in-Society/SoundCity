@@ -21,6 +21,13 @@
             Map
           </router-link>
           <router-link
+            to="/compare"
+            class="hover:text-emerald-200 transition font-medium"
+            active-class="text-white border-b-2 border-white"
+          >
+            Compare
+          </router-link>
+          <router-link
             to="/about"
             class="hover:text-emerald-200 transition font-medium"
             active-class="text-white border-b-2 border-white"
