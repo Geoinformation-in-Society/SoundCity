@@ -64,14 +64,11 @@ export const useNeighborhoodStore = defineStore('neighborhoods', {
 
       try {
         const weights = this.normalizedWeights
-        console.log('Fetching neighborhoods with weights:', weights)
         const response = await api.getNeighborhoods(weights)
-        console.log(response.data)
+
         this.neighborhoods = response.data
-        console.log(`Loaded ${this.neighborhoods.length} neighborhoods`)
       } catch (error) {
-        this.error = 'Failed to fetch neighborhoods. Please try again.'
-        console.error('Error fetching neighborhoods:', error)
+        this.error = 'Failed to fetch neighborhoods.'
         throw error
       } finally {
         this.loading = false
@@ -90,10 +87,8 @@ export const useNeighborhoodStore = defineStore('neighborhoods', {
         const weights = this.normalizedWeights
         const response = await api.getNeighborhoodDetail(id, weights)
         this.selectedNeighborhood = response.data
-        console.log(`Loaded details for ${this.selectedNeighborhood.name}`)
       } catch (error) {
         this.error = 'Failed to fetch neighborhood details.'
-        console.error('Error fetching neighborhood details:', error)
         throw error
       } finally {
         this.loading = false
