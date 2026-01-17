@@ -8,7 +8,7 @@ import json
 import time
 from pathlib import Path
 from datetime import datetime
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Optional
 from shapely.geometry import shape, Point, Polygon
 
 class MunsterDataCollector:
