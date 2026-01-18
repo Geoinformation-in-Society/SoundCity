@@ -6,9 +6,9 @@
     "longitude": 7.633,
     "air_quality": 3.2,
     "noise_level": 4.0,
-    "green_score": 0.6,
-    "tree_cnt": 489,
-    "heat_score": 4.5,
+    "green_space": 1.5,
+    "tree_greenness": 1.7,
+    "urban_heat": 4.5,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -442,6 +442,7 @@
       "pm10_raw": null,
       "estimated_db": 54.9,
       "green_coverage_pct": 12.4,
+      "raw_tree_count": 489,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -449,7 +450,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:40.206659"
+      "last_updated": "2026-01-18T06:05:26.507581"
     }
   },
   {
@@ -459,9 +460,9 @@
     "longitude": 7.5261,
     "air_quality": 5.0,
     "noise_level": 3.0,
-    "green_score": 0.0,
-    "tree_cnt": 1385,
-    "heat_score": 5.0,
+    "green_space": 1.0,
+    "tree_greenness": 2.8,
+    "urban_heat": 5.0,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -1727,6 +1728,7 @@
       "pm10_raw": 19.7,
       "estimated_db": 59.2,
       "green_coverage_pct": 0.5,
+      "raw_tree_count": 1385,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -1734,7 +1736,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:41.860362"
+      "last_updated": "2026-01-18T06:05:28.145413"
     }
   },
   {
@@ -1744,9 +1746,9 @@
     "longitude": 7.7013,
     "air_quality": 5.0,
     "noise_level": 4.5,
-    "green_score": 0.2,
-    "tree_cnt": 530,
-    "heat_score": 4.8,
+    "green_space": 1.2,
+    "tree_greenness": 1.7,
+    "urban_heat": 4.8,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -3384,6 +3386,7 @@
       "pm10_raw": null,
       "estimated_db": 45.6,
       "green_coverage_pct": 4.0,
+      "raw_tree_count": 530,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -3391,7 +3394,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:43.480200"
+      "last_updated": "2026-01-18T06:05:29.746164"
     }
   },
   {
@@ -3401,9 +3404,9 @@
     "longitude": 7.6221,
     "air_quality": 3.2,
     "noise_level": 5.0,
-    "green_score": 0.4,
-    "tree_cnt": 1378,
-    "heat_score": 4.7,
+    "green_space": 1.3,
+    "tree_greenness": 2.8,
+    "urban_heat": 4.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -3889,6 +3892,7 @@
       "pm10_raw": null,
       "estimated_db": 44.2,
       "green_coverage_pct": 8.4,
+      "raw_tree_count": 1378,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -3896,7 +3900,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:45.039981"
+      "last_updated": "2026-01-18T06:05:31.320788"
     }
   },
   {
@@ -3906,9 +3910,9 @@
     "longitude": 7.6283,
     "air_quality": 4.3,
     "noise_level": 4.5,
-    "green_score": 0.5,
-    "tree_cnt": 503,
-    "heat_score": 4.6,
+    "green_space": 1.4,
+    "tree_greenness": 1.7,
+    "urban_heat": 4.6,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -4382,6 +4386,7 @@
       "pm10_raw": null,
       "estimated_db": 46.3,
       "green_coverage_pct": 9.3,
+      "raw_tree_count": 503,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -4389,7 +4394,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:46.655064"
+      "last_updated": "2026-01-18T06:05:32.922129"
     }
   },
   {
@@ -4399,9 +4404,9 @@
     "longitude": 7.6115,
     "air_quality": 4.2,
     "noise_level": 4.0,
-    "green_score": 0.3,
-    "tree_cnt": 499,
-    "heat_score": 4.7,
+    "green_space": 1.3,
+    "tree_greenness": 1.7,
+    "urban_heat": 4.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -5243,6 +5248,7 @@
       "pm10_raw": null,
       "estimated_db": 51.8,
       "green_coverage_pct": 6.3,
+      "raw_tree_count": 499,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -5250,7 +5256,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:48.401529"
+      "last_updated": "2026-01-18T06:05:34.545358"
     }
   },
   {
@@ -5260,9 +5266,9 @@
     "longitude": 7.6234,
     "air_quality": 4.0,
     "noise_level": 5.0,
-    "green_score": 0.2,
-    "tree_cnt": 732,
-    "heat_score": 4.8,
+    "green_space": 1.2,
+    "tree_greenness": 2.0,
+    "urban_heat": 4.8,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -6116,6 +6122,7 @@
       "pm10_raw": 34.0,
       "estimated_db": 44.8,
       "green_coverage_pct": 4.1,
+      "raw_tree_count": 732,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -6123,7 +6130,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:49.986354"
+      "last_updated": "2026-01-18T06:05:36.132148"
     }
   },
   {
@@ -6133,9 +6140,9 @@
     "longitude": 7.6261,
     "air_quality": 3.2,
     "noise_level": 4.5,
-    "green_score": 0.5,
-    "tree_cnt": 571,
-    "heat_score": 4.6,
+    "green_space": 1.4,
+    "tree_greenness": 1.8,
+    "urban_heat": 4.6,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -6757,6 +6764,7 @@
       "pm10_raw": null,
       "estimated_db": 48.8,
       "green_coverage_pct": 10.3,
+      "raw_tree_count": 571,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -6764,7 +6772,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:51.550179"
+      "last_updated": "2026-01-18T06:05:37.711971"
     }
   },
   {
@@ -6774,9 +6782,9 @@
     "longitude": 7.6827,
     "air_quality": 5.0,
     "noise_level": 5.0,
-    "green_score": 0.2,
-    "tree_cnt": 461,
-    "heat_score": 4.8,
+    "green_space": 1.2,
+    "tree_greenness": 1.6,
+    "urban_heat": 4.8,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -7814,6 +7822,7 @@
       "pm10_raw": 3.4,
       "estimated_db": 41.0,
       "green_coverage_pct": 4.2,
+      "raw_tree_count": 461,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -7821,7 +7830,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:53.134164"
+      "last_updated": "2026-01-18T06:05:39.294162"
     }
   },
   {
@@ -7831,9 +7840,9 @@
     "longitude": 7.6144,
     "air_quality": 5.0,
     "noise_level": 4.5,
-    "green_score": 0.1,
-    "tree_cnt": 448,
-    "heat_score": 5.0,
+    "green_space": 1.0,
+    "tree_greenness": 1.6,
+    "urban_heat": 5.0,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -8171,6 +8180,7 @@
       "pm10_raw": 11.5,
       "estimated_db": 49.7,
       "green_coverage_pct": 1.2,
+      "raw_tree_count": 448,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -8178,7 +8188,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:54.696222"
+      "last_updated": "2026-01-18T06:05:40.854062"
     }
   },
   {
@@ -8188,9 +8198,9 @@
     "longitude": 7.5713,
     "air_quality": 3.0,
     "noise_level": 4.0,
-    "green_score": 0.3,
-    "tree_cnt": 2120,
-    "heat_score": 4.7,
+    "green_space": 1.3,
+    "tree_greenness": 3.8,
+    "urban_heat": 4.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -9164,6 +9174,7 @@
       "pm10_raw": 40.8,
       "estimated_db": 52.8,
       "green_coverage_pct": 6.3,
+      "raw_tree_count": 2120,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -9171,7 +9182,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:56.487690"
+      "last_updated": "2026-01-18T06:05:42.531488"
     }
   },
   {
@@ -9181,9 +9192,9 @@
     "longitude": 7.6274,
     "air_quality": 5.0,
     "noise_level": 4.5,
-    "green_score": 0.1,
-    "tree_cnt": 614,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 1.8,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -9737,6 +9748,7 @@
       "pm10_raw": 14.0,
       "estimated_db": 47.9,
       "green_coverage_pct": 2.9,
+      "raw_tree_count": 614,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -9744,7 +9756,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:58.071283"
+      "last_updated": "2026-01-18T06:05:44.084146"
     }
   },
   {
@@ -9754,9 +9766,9 @@
     "longitude": 7.6422,
     "air_quality": 1.0,
     "noise_level": 5.0,
-    "green_score": 0.1,
-    "tree_cnt": 1388,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 2.9,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -10314,6 +10326,7 @@
       "pm10_raw": 138.5,
       "estimated_db": 44.5,
       "green_coverage_pct": 2.6,
+      "raw_tree_count": 1388,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -10321,7 +10334,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:51:59.785134"
+      "last_updated": "2026-01-18T06:05:45.689253"
     }
   },
   {
@@ -10331,9 +10344,9 @@
     "longitude": 7.6814,
     "air_quality": 5.0,
     "noise_level": 4.5,
-    "green_score": 0.1,
-    "tree_cnt": 699,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 1.9,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -13107,6 +13120,7 @@
       "pm10_raw": null,
       "estimated_db": 45.5,
       "green_coverage_pct": 2.6,
+      "raw_tree_count": 699,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -13114,7 +13128,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:01.565698"
+      "last_updated": "2026-01-18T06:05:47.369976"
     }
   },
   {
@@ -13124,9 +13138,9 @@
     "longitude": 7.6548,
     "air_quality": 4.3,
     "noise_level": 5.0,
-    "green_score": 0.9,
-    "tree_cnt": 1050,
-    "heat_score": 4.2,
+    "green_space": 1.8,
+    "tree_greenness": 2.4,
+    "urban_heat": 4.2,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -13648,6 +13662,7 @@
       "pm10_raw": null,
       "estimated_db": 44.9,
       "green_coverage_pct": 18.8,
+      "raw_tree_count": 1050,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -13655,7 +13670,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:03.183082"
+      "last_updated": "2026-01-18T06:05:48.933079"
     }
   },
   {
@@ -13665,9 +13680,9 @@
     "longitude": 7.7322,
     "air_quality": 4.0,
     "noise_level": 4.5,
-    "green_score": 0.2,
-    "tree_cnt": 1011,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 2.3,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -16633,6 +16648,7 @@
       "pm10_raw": 25.2,
       "estimated_db": 46.2,
       "green_coverage_pct": 3.4,
+      "raw_tree_count": 1011,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -16640,7 +16656,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:05.140812"
+      "last_updated": "2026-01-18T06:05:50.616009"
     }
   },
   {
@@ -16650,9 +16666,9 @@
     "longitude": 7.51,
     "air_quality": 5.0,
     "noise_level": 4.5,
-    "green_score": 0.1,
-    "tree_cnt": 1868,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 3.5,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -19822,6 +19838,7 @@
       "pm10_raw": null,
       "estimated_db": 49.6,
       "green_coverage_pct": 1.6,
+      "raw_tree_count": 1868,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -19829,7 +19846,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:07.009309"
+      "last_updated": "2026-01-18T06:05:52.463976"
     }
   },
   {
@@ -19839,9 +19856,9 @@
     "longitude": 7.6434,
     "air_quality": 4.0,
     "noise_level": 4.5,
-    "green_score": 0.4,
-    "tree_cnt": 564,
-    "heat_score": 4.7,
+    "green_space": 1.3,
+    "tree_greenness": 1.8,
+    "urban_heat": 4.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -20279,6 +20296,7 @@
       "pm10_raw": 23.4,
       "estimated_db": 45.3,
       "green_coverage_pct": 8.4,
+      "raw_tree_count": 564,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -20286,7 +20304,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:08.625752"
+      "last_updated": "2026-01-18T06:05:54.004077"
     }
   },
   {
@@ -20296,9 +20314,9 @@
     "longitude": 7.6234,
     "air_quality": 3.3,
     "noise_level": 4.5,
-    "green_score": 1.4,
-    "tree_cnt": 270,
-    "heat_score": 3.8,
+    "green_space": 2.2,
+    "tree_greenness": 1.4,
+    "urban_heat": 3.8,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -20688,6 +20706,7 @@
       "pm10_raw": null,
       "estimated_db": 49.2,
       "green_coverage_pct": 29.0,
+      "raw_tree_count": 270,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -20695,7 +20714,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:10.223126"
+      "last_updated": "2026-01-18T06:05:55.634987"
     }
   },
   {
@@ -20705,9 +20724,9 @@
     "longitude": 7.6102,
     "air_quality": 3.5,
     "noise_level": 4.5,
-    "green_score": 0.6,
-    "tree_cnt": 2075,
-    "heat_score": 4.5,
+    "green_space": 1.5,
+    "tree_greenness": 3.8,
+    "urban_heat": 4.5,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -21317,6 +21336,7 @@
       "pm10_raw": null,
       "estimated_db": 49.2,
       "green_coverage_pct": 11.5,
+      "raw_tree_count": 2075,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -21324,7 +21344,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:11.871194"
+      "last_updated": "2026-01-18T06:05:57.216008"
     }
   },
   {
@@ -21334,9 +21354,9 @@
     "longitude": 7.6276,
     "air_quality": 2.9,
     "noise_level": 5.0,
-    "green_score": 0.6,
-    "tree_cnt": 570,
-    "heat_score": 4.5,
+    "green_space": 1.5,
+    "tree_greenness": 1.8,
+    "urban_heat": 4.5,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -21998,6 +22018,7 @@
       "pm10_raw": null,
       "estimated_db": 44.8,
       "green_coverage_pct": 12.3,
+      "raw_tree_count": 570,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -22005,7 +22026,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:13.559981"
+      "last_updated": "2026-01-18T06:05:58.769936"
     }
   },
   {
@@ -22015,9 +22036,9 @@
     "longitude": 7.631,
     "air_quality": 4.0,
     "noise_level": 4.5,
-    "green_score": 0.9,
-    "tree_cnt": 320,
-    "heat_score": 4.3,
+    "green_space": 1.7,
+    "tree_greenness": 1.4,
+    "urban_heat": 4.3,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -22383,6 +22404,7 @@
       "pm10_raw": 23.8,
       "estimated_db": 47.4,
       "green_coverage_pct": 18.0,
+      "raw_tree_count": 320,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -22390,7 +22412,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:15.259522"
+      "last_updated": "2026-01-18T06:06:00.337832"
     }
   },
   {
@@ -22400,9 +22422,9 @@
     "longitude": 7.6418,
     "air_quality": 3.6,
     "noise_level": 4.5,
-    "green_score": 0.7,
-    "tree_cnt": 364,
-    "heat_score": 4.4,
+    "green_space": 1.6,
+    "tree_greenness": 1.5,
+    "urban_heat": 4.4,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -22820,6 +22842,7 @@
       "pm10_raw": null,
       "estimated_db": 46.4,
       "green_coverage_pct": 14.8,
+      "raw_tree_count": 364,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -22827,7 +22850,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:16.847609"
+      "last_updated": "2026-01-18T06:06:01.888645"
     }
   },
   {
@@ -22837,9 +22860,9 @@
     "longitude": 7.6157,
     "air_quality": 5.0,
     "noise_level": 4.5,
-    "green_score": 0.3,
-    "tree_cnt": 953,
-    "heat_score": 4.8,
+    "green_space": 1.2,
+    "tree_greenness": 2.3,
+    "urban_heat": 4.8,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -23569,6 +23592,7 @@
       "pm10_raw": 5.0,
       "estimated_db": 47.8,
       "green_coverage_pct": 5.1,
+      "raw_tree_count": 953,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -23576,7 +23600,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:18.583002"
+      "last_updated": "2026-01-18T06:06:03.472328"
     }
   },
   {
@@ -23586,9 +23610,9 @@
     "longitude": 7.6121,
     "air_quality": 4.0,
     "noise_level": 4.5,
-    "green_score": 0.3,
-    "tree_cnt": 952,
-    "heat_score": 4.7,
+    "green_space": 1.3,
+    "tree_greenness": 2.3,
+    "urban_heat": 4.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -24390,6 +24414,7 @@
       "pm10_raw": 29.8,
       "estimated_db": 47.2,
       "green_coverage_pct": 6.7,
+      "raw_tree_count": 952,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -24397,7 +24422,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:20.366095"
+      "last_updated": "2026-01-18T06:06:05.050046"
     }
   },
   {
@@ -24407,9 +24432,9 @@
     "longitude": 7.6842,
     "air_quality": 5.0,
     "noise_level": 5.0,
-    "green_score": 0.2,
-    "tree_cnt": 750,
-    "heat_score": 4.8,
+    "green_space": 1.2,
+    "tree_greenness": 2.0,
+    "urban_heat": 4.8,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -25319,6 +25344,7 @@
       "pm10_raw": null,
       "estimated_db": 41.9,
       "green_coverage_pct": 5.0,
+      "raw_tree_count": 750,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -25326,7 +25352,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:22.132803"
+      "last_updated": "2026-01-18T06:06:06.615282"
     }
   },
   {
@@ -25336,9 +25362,9 @@
     "longitude": 7.6406,
     "air_quality": 3.5,
     "noise_level": 4.0,
-    "green_score": 0.1,
-    "tree_cnt": 123,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 1.2,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -25740,6 +25766,7 @@
       "pm10_raw": null,
       "estimated_db": 50.9,
       "green_coverage_pct": 2.1,
+      "raw_tree_count": 123,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -25747,7 +25774,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:23.726015"
+      "last_updated": "2026-01-18T06:06:08.185812"
     }
   },
   {
@@ -25757,9 +25784,9 @@
     "longitude": 7.6676,
     "air_quality": 5.0,
     "noise_level": 4.5,
-    "green_score": 0.3,
-    "tree_cnt": 1061,
-    "heat_score": 4.8,
+    "green_space": 1.2,
+    "tree_greenness": 2.4,
+    "urban_heat": 4.8,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -26685,6 +26712,7 @@
       "pm10_raw": 0.5,
       "estimated_db": 48.5,
       "green_coverage_pct": 6.2,
+      "raw_tree_count": 1061,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -26692,7 +26720,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:25.411812"
+      "last_updated": "2026-01-18T06:06:09.822975"
     }
   },
   {
@@ -26702,9 +26730,9 @@
     "longitude": 7.639,
     "air_quality": 4.7,
     "noise_level": 5.0,
-    "green_score": 0.1,
-    "tree_cnt": 727,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 2.0,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -27574,6 +27602,7 @@
       "pm10_raw": null,
       "estimated_db": 42.0,
       "green_coverage_pct": 2.7,
+      "raw_tree_count": 727,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -27581,7 +27610,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:27.048037"
+      "last_updated": "2026-01-18T06:06:11.391122"
     }
   },
   {
@@ -27591,9 +27620,9 @@
     "longitude": 7.6242,
     "air_quality": 3.0,
     "noise_level": 4.5,
-    "green_score": 0.3,
-    "tree_cnt": 296,
-    "heat_score": 4.8,
+    "green_space": 1.2,
+    "tree_greenness": 1.4,
+    "urban_heat": 4.8,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -28079,6 +28108,7 @@
       "pm10_raw": null,
       "estimated_db": 48.5,
       "green_coverage_pct": 5.6,
+      "raw_tree_count": 296,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -28086,7 +28116,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:28.599419"
+      "last_updated": "2026-01-18T06:06:12.935728"
     }
   },
   {
@@ -28096,9 +28126,9 @@
     "longitude": 7.6086,
     "air_quality": 3.6,
     "noise_level": 4.0,
-    "green_score": 0.4,
-    "tree_cnt": 372,
-    "heat_score": 4.6,
+    "green_space": 1.4,
+    "tree_greenness": 1.5,
+    "urban_heat": 4.6,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -28472,6 +28502,7 @@
       "pm10_raw": null,
       "estimated_db": 50.3,
       "green_coverage_pct": 8.8,
+      "raw_tree_count": 372,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -28479,7 +28510,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:30.175010"
+      "last_updated": "2026-01-18T06:06:14.510845"
     }
   },
   {
@@ -28489,9 +28520,9 @@
     "longitude": 7.6211,
     "air_quality": 2.9,
     "noise_level": 4.5,
-    "green_score": 0.2,
-    "tree_cnt": 115,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 1.2,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -28921,6 +28952,7 @@
       "pm10_raw": null,
       "estimated_db": 48.4,
       "green_coverage_pct": 3.3,
+      "raw_tree_count": 115,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -28928,7 +28960,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:31.729533"
+      "last_updated": "2026-01-18T06:06:16.054515"
     }
   },
   {
@@ -28938,9 +28970,9 @@
     "longitude": 7.5966,
     "air_quality": 4.7,
     "noise_level": 4.0,
-    "green_score": 0.1,
-    "tree_cnt": 1333,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 2.8,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -30126,6 +30158,7 @@
       "pm10_raw": null,
       "estimated_db": 54.1,
       "green_coverage_pct": 1.7,
+      "raw_tree_count": 1333,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -30133,7 +30166,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:33.362982"
+      "last_updated": "2026-01-18T06:06:17.670923"
     }
   },
   {
@@ -30143,9 +30176,9 @@
     "longitude": 7.6527,
     "air_quality": 4.2,
     "noise_level": 5.0,
-    "green_score": 1.1,
-    "tree_cnt": 495,
-    "heat_score": 4.1,
+    "green_space": 1.9,
+    "tree_greenness": 1.7,
+    "urban_heat": 4.1,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -30687,6 +30720,7 @@
       "pm10_raw": null,
       "estimated_db": 44.0,
       "green_coverage_pct": 22.7,
+      "raw_tree_count": 495,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -30694,7 +30728,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:35.011686"
+      "last_updated": "2026-01-18T06:06:19.233561"
     }
   },
   {
@@ -30704,9 +30738,9 @@
     "longitude": 7.6365,
     "air_quality": 3.3,
     "noise_level": 4.5,
-    "green_score": 0.3,
-    "tree_cnt": 998,
-    "heat_score": 4.7,
+    "green_space": 1.3,
+    "tree_greenness": 2.3,
+    "urban_heat": 4.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -31164,6 +31198,7 @@
       "pm10_raw": null,
       "estimated_db": 48.5,
       "green_coverage_pct": 7.0,
+      "raw_tree_count": 998,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -31171,7 +31206,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:36.584770"
+      "last_updated": "2026-01-18T06:06:20.819664"
     }
   },
   {
@@ -31181,9 +31216,9 @@
     "longitude": 7.7057,
     "air_quality": 5.0,
     "noise_level": 5.0,
-    "green_score": 0.1,
-    "tree_cnt": 697,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 1.9,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -35357,6 +35392,7 @@
       "pm10_raw": null,
       "estimated_db": 42.6,
       "green_coverage_pct": 1.3,
+      "raw_tree_count": 697,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -35364,7 +35400,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:38.311797"
+      "last_updated": "2026-01-18T06:06:22.523563"
     }
   },
   {
@@ -35374,9 +35410,9 @@
     "longitude": 7.6039,
     "air_quality": 4.1,
     "noise_level": 4.5,
-    "green_score": 0.5,
-    "tree_cnt": 1762,
-    "heat_score": 4.6,
+    "green_space": 1.4,
+    "tree_greenness": 3.3,
+    "urban_heat": 4.6,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -35954,6 +35990,7 @@
       "pm10_raw": null,
       "estimated_db": 48.9,
       "green_coverage_pct": 9.2,
+      "raw_tree_count": 1762,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -35961,7 +35998,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:39.926817"
+      "last_updated": "2026-01-18T06:06:24.153704"
     }
   },
   {
@@ -35971,9 +36008,9 @@
     "longitude": 7.6155,
     "air_quality": 5.0,
     "noise_level": 4.0,
-    "green_score": 0.0,
-    "tree_cnt": 738,
-    "heat_score": 5.0,
+    "green_space": 1.0,
+    "tree_greenness": 2.0,
+    "urban_heat": 5.0,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -38211,6 +38248,7 @@
       "pm10_raw": null,
       "estimated_db": 53.6,
       "green_coverage_pct": 0.2,
+      "raw_tree_count": 738,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -38218,7 +38256,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:41.692359"
+      "last_updated": "2026-01-18T06:06:25.864425"
     }
   },
   {
@@ -38228,9 +38266,9 @@
     "longitude": 7.6612,
     "air_quality": 4.6,
     "noise_level": 4.5,
-    "green_score": 0.3,
-    "tree_cnt": 1185,
-    "heat_score": 4.7,
+    "green_space": 1.3,
+    "tree_greenness": 2.6,
+    "urban_heat": 4.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -39180,6 +39218,7 @@
       "pm10_raw": null,
       "estimated_db": 47.6,
       "green_coverage_pct": 6.5,
+      "raw_tree_count": 1185,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -39187,7 +39226,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:43.341308"
+      "last_updated": "2026-01-18T06:06:27.488420"
     }
   },
   {
@@ -39197,9 +39236,9 @@
     "longitude": 7.5919,
     "air_quality": 5.0,
     "noise_level": 4.0,
-    "green_score": 0.1,
-    "tree_cnt": 1335,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 2.8,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -41821,6 +41860,7 @@
       "pm10_raw": null,
       "estimated_db": 53.4,
       "green_coverage_pct": 1.3,
+      "raw_tree_count": 1335,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -41828,7 +41868,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:45.367350"
+      "last_updated": "2026-01-18T06:06:29.419331"
     }
   },
   {
@@ -41838,9 +41878,9 @@
     "longitude": 7.5812,
     "air_quality": 5.0,
     "noise_level": 3.0,
-    "green_score": 0.4,
-    "tree_cnt": 1017,
-    "heat_score": 4.7,
+    "green_space": 1.3,
+    "tree_greenness": 2.4,
+    "urban_heat": 4.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -42582,6 +42622,7 @@
       "pm10_raw": null,
       "estimated_db": 56.1,
       "green_coverage_pct": 7.2,
+      "raw_tree_count": 1017,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -42589,7 +42630,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:47.246727"
+      "last_updated": "2026-01-18T06:06:31.070354"
     }
   },
   {
@@ -42599,9 +42640,9 @@
     "longitude": 7.6163,
     "air_quality": 3.6,
     "noise_level": 4.5,
-    "green_score": 0.3,
-    "tree_cnt": 1211,
-    "heat_score": 4.8,
+    "green_space": 1.2,
+    "tree_greenness": 2.6,
+    "urban_heat": 4.8,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -43099,6 +43140,7 @@
       "pm10_raw": null,
       "estimated_db": 46.5,
       "green_coverage_pct": 5.8,
+      "raw_tree_count": 1211,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -43106,7 +43148,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:48.993067"
+      "last_updated": "2026-01-18T06:06:32.657200"
     }
   },
   {
@@ -43116,9 +43158,9 @@
     "longitude": 7.5462,
     "air_quality": 3.0,
     "noise_level": 4.0,
-    "green_score": 0.1,
-    "tree_cnt": 2436,
-    "heat_score": 4.9,
+    "green_space": 1.1,
+    "tree_greenness": 4.2,
+    "urban_heat": 4.9,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -45104,6 +45146,7 @@
       "pm10_raw": 37.1,
       "estimated_db": 53.3,
       "green_coverage_pct": 2.1,
+      "raw_tree_count": 2436,
       "data_sources": {
         "air_quality": "Sensor.Community + Official (LANUV)",
         "noise": "Official Noise Map (2022)",
@@ -45111,7 +45154,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:50.877839"
+      "last_updated": "2026-01-18T06:06:34.482875"
     }
   },
   {
@@ -45121,9 +45164,9 @@
     "longitude": 7.5891,
     "air_quality": 4.4,
     "noise_level": 4.5,
-    "green_score": 0.4,
-    "tree_cnt": 3801,
-    "heat_score": 4.7,
+    "green_space": 1.3,
+    "tree_greenness": 5.0,
+    "urban_heat": 4.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -46317,6 +46360,7 @@
       "pm10_raw": null,
       "estimated_db": 45.2,
       "green_coverage_pct": 8.5,
+      "raw_tree_count": 3801,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -46324,7 +46368,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:52.586339"
+      "last_updated": "2026-01-18T06:06:36.177785"
     }
   },
   {
@@ -46334,9 +46378,9 @@
     "longitude": 7.6469,
     "air_quality": 5.0,
     "noise_level": 5.0,
-    "green_score": 0.3,
-    "tree_cnt": 848,
-    "heat_score": 4.7,
+    "green_space": 1.3,
+    "tree_greenness": 2.1,
+    "urban_heat": 4.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
@@ -47310,6 +47354,7 @@
       "pm10_raw": null,
       "estimated_db": 44.8,
       "green_coverage_pct": 6.9,
+      "raw_tree_count": 848,
       "data_sources": {
         "air_quality": "Spatial Heuristic",
         "noise": "Official Noise Map (2022)",
@@ -47317,7 +47362,7 @@
         "trees": "Baumkataster WFS",
         "heat": "Heuristic (Inverse Green) - EU Data requires auth"
       },
-      "last_updated": "2025-12-14T18:52:54.354100"
+      "last_updated": "2026-01-18T06:06:37.767956"
     }
   }
 ]

@@ -286,6 +286,16 @@ class MunsterDataCollector:
                  noise_data = self.estimate_noise_level(lat, lon, n_id)
 
             # Compile result
+            # Scale green_score (0-1) to 1-5 scale
+            green_space = round(1.0 + (green_score_val * 4.0), 1)
+            
+            # Scale tree_greenness: normalize by max expected count (~3000 trees/district)
+            MAX_EXPECTED_TREES = 3000
+            tree_greenness = round(1.0 + min(1.0, tree_count / MAX_EXPECTED_TREES) * 4.0, 1)
+            
+            # urban_heat is already 1-5 (higher = worse heat island effect)
+            urban_heat = heat_score
+            
             result = {
                 "id": n_id,
                 "name": neighborhood['name'],
@@ -293,9 +303,9 @@ class MunsterDataCollector:
                 "longitude": lon,
                 "air_quality": round(air_quality_score, 1),
                 "noise_level": round(noise_data['score'], 1),
-                "green_score": round(green_score_val * 5.0, 1), 
-                "tree_cnt": tree_count,
-                "heat_score": heat_score,
+                "green_space": green_space,
+                "tree_greenness": tree_greenness,
+                "urban_heat": urban_heat,
                 "geojson": geom_dict,  
                 "metadata": {
                     "osm_id": neighborhood.get('osm_id'),
@@ -303,6 +313,7 @@ class MunsterDataCollector:
                     "pm10_raw": air_data.get('pm10'),
                     "estimated_db": noise_data.get('estimated_db'),
                     "green_coverage_pct": round(green_score_val * 100, 1),
+                    "raw_tree_count": tree_count,
                     "data_sources": {
                         "air_quality": "Sensor.Community + Official (LANUV)" if not air_data.get('estimated') else "Spatial Heuristic",
                         "noise": noise_data.get('method', 'Estimated'),
