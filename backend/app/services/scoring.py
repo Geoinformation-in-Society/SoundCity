@@ -5,14 +5,12 @@ Scoring service for calculating livability scores
 def calculate_livability_score(
     air_quality: float,
     noise_level: float,
-    green_space: float,
-    tree_greenness: float,
+    green_coverage: float,
     urban_heat: float,
-    air_weight: float = 0.2,
-    noise_weight: float = 0.2,
-    green_space_weight: float = 0.2,
-    tree_greenness_weight: float = 0.2,
-    urban_heat_weight: float = 0.2
+    air_weight: float = 0.25,
+    noise_weight: float = 0.25,
+    green_coverage_weight: float = 0.25,
+    urban_heat_weight: float = 0.25
 ) -> float:
     """
     Calculate livability score based on weighted factors.
@@ -20,40 +18,36 @@ def calculate_livability_score(
     Args:
         air_quality: Air quality score (1-5, higher is better)
         noise_level: Noise level score (1-5, higher is quieter/better)
-        green_space: Green space availability score (1-5, higher is better)
-        tree_greenness: Tree greenness score (1-5, higher is better)
-        urban_heat: Urban heat island effect score (1-5, higher is better)
+        green_coverage: Combined green spaces and tree coverage score (1-5, higher is better)
+        urban_heat: Urban heat island effect score (1-5, higher is better/cooler)
         air_weight: Weight for air quality (0-1)
         noise_weight: Weight for noise level (0-1)
-        green_space_weight: Weight for green space availability (0-1)
-        tree_greenness_weight: Weight for tree greenness (0-1)
+        green_coverage_weight: Weight for green coverage (0-1)
         urban_heat_weight: Weight for urban heat island effect (0-1)
     
     Returns:
         Livability score (0-10)
     
     Example:
-        >>> calculate_livability_score(4.0, 3.0, 0.5, 0.5)
-        7.0
+        >>> calculate_livability_score(4.0, 3.0, 3.5, 4.0)
+        7.25
     """
     # Normalize weights to ensure they sum to 1
-    total_weight = air_weight + noise_weight + green_space_weight + tree_greenness_weight + urban_heat_weight
+    total_weight = air_weight + noise_weight + green_coverage_weight + urban_heat_weight
 
     if total_weight == 0:
-        air_weight = noise_weight = green_space_weight = tree_greenness_weight = urban_heat_weight = 0.2
+        air_weight = noise_weight = green_coverage_weight = urban_heat_weight = 0.25
     else:
         air_weight = air_weight / total_weight
         noise_weight = noise_weight / total_weight
-        green_space_weight = green_space_weight / total_weight
-        tree_greenness_weight = tree_greenness_weight / total_weight
+        green_coverage_weight = green_coverage_weight / total_weight
         urban_heat_weight = urban_heat_weight / total_weight
     
     # Calculate weighted score (convert 5-point scale to 10-point)
     score = (
         air_quality * air_weight + 
         noise_level * noise_weight + 
-        green_space * green_space_weight + 
-        tree_greenness * tree_greenness_weight + 
+        green_coverage * green_coverage_weight + 
         urban_heat * urban_heat_weight
         ) * 2
     
@@ -63,8 +57,7 @@ def generate_insights(
     name: str,
     air_quality: float,
     noise_level: float,
-    green_space: float,
-    tree_greenness: float,
+    green_coverage: float,
     urban_heat: float,
     livability_score: float
 ) -> str:
@@ -75,8 +68,7 @@ def generate_insights(
         name: Neighborhood name
         air_quality: Air quality score (1-5)
         noise_level: Noise level score (1-5)
-        green_space: Green space availability score (1-5)
-        tree_greenness: Tree greenness score (1-5)
+        green_coverage: Combined green spaces and tree coverage score (1-5)
         urban_heat: Urban heat island effect score (1-5)
         livability_score: Overall score (0-10)
     

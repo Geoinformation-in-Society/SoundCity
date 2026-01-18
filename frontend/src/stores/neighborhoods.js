@@ -10,16 +10,14 @@ export const useNeighborhoodStore = defineStore('neighborhoods', {
     filters: {
       air: true,
       noise: true,
-      greenSpaces: true,
-      treeGreenness: true,
+      greenCoverage: true,
       urbanHeat: true,
     },
     weights: {
-      air: 20,
-      noise: 20,
-      greenSpaces: 20,
-      treeGreenness: 20,
-      urbanHeat: 20,
+      air: 25,
+      noise: 25,
+      greenCoverage: 25,
+      urbanHeat: 25,
     },
     loading: false,
     error: null
@@ -110,11 +108,10 @@ export const useNeighborhoodStore = defineStore('neighborhoods', {
      */
     async resetWeights() {
       this.weights = {
-        air: 20,
-        noise: 20,
-        greenSpaces: 20,
-        treeGreenness: 20,
-        urbanHeat: 20,
+        air: 25,
+        noise: 25,
+        greenCoverage: 25,
+        urbanHeat: 25,
       }
       await this.fetchNeighborhoods()
     },

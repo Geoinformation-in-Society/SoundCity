@@ -4,18 +4,18 @@ Data loader service for reading neighborhood data
 import json
 from pathlib import Path
 from typing import List, Optional, Dict
-
+from app.services.geo_processor import process_neighborhoods
 
 # In-memory cache
 _NEIGHBORHOODS_CACHE: List[Dict] = []
 
-# Constants
-DATA_PATH = Path(__file__).parent.parent / "data" / "processed" / "neighborhoods.json"
-
 def load_neighborhoods_data() -> List[dict]:
     """
-    Load neighborhoods data from processed JSON file.
-    Uses in-memory cache.
+    Load neighborhoods data from processed GeoJSONs.
+    Uses in-memory cache to avoid re-processing on every request.
+    
+    Returns:
+        List of neighborhood dictionaries
     """
     global _NEIGHBORHOODS_CACHE
     
@@ -23,17 +23,16 @@ def load_neighborhoods_data() -> List[dict]:
         return _NEIGHBORHOODS_CACHE
         
     try:
-        if DATA_PATH.exists():
-            print(f"Loading data from {DATA_PATH}...")
-            with open(DATA_PATH, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                _NEIGHBORHOODS_CACHE = data
-                print(f"✓ Loaded {len(data)} neighborhoods.")
-                return data
-        else:
-            print(f"⚠ Data file not found at {DATA_PATH}")
+        print("Processing neighborhood data from raw sources...")
+        data = process_neighborhoods()
+        
+        if not data:
+            print("Warning: No data processed. Falling back to sample data.")
             return get_sample_data()
             
+        _NEIGHBORHOODS_CACHE = data
+        return data
+        
     except Exception as e:
         print(f"Error loading neighborhoods: {e}")
         return get_sample_data()

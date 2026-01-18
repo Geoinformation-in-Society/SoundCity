@@ -207,15 +207,11 @@ const createPopupContent = (neighborhood) => {
           <span>${'★'.repeat(Math.round(neighborhood.noise_level))}${'☆'.repeat(5 - Math.round(neighborhood.noise_level))}</span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
-          <span style="color: #6b7280;">🌳 Green Spaces:</span>
-          <span>${'★'.repeat(Math.round(neighborhood.green_space))}${'☆'.repeat(5 - Math.round(neighborhood.green_space))}</span>
+          <span style="color: #6b7280;">🌳 Green Coverage:</span>
+          <span>${'★'.repeat(Math.round(neighborhood.green_coverage))}${'☆'.repeat(5 - Math.round(neighborhood.green_coverage))}</span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
-          <span style="color: #6b7280;">🌲 Tree Greenness:</span>
-          <span>${'★'.repeat(Math.round(neighborhood.tree_greenness))}${'☆'.repeat(5 - Math.round(neighborhood.tree_greenness))}</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
-          <span style="color: #6b7280;">☀️ Urban Heat:</span>
+          <span style="color: #6b7280;">🌡️ Urban Heat:</span>
           <span>${'★'.repeat(Math.round(neighborhood.urban_heat))}${'☆'.repeat(5 - Math.round(neighborhood.urban_heat))}</span>
       </div>
       <div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e5e7eb;">

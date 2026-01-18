@@ -59,7 +59,7 @@ const createChart = () => {
   chartInstance = new Chart(ctx, {
     type: 'radar',
     data: {
-      labels: ['💨 Air Quality', '🔇 Noise Level', '🌳 Green Space', '🌲 Tree Greenness', '🌡️ Urban Heat'],
+      labels: ['💨 Air Quality', '🔇 Noise Level', '🌿 Green Coverage', '🌡️ Urban Heat'],
       datasets: props.datasets.map(dataset => ({
         label: dataset.label,
         data: dataset.data,

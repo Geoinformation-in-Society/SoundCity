@@ -11,24 +11,19 @@ router = APIRouter()
 
 @router.get("/neighborhoods", response_model=List[Neighborhood])
 def get_neighborhoods(
-    air_weight: float = Query(0.25, ge=0.0, le=1.0, description="Weight for air quality"),
-    noise_weight: float = Query(0.25, ge=0.0, le=1.0, description="Weight for noise level"),
-    green_coverage_weight: float = Query(0.25, ge=0.0, le=1.0, description="Weight for green coverage"),
-    urban_heat_weight: float = Query(0.25, ge=0.0, le=1.0, description="Weight for urban heat island effect")
+    air_weight: float = Query(0.5, ge=0.0, le=1.0, description="Weight for air quality"),
+    noise_weight: float = Query(0.5, ge=0.0, le=1.0, description="Weight for noise level")
 ):
     """
     Get all neighborhoods with calculated livability scores.
     
     Query Parameters:
-        - air_weight: Weight for air quality (0-1, default: 0.25)
-        - noise_weight: Weight for noise level (0-1, default: 0.25)
-        - green_coverage_weight: Weight for green coverage (0-1, default: 0.25)
-        - urban_heat_weight: Weight for urban heat island effect (0-1, default: 0.25)
+        - air_weight: Weight for air quality (0-1, default: 0.5)
+        - noise_weight: Weight for noise level (0-1, default: 0.5)
     
     Returns:
         List of neighborhoods with livability scores
     """
-
     neighborhoods_data = load_neighborhoods_data()
     neighborhoods = []
 
@@ -36,27 +31,23 @@ def get_neighborhoods(
         score = calculate_livability_score(
             data["air_quality"],
             data["noise_level"],
-            data["green_coverage"],
-            data["urban_heat"],
             air_weight,
-            noise_weight,
-            green_coverage_weight,
-            urban_heat_weight
+            noise_weight
         )
-
+        
         neighborhood = Neighborhood(
             id=data["id"],
             name=data["name"],
             air_quality=data["air_quality"],
             noise_level=data["noise_level"],
-            green_coverage=data["green_coverage"],
-            urban_heat=data["urban_heat"],
             livability_score=score,
+            green_score=data.get("green_score"),
+            tree_cnt=data.get("tree_cnt"),
+            heat_score=data.get("heat_score"),
             latitude=data["latitude"],
             longitude=data["longitude"],
             geojson=data.get("geojson")
         )
-
         neighborhoods.append(neighborhood)
     
     # Sort by livability score (descending)
@@ -67,10 +58,8 @@ def get_neighborhoods(
 @router.get("/neighborhoods/{neighborhood_id}", response_model=NeighborhoodDetail)
 def get_neighborhood_detail(
     neighborhood_id: str,
-    air_weight: float = Query(0.25, ge=0.0, le=1.0),
-    noise_weight: float = Query(0.25, ge=0.0, le=1.0),
-    green_coverage_weight: float = Query(0.25, ge=0.0, le=1.0),
-    urban_heat_weight: float = Query(0.25, ge=0.0, le=1.0)
+    air_weight: float = Query(0.5, ge=0.0, le=1.0),
+    noise_weight: float = Query(0.5, ge=0.0, le=1.0)
 ):
     """
     Get detailed information for a specific neighborhood.
@@ -79,10 +68,8 @@ def get_neighborhood_detail(
         - neighborhood_id: Unique neighborhood identifier
     
     Query Parameters:
-        - air_weight: Weight for air quality (0-1, default: 0.25)
-        - noise_weight: Weight for noise level (0-1, default: 0.25)
-        - green_coverage_weight: Weight for green coverage (0-1, default: 0.25)
-        - urban_heat_weight: Weight for urban heat island effect (0-1, default: 0.25)
+        - air_weight: Weight for air quality (0-1, default: 0.5)
+        - noise_weight: Weight for noise level (0-1, default: 0.5)
     
     Returns:
         Detailed neighborhood information with insights
@@ -98,20 +85,14 @@ def get_neighborhood_detail(
     score = calculate_livability_score(
         data["air_quality"],
         data["noise_level"],
-        data["green_coverage"],
-        data["urban_heat"],
         air_weight,
-        noise_weight,
-        green_coverage_weight,
-        urban_heat_weight
+        noise_weight
     )
     
     insights = generate_insights(
         data["name"],
         data["air_quality"],
         data["noise_level"],
-        data["green_coverage"],
-        data["urban_heat"],
         score
     )
     
@@ -120,24 +101,22 @@ def get_neighborhood_detail(
         name=data["name"],
         air_quality=data["air_quality"],
         noise_level=data["noise_level"],
-        green_coverage=data["green_coverage"],
-        urban_heat=data["urban_heat"],
         livability_score=score,
+        green_score=data.get("green_score"),
+        tree_cnt=data.get("tree_cnt"),
+        heat_score=data.get("heat_score"),
         latitude=data["latitude"],
         longitude=data["longitude"],
         insights=insights,
-        metadata=data.get("metadata"),
-        geojson=data.get("geojson")
+        metadata=data.get("metadata")
     )
 
 @router.get("/neighborhoods/{neighborhood_id}/compare/{other_id}")
 def compare_neighborhoods(
     neighborhood_id: str,
     other_id: str,
-    air_weight: float = Query(0.25, ge=0.0, le=1.0),
-    noise_weight: float = Query(0.25, ge=0.0, le=1.0),
-    green_coverage_weight: float = Query(0.25, ge=0.0, le=1.0),
-    urban_heat_weight: float = Query(0.25, ge=0.0, le=1.0)
+    air_weight: float = Query(0.5, ge=0.0, le=1.0),
+    noise_weight: float = Query(0.5, ge=0.0, le=1.0)
 ):
     """
     Compare two neighborhoods side by side.
@@ -158,25 +137,10 @@ def compare_neighborhoods(
         raise HTTPException(status_code=404, detail=f"Neighborhood '{other_id}' not found")
     
     n1_score = calculate_livability_score(
-        n1_data["air_quality"],
-        n1_data["noise_level"], 
-        n1_data["green_coverage"], 
-        n1_data["urban_heat"], 
-        air_weight, 
-        noise_weight, 
-        green_coverage_weight,
-        urban_heat_weight
+        n1_data["air_quality"], n1_data["noise_level"], air_weight, noise_weight
     )
-
     n2_score = calculate_livability_score(
-        n2_data["air_quality"], 
-        n2_data["noise_level"], 
-        n2_data["green_coverage"], 
-        n2_data["urban_heat"], 
-        air_weight, 
-        noise_weight, 
-        green_coverage_weight,
-        urban_heat_weight
+        n2_data["air_quality"], n2_data["noise_level"], air_weight, noise_weight
     )
     
     return {
@@ -185,8 +149,6 @@ def compare_neighborhoods(
             "name": n1_data["name"],
             "air_quality": n1_data["air_quality"],
             "noise_level": n1_data["noise_level"],
-            "green_coverage": n1_data["green_coverage"],
-            "urban_heat": n1_data["urban_heat"],
             "livability_score": n1_score
         },
         "neighborhood2": {
@@ -194,10 +156,7 @@ def compare_neighborhoods(
             "name": n2_data["name"],
             "air_quality": n2_data["air_quality"],
             "noise_level": n2_data["noise_level"],
-            "green_coverage": n2_data["green_coverage"],
-            "urban_heat": n2_data["urban_heat"],
             "livability_score": n2_score
         },
-
         "winner": n1_data["name"] if n1_score > n2_score else n2_data["name"] if n2_score > n1_score else "Tie"
     }

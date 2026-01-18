@@ -98,47 +98,25 @@
                 </p>
               </div>
 
-              <!-- Green Spaces -->
+              <!-- Green Coverage -->
               <div>
                 <div class="flex justify-between items-center mb-2">
                   <span class="font-semibold text-gray-700 flex items-center gap-2">
-                    <span>🌳</span>
-                    Green Spaces
+                    <span>🌿</span>
+                    Green Coverage
                   </span>
-                  <span class="text-gray-500 text-sm">{{ neighborhood.green_space }}/5</span>
+                  <span class="text-gray-500 text-sm">{{ neighborhood.green_coverage }}/5</span>
                 </div>
                 <div class="flex gap-1">
                   <div
                     v-for="n in 5"
                     :key="n"
                     class="h-3 flex-1 rounded"
-                    :class="n <= Math.round(neighborhood.green_space) ? 'bg-emerald-500' : 'bg-gray-200'"
+                    :class="n <= Math.round(neighborhood.green_coverage) ? 'bg-emerald-500' : 'bg-gray-200'"
                   ></div>
                 </div>
                 <p class="text-xs text-gray-600 mt-1">
-                  {{ getGreenSpacesDescription(neighborhood.green_space) }}
-                </p>
-              </div>
-
-              <!-- Tree Greenness -->
-              <div>
-                <div class="flex justify-between items-center mb-2">
-                  <span class="font-semibold text-gray-700 flex items-center gap-2">
-                    <span>🌲</span>
-                    Tree Greenness
-                  </span>
-                  <span class="text-gray-500 text-sm">{{ neighborhood.tree_greenness }}/5</span>
-                </div>
-                <div class="flex gap-1">
-                  <div
-                    v-for="n in 5"
-                    :key="n"
-                    class="h-3 flex-1 rounded"
-                    :class="n <= Math.round(neighborhood.tree_greenness) ? 'bg-emerald-500' : 'bg-gray-200'"
-                  ></div>
-                </div>
-                <p class="text-xs text-gray-600 mt-1">
-                  {{ getTreeGreennessDescription(neighborhood.tree_greenness) }}
+                  {{ getGreenCoverageDescription(neighborhood.green_coverage) }}
                 </p>
               </div>
 
@@ -261,8 +239,7 @@ const radarDataset = computed(() => {
       data: [
         neighborhood.value.air_quality,
         neighborhood.value.noise_level,
-        neighborhood.value.green_space,
-        neighborhood.value.tree_greenness,
+        neighborhood.value.green_coverage,
         neighborhood.value.urban_heat
       ],
       color: '#10b981' // emerald-500
@@ -295,16 +272,10 @@ const getNoiseLevelDescription = (score) => {
   return 'Higher noise exposure'
 }
 
-const getGreenSpacesDescription = (score) => {
-  if (score >= 4.0) return 'Abundant green spaces and parks'
-  if (score >= 3.0) return 'Some green areas available'
-  return 'Limited access to green spaces'
-}
-
-const getTreeGreennessDescription = (score) => {
-  if (score >= 4.0) return 'Lush tree coverage'
-  if (score >= 3.0) return 'Moderate tree presence'
-  return 'Sparse tree coverage'
+const getGreenCoverageDescription = (score) => {
+  if (score >= 4.0) return 'Excellent green spaces and tree coverage'
+  if (score >= 3.0) return 'Moderate vegetation and parks'
+  return 'Limited green coverage'
 }
 
 const getUrbanHeatDescription = (score) => {
