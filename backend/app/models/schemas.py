@@ -6,8 +6,7 @@ class NeighborhoodBase(BaseModel):
     name: str = Field(..., description="Neighborhood name")
     air_quality: float = Field(..., ge=1.0, le=5.0, description="Air quality score (1-5)")
     noise_level: float = Field(..., ge=1.0, le=5.0, description="Noise level score (1-5, higher is quieter)")
-    green_space: float = Field(..., ge=1.0, le=5.0, description="Green space coverage score (1-5)")
-    tree_greenness: float = Field(..., ge=1.0, le=5.0, description="Tree canopy greenness score (1-5)")
+    green_coverage: float = Field(..., ge=1.0, le=5.0, description="Combined green spaces and tree coverage score (1-5)")
     urban_heat: float = Field(..., ge=1.0, le=5.0, description="Urban heat resilience score (1-5, higher is cooler)")
 
 class Neighborhood(NeighborhoodBase):
