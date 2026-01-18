@@ -48,8 +48,7 @@
                 <ul class="text-gray-800 space-y-0.5 ml-2">
                   <li>• Air Quality: LUQS NRW stations + Sensor.Community</li>
                   <li>• Noise: Münster Lärmkartierung</li>
-                  <li>• Green Spaces: Münster Grünflächen polygons</li>
-                  <li>• Trees: Münster Baumkataster</li>
+                  <li>• Green Environment: Münster Grünflächen + Baumkataster</li>
                   <li>• Heat: Landsat 8</li>
                 </ul>
               </div>
@@ -207,12 +206,8 @@ const createPopupContent = (neighborhood) => {
           <span>${'★'.repeat(Math.round(neighborhood.noise_level))}${'☆'.repeat(5 - Math.round(neighborhood.noise_level))}</span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
-          <span style="color: #6b7280;">🌳 Green Spaces:</span>
+          <span style="color: #6b7280;">🌳 Green Environment:</span>
           <span>${'★'.repeat(Math.round(neighborhood.green_space))}${'☆'.repeat(5 - Math.round(neighborhood.green_space))}</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
-          <span style="color: #6b7280;">🌲 Tree Greenness:</span>
-          <span>${'★'.repeat(Math.round(neighborhood.tree_greenness))}${'☆'.repeat(5 - Math.round(neighborhood.tree_greenness))}</span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem;">
           <span style="color: #6b7280;">☀️ Urban Heat:</span>

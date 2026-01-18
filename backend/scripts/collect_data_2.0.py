@@ -238,15 +238,20 @@ class MunsterDataCollector:
 
             # Calculate Green Score & Trees & Heat
             green_space_score = 0.0
-            tree_greenness_score = 0.0
+            tree_density_score = 0.0
             urban_heat_score = 0.0
             
             if shapely_geom:
                 print("\n🌳 GREEN & HEAT:")
                 green_space_score = self.calculate_green_score(shapely_geom)
-                tree_greenness_score = self.calculate_tree_density(shapely_geom)
+                tree_density_score = self.calculate_tree_density(shapely_geom)
                 urban_heat_score = self.calculate_heat_score(green_space_score)
-                print(f"    ✓ Green: {green_space_score*100:.1f}%, Trees: {tree_greenness_score}, Heat: {urban_heat_score}/5")
+                print(f"    ✓ Green: {green_space_score*100:.1f}%, Trees: {tree_density_score}, Heat: {urban_heat_score}/5")
+                
+                # Combine green space and tree density into single green environment score
+                # Formula: 60% green space availability + 40% tree coverage
+                green_environment_score = green_space_score * 0.6 + (tree_density_score / 5.0) * 0.4
+                print(f"    ✓ Combined Green Environment: {green_environment_score*100:.1f}%")
 
             
             # Collect air quality
@@ -287,8 +292,7 @@ class MunsterDataCollector:
                 "longitude": lon,
                 "air_quality": round(air_quality_score, 1),
                 "noise_level": round(noise_data['score'], 1),
-                "green_space": round(green_space_score * 5.0, 1), 
-                "tree_greenness": tree_greenness_score,
+                "green_space": round(green_environment_score * 5.0, 1) if shapely_geom else 0.0,
                 "urban_heat": urban_heat_score,
                 "geojson": geom_dict,  
                 "metadata": {
@@ -297,6 +301,7 @@ class MunsterDataCollector:
                     "pm10_raw": air_data.get('pm10'),
                     "estimated_db": noise_data.get('estimated_db'),
                     "green_coverage_pct": round(green_space_score * 100, 1),
+                    "tree_density_raw": tree_density_score if shapely_geom else 0.0,
                     "data_sources": {
                         "air_quality": "Sensor.Community + Official (LANUV)" if not air_data.get('estimated') else "Spatial Heuristic",
                         "noise": noise_data.get('method', 'Estimated'),

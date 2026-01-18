@@ -36,7 +36,7 @@ const props = defineProps({
     // [
     //   {
     //     label: 'Neighborhood 1',
-    //     data: [airQuality, noiseLevel, greenSpace, treeGreenness, urbanHeat],
+    //     data: [airQuality, noiseLevel, greenSpace, urbanHeat],
     //     color: '#10b981' // emerald-500
     //   }
     // ]
@@ -59,7 +59,7 @@ const createChart = () => {
   chartInstance = new Chart(ctx, {
     type: 'radar',
     data: {
-      labels: ['💨 Air Quality', '🔇 Noise Level', '🌳 Green Space', '🌲 Tree Greenness', '🌡️ Urban Heat'],
+      labels: ['💨 Air Quality', '🔇 Noise Level', '🌳 Green Environment', '🌡️ Urban Heat'],
       datasets: props.datasets.map(dataset => ({
         label: dataset.label,
         data: dataset.data,

@@ -232,19 +232,9 @@
             <!-- Green Spaces -->
             <ComparisonIndicator
               emoji="🌳"
-              label="Green Spaces"
+              label="Green Environment"
               :value1="neighborhood1.green_space"
               :value2="neighborhood2.green_space"
-              :name1="neighborhood1.name"
-              :name2="neighborhood2.name"
-            />
-            
-            <!-- Tree Greenness -->
-            <ComparisonIndicator
-              emoji="🌲"
-              label="Tree Greenness"
-              :value1="neighborhood1.tree_greenness"
-              :value2="neighborhood2.tree_greenness"
               :name1="neighborhood1.name"
               :name2="neighborhood2.name"
             />
@@ -465,7 +455,6 @@ const radarDatasets = computed(() => {
         neighborhood1.value.air_quality,
         neighborhood1.value.noise_level,
         neighborhood1.value.green_space,
-        neighborhood1.value.tree_greenness,
         neighborhood1.value.urban_heat
       ],
       color: '#10b981' // emerald-500
@@ -476,7 +465,6 @@ const radarDatasets = computed(() => {
         neighborhood2.value.air_quality,
         neighborhood2.value.noise_level,
         neighborhood2.value.green_space,
-        neighborhood2.value.tree_greenness,
         neighborhood2.value.urban_heat
       ],
       color: '#3b82f6' // blue-500
@@ -517,8 +505,7 @@ const getStrengths = (neighborhood, comparison) => {
   const indicators = [
     { key: 'air_quality', label: 'Better air quality' },
     { key: 'noise_level', label: 'Quieter environment' },
-    { key: 'green_space', label: 'More green spaces' },
-    { key: 'tree_greenness', label: 'Greener tree coverage' },
+    { key: 'green_space', label: 'Better green environment' },
     { key: 'urban_heat', label: 'Cooler temperatures' }
   ]
   

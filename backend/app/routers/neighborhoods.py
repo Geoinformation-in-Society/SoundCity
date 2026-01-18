@@ -11,21 +11,19 @@ router = APIRouter()
 
 @router.get("/neighborhoods", response_model=List[Neighborhood])
 def get_neighborhoods(
-    air_weight: float = Query(0.2, ge=0.0, le=1.0, description="Weight for air quality"),
-    noise_weight: float = Query(0.2, ge=0.0, le=1.0, description="Weight for noise level"),
-    green_space_weight: float = Query(0.2, ge=0.0, le=1.0, description="Weight for green space availability"),
-    tree_greenness_weight: float = Query(0.2, ge=0.0, le=1.0, description="Weight for tree greenness"),
-    urban_heat_weight: float = Query(0.2, ge=0.0, le=1.0, description="Weight for urban heat island effect")
+    air_weight: float = Query(0.25, ge=0.0, le=1.0, description="Weight for air quality"),
+    noise_weight: float = Query(0.25, ge=0.0, le=1.0, description="Weight for noise level"),
+    green_space_weight: float = Query(0.25, ge=0.0, le=1.0, description="Weight for green environment"),
+    urban_heat_weight: float = Query(0.25, ge=0.0, le=1.0, description="Weight for urban heat island effect")
 ):
     """
     Get all neighborhoods with calculated livability scores.
     
     Query Parameters:
-        - air_weight: Weight for air quality (0-1, default: 0.2)
-        - noise_weight: Weight for noise level (0-1, default: 0.2)
-        - green_space_weight: Weight for green space availability (0-1, default: 0.2)
-        - tree_greenness_weight: Weight for tree greenness (0-1, default: 0.2)
-        - urban_heat_weight: Weight for urban heat island effect (0-1, default: 0.2)
+        - air_weight: Weight for air quality (0-1, default: 0.25)
+        - noise_weight: Weight for noise level (0-1, default: 0.25)
+        - green_space_weight: Weight for green environment (0-1, default: 0.25)
+        - urban_heat_weight: Weight for urban heat island effect (0-1, default: 0.25)
     
     Returns:
         List of neighborhoods with livability scores
@@ -39,12 +37,10 @@ def get_neighborhoods(
             data["air_quality"],
             data["noise_level"],
             data["green_space"],
-            data["tree_greenness"],
             data["urban_heat"],
             air_weight,
             noise_weight,
             green_space_weight,
-            tree_greenness_weight,
             urban_heat_weight
         )
 
@@ -54,7 +50,6 @@ def get_neighborhoods(
             air_quality=data["air_quality"],
             noise_level=data["noise_level"],
             green_space=data["green_space"],
-            tree_greenness=data["tree_greenness"],
             urban_heat=data["urban_heat"],
             livability_score=score,
             latitude=data["latitude"],
@@ -72,11 +67,10 @@ def get_neighborhoods(
 @router.get("/neighborhoods/{neighborhood_id}", response_model=NeighborhoodDetail)
 def get_neighborhood_detail(
     neighborhood_id: str,
-    air_weight: float = Query(0.2, ge=0.0, le=1.0),
-    noise_weight: float = Query(0.2, ge=0.0, le=1.0),
-    green_space_weight: float = Query(0.2, ge=0.0, le=1.0),
-    tree_greenness_weight: float = Query(0.2, ge=0.0, le=1.0),
-    urban_heat_weight: float = Query(0.2, ge=0.0, le=1.0)
+    air_weight: float = Query(0.25, ge=0.0, le=1.0),
+    noise_weight: float = Query(0.25, ge=0.0, le=1.0),
+    green_space_weight: float = Query(0.25, ge=0.0, le=1.0),
+    urban_heat_weight: float = Query(0.25, ge=0.0, le=1.0)
 ):
     """
     Get detailed information for a specific neighborhood.
@@ -85,11 +79,10 @@ def get_neighborhood_detail(
         - neighborhood_id: Unique neighborhood identifier
     
     Query Parameters:
-        - air_weight: Weight for air quality (0-1, default: 0.2)
-        - noise_weight: Weight for noise level (0-1, default: 0.2)
-        - green_space_weight: Weight for green space availability (0-1, default: 0.2)
-        - tree_greenness_weight: Weight for tree greenness (0-1, default: 0.2)
-        - urban_heat_weight: Weight for urban heat island effect (0-1, default: 0.2)
+        - air_weight: Weight for air quality (0-1, default: 0.25)
+        - noise_weight: Weight for noise level (0-1, default: 0.25)
+        - green_space_weight: Weight for green environment (0-1, default: 0.25)
+        - urban_heat_weight: Weight for urban heat island effect (0-1, default: 0.25)
     
     Returns:
         Detailed neighborhood information with insights
@@ -106,12 +99,10 @@ def get_neighborhood_detail(
         data["air_quality"],
         data["noise_level"],
         data["green_space"],
-        data["tree_greenness"],
         data["urban_heat"],
         air_weight,
         noise_weight,
         green_space_weight,
-        tree_greenness_weight,
         urban_heat_weight
     )
     
@@ -120,7 +111,6 @@ def get_neighborhood_detail(
         data["air_quality"],
         data["noise_level"],
         data["green_space"],
-        data["tree_greenness"],
         data["urban_heat"],
         score
     )
@@ -131,7 +121,6 @@ def get_neighborhood_detail(
         air_quality=data["air_quality"],
         noise_level=data["noise_level"],
         green_space=data["green_space"],
-        tree_greenness=data["tree_greenness"],
         urban_heat=data["urban_heat"],
         livability_score=score,
         latitude=data["latitude"],
@@ -144,11 +133,10 @@ def get_neighborhood_detail(
 def compare_neighborhoods(
     neighborhood_id: str,
     other_id: str,
-    air_weight: float = Query(0.2, ge=0.0, le=1.0),
-    noise_weight: float = Query(0.2, ge=0.0, le=1.0),
-    green_space_weight: float = Query(0.2, ge=0.0, le=1.0),
-    tree_greenness_weight: float = Query(0.2, ge=0.0, le=1.0),
-    urban_heat_weight: float = Query(0.2, ge=0.0, le=1.0)
+    air_weight: float = Query(0.25, ge=0.0, le=1.0),
+    noise_weight: float = Query(0.25, ge=0.0, le=1.0),
+    green_space_weight: float = Query(0.25, ge=0.0, le=1.0),
+    urban_heat_weight: float = Query(0.25, ge=0.0, le=1.0)
 ):
     """
     Compare two neighborhoods side by side.
@@ -172,12 +160,10 @@ def compare_neighborhoods(
         n1_data["air_quality"],
         n1_data["noise_level"], 
         n1_data["green_space"], 
-        n1_data["tree_greenness"], 
         n1_data["urban_heat"], 
         air_weight, 
         noise_weight, 
         green_space_weight,
-        tree_greenness_weight, 
         urban_heat_weight
     )
 
@@ -185,12 +171,10 @@ def compare_neighborhoods(
         n2_data["air_quality"], 
         n2_data["noise_level"], 
         n2_data["green_space"], 
-        n2_data["tree_greenness"], 
         n2_data["urban_heat"], 
         air_weight, 
         noise_weight, 
         green_space_weight,
-        tree_greenness_weight, 
         urban_heat_weight
     )
     
@@ -201,7 +185,6 @@ def compare_neighborhoods(
             "air_quality": n1_data["air_quality"],
             "noise_level": n1_data["noise_level"],
             "green_space": n1_data["green_space"],
-            "tree_greenness": n1_data["tree_greenness"],
             "urban_heat": n1_data["urban_heat"],
             "livability_score": n1_score
         },
@@ -211,7 +194,6 @@ def compare_neighborhoods(
             "air_quality": n2_data["air_quality"],
             "noise_level": n2_data["noise_level"],
             "green_space": n2_data["green_space"],
-            "tree_greenness": n2_data["tree_greenness"],
             "urban_heat": n2_data["urban_heat"],
             "livability_score": n2_score
         },
