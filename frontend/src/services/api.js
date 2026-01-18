@@ -46,11 +46,10 @@ export default {
    */
   getNeighborhoods(weights = {}) {
     const params = {
-      air_weight: weights.air || 0.2,
-      noise_weight: weights.noise || 0.2,
-      green_space_weight: weights.greenSpaces || 0.2,
-      tree_greenness_weight: weights.treeGreenness || 0.2,
-      urban_heat_weight: weights.urbanHeat || 0.2,
+      air_weight: weights.air || 0.25,
+      noise_weight: weights.noise || 0.25,
+      green_space_weight: weights.greenSpaces || 0.25,
+      urban_heat_weight: weights.urbanHeat || 0.25,
     }
     return apiClient.get('/neighborhoods', { params })
   },
@@ -63,11 +62,10 @@ export default {
    */
   getNeighborhoodDetail(id, weights = {}) {
     const params = {
-      air_weight: weights.air || 0.2,
-      noise_weight: weights.noise || 0.2,
-      green_space_weight: weights.greenSpaces || 0.2,
-      tree_greenness_weight: weights.treeGreenness || 0.2,
-      urban_heat_weight: weights.urbanHeat || 0.2,
+      air_weight: weights.air || 0.25,
+      noise_weight: weights.noise || 0.25,
+      green_space_weight: weights.greenSpaces || 0.25,
+      urban_heat_weight: weights.urbanHeat || 0.25,
     }
     return apiClient.get(`/neighborhoods/${id}`, { params })
   },
@@ -81,11 +79,10 @@ export default {
    */
   compareNeighborhoods(id1, id2, weights = {}) {
     const params = {
-      air_weight: weights.air || 0.2,
-      noise_weight: weights.noise || 0.2,
-      green_space_weight: weights.greenSpaces || 0.2,
-      tree_greenness_weight: weights.treeGreenness || 0.2,
-      urban_heat_weight: weights.urbanHeat || 0.2
+      air_weight: weights.air || 0.25,
+      noise_weight: weights.noise || 0.25,
+      green_space_weight: weights.greenSpaces || 0.25,
+      urban_heat_weight: weights.urbanHeat || 0.25
     }
     return apiClient.get(`/neighborhoods/${id1}/compare/${id2}`, { params })
   }

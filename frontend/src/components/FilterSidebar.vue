@@ -126,8 +126,7 @@ const store = useNeighborhoodStore()
 const indicators = [
   { id: 'air', label: 'Air Quality', emoji: '💨', description: 'PM2.5 and pollutants' },
   { id: 'noise', label: 'Noise Pollution', emoji: '🔊', description: 'Traffic and ambient noise' },
-  { id: 'greenSpaces', label: 'Green Spaces', emoji: '🌳', description: 'Parks and vegetation' },
-  { id: 'treeGreenness', label: 'Tree Greenness', emoji: '🌲', description: 'Tree canopy coverage' },
+  { id: 'greenSpaces', label: 'Green Environment', emoji: '🌳', description: 'Parks, vegetation & tree coverage' },
   { id: 'urbanHeat', label: 'Urban Heat', emoji: '🌡️', description: 'Temperature and cooling' }
 ]
 
@@ -253,31 +252,27 @@ const resetFilters = async () => {
 const applyPreset = async (preset) => {
   const presets = {
     balanced: {
-      air: 20,
-      noise: 20,
-      greenSpaces: 20,
-      treeGreenness: 20,
-      urbanHeat: 20,
+      air: 25,
+      noise: 25,
+      greenSpaces: 25,
+      urbanHeat: 25,
     },
     health: {
       air: 35,
       noise: 25,
-      greenSpaces: 15,
-      treeGreenness: 15,
+      greenSpaces: 30,
       urbanHeat: 10,
     },
     nature: {
       air: 20,
       noise: 12,
-      greenSpaces: 35,
-      treeGreenness: 25,
+      greenSpaces: 60,
       urbanHeat: 8,
     },
     cooling: {
       air: 15,
       noise: 15,
-      greenSpaces: 25,
-      treeGreenness: 25,
+      greenSpaces: 50,
       urbanHeat: 20,
     }
   }
