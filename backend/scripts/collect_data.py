@@ -247,8 +247,9 @@ class MunsterDataCollector:
                 print("\n🌳 GREEN & HEAT:")
                 green_score_val = self.calculate_green_score(shapely_geom)
                 tree_count = self.calculate_tree_density(shapely_geom)
-                heat_score = self.calculate_heat_score(green_score_val)
-                print(f"    ✓ Green: {green_score_val*100:.1f}%, Trees: {tree_count}, Heat: {heat_score}/5")
+                # Use multi-factor UHI model with geometry and location
+                heat_score = self.calculate_heat_score(green_score_val, shapely_geom, lat, lon)
+                print(f"    ✓ Green: {green_score_val*100:.1f}%, Trees: {tree_count}, Heat Resilience: {heat_score}/5")
 
             
             # Collect air quality
@@ -286,14 +287,18 @@ class MunsterDataCollector:
                  noise_data = self.estimate_noise_level(lat, lon, n_id)
 
             # Compile result
-            # Scale green_score (0-1) to 1-5 scale
-            green_space = round(1.0 + (green_score_val * 4.0), 1)
+            # Combine green_space and tree_greenness into single green_coverage (Issue #40)
+            # 50% green space coverage + 50% tree density
+            green_space_scaled = min(1.0, green_score_val)  # 0-1 range
             
-            # Scale tree_greenness: normalize by max expected count (~3000 trees/district)
             MAX_EXPECTED_TREES = 3000
-            tree_greenness = round(1.0 + min(1.0, tree_count / MAX_EXPECTED_TREES) * 4.0, 1)
+            tree_density_scaled = min(1.0, tree_count / MAX_EXPECTED_TREES)  # 0-1 range
             
-            # urban_heat is already 1-5 (higher = worse heat island effect)
+            # Combined green coverage: weighted average, then scaled to 1-5
+            combined_green = (green_space_scaled * 0.5) + (tree_density_scaled * 0.5)
+            green_coverage = round(1.0 + (combined_green * 4.0), 1)
+            
+            # urban_heat is already 1-5 (higher = cooler, more resilient)
             urban_heat = heat_score
             
             result = {
@@ -303,8 +308,7 @@ class MunsterDataCollector:
                 "longitude": lon,
                 "air_quality": round(air_quality_score, 1),
                 "noise_level": round(noise_data['score'], 1),
-                "green_space": green_space,
-                "tree_greenness": tree_greenness,
+                "green_coverage": green_coverage,
                 "urban_heat": urban_heat,
                 "geojson": geom_dict,  
                 "metadata": {
@@ -315,11 +319,11 @@ class MunsterDataCollector:
                     "green_coverage_pct": round(green_score_val * 100, 1),
                     "raw_tree_count": tree_count,
                     "data_sources": {
-                        "air_quality": "Sensor.Community + Official (LANUV)" if not air_data.get('estimated') else "Spatial Heuristic",
+                        "air_quality": "LUQS NRW (LANUV) + Sensor.Community" if not air_data.get('estimated') else "Spatial Heuristic",
                         "noise": noise_data.get('method', 'Estimated'),
-                        "boundaries": "OpenStreetMap",
-                        "trees": "Baumkataster WFS",
-                        "heat": "Heuristic (Inverse Green) - EU Data requires auth"
+                        "green_coverage": "Grünflächen WFS + Baumkataster WFS",
+                        "urban_heat": "Multi-factor UHI Model (Green Coverage + Distance + Density)",
+                        "boundaries": "OpenStreetMap"
                     },
                     "last_updated": datetime.now().isoformat()
                 }
@@ -816,15 +820,80 @@ class MunsterDataCollector:
                 count += 1
         return count
 
-    def calculate_heat_score(self, green_score_val: float) -> float:
+    def calculate_heat_score(self, green_score_val: float, district_geom: Polygon = None, lat: float = None, lon: float = None) -> float:
         """
-        Calculate Heat Island score (1-5) based on heuristics.
-        Logic: High Green Score = Low Heat Island Effect.
-        Heat Score = 5 (High Heat) - (Green Score * 4) -> Scaled to 1-5.
+        Calculate Urban Heat Island resilience score (1-5) using multi-factor model.
+        Higher score = more heat-resilient (cooler).
+        
+        Factors considered:
+        1. Green coverage - vegetation provides evaporative cooling
+        2. Distance from city center - urban cores have higher heat island effect
+        3. Impervious surface estimate - based on lack of green coverage
+        4. District size - larger districts tend to have more variation
+        
+        Based on urban climatology research: UHI intensity correlates with
+        vegetation fraction, building density, and distance from urban core.
+        
+        Returns:
+            Heat resilience score 1-5 (5 = coolest/most resilient)
         """
-        # Linear mapping: 0.0 Green -> 5.0 Heat, 1.0 Green -> 1.0 Heat
-        score = 5.0 - (green_score_val * 4.0)
-        return round(max(1.0, min(5.0, score)), 1)
+        # Factor 1: Green coverage (40% weight)
+        # More green = more cooling through evapotranspiration
+        green_factor = green_score_val  # 0-1 range
+        
+        # Factor 2: Distance from city center (30% weight)
+        # Further from center = typically less urban heat island effect
+        center_lat, center_lon = 51.9607, 7.6261  # Münster city center
+        
+        distance_factor = 0.5  # default
+        if lat is not None and lon is not None:
+            # Calculate distance in km
+            dist_km = ((lat - center_lat)**2 + (lon - center_lon)**2)**0.5 * 111
+            
+            # Map distance to factor (0-1): 0km = 0, 3km = 0.5, 6km+ = 1.0
+            distance_factor = min(1.0, dist_km / 6.0)
+        elif district_geom is not None:
+            # Use centroid if geometry is provided
+            centroid = district_geom.centroid
+            dist_km = ((centroid.y - center_lat)**2 + (centroid.x - center_lon)**2)**0.5 * 111
+            distance_factor = min(1.0, dist_km / 6.0)
+        
+        # Factor 3: Impervious surface estimate (20% weight)
+        # Estimated as inverse of green coverage, representing built-up areas
+        # Less impervious = cooler (heat absorbed and radiated by pavement/buildings)
+        impervious_estimate = 1.0 - green_score_val
+        impervious_factor = 1.0 - impervious_estimate  # Invert so low impervious = high factor
+        
+        # Factor 4: District density proxy (10% weight)
+        # Smaller districts near center tend to be denser
+        density_factor = 0.5  # default
+        if district_geom is not None:
+            # Area in sq km (rough estimate from degree area)
+            area_sq_deg = district_geom.area
+            area_sq_km = area_sq_deg * (111 * 111)  # Very rough conversion
+            
+            # Larger areas tend to be less dense (more rural)
+            # Map: <1km² = 0.3, 1-5km² = 0.5, >5km² = 0.8
+            if area_sq_km < 1:
+                density_factor = 0.3
+            elif area_sq_km < 5:
+                density_factor = 0.5
+            else:
+                density_factor = 0.8
+        
+        # Combine factors with weights
+        # Green: 40%, Distance: 30%, Impervious: 20%, Density: 10%
+        combined_score = (
+            green_factor * 0.40 +
+            distance_factor * 0.30 +
+            impervious_factor * 0.20 +
+            density_factor * 0.10
+        )
+        
+        # Scale to 1-5 range (combined_score is 0-1)
+        heat_resilience = round(1.0 + (combined_score * 4.0), 1)
+        
+        return max(1.0, min(5.0, heat_resilience))
 
 
     
