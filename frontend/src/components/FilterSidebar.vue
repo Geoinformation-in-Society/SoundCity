@@ -4,7 +4,7 @@
 
     <!-- Filters Section -->
     <div class="space-y-3 mb-8">
-      <div v-for="indicator in indicators" :key="indicator.id" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition">
+      <div v-for="indicator in indicators" :key="indicator.id" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition group relative">
         <input
           :id="`filter-${indicator.id}`"
           type="checkbox"
@@ -15,6 +15,15 @@
         <label :for="`filter-${indicator.id}`" class="text-gray-700 font-medium cursor-pointer flex-1">
           {{ indicator.emoji }} {{ indicator.label }}
         </label>
+        <!-- Data source tooltip -->
+        <div class="relative">
+          <span class="text-gray-400 text-xs cursor-help group-hover:text-gray-600 transition">ⓘ</span>
+          <div class="absolute right-0 bottom-full mb-2 w-48 bg-gray-800 text-white text-xs rounded-lg p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg">
+            <div class="font-semibold mb-1">{{ indicator.label }}</div>
+            <div class="text-gray-300">{{ indicator.source }}</div>
+            <div class="absolute top-full right-2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -124,11 +133,11 @@ const store = useNeighborhoodStore()
 
 // Define all livability indicators
 const indicators = [
-  { id: 'air', label: 'Air Quality', emoji: '💨', description: 'PM2.5 and pollutants' },
-  { id: 'noise', label: 'Noise Pollution', emoji: '🔊', description: 'Traffic and ambient noise' },
-  { id: 'greenSpaces', label: 'Green Spaces', emoji: '🌳', description: 'Parks and vegetation' },
-  { id: 'treeGreenness', label: 'Tree Greenness', emoji: '🌲', description: 'Tree canopy coverage' },
-  { id: 'urbanHeat', label: 'Urban Heat', emoji: '🌡️', description: 'Temperature and cooling' }
+  { id: 'air', label: 'Air Quality', emoji: '💨', description: 'PM2.5 and pollutants', source: 'LUQS NRW + Sensor.Community' },
+  { id: 'noise', label: 'Noise Pollution', emoji: '🔊', description: 'Traffic and ambient noise', source: 'Münster Lärmkartierung (2022)' },
+  { id: 'greenSpaces', label: 'Green Spaces', emoji: '🌳', description: 'Parks and vegetation', source: 'Münster Grünflächen WFS' },
+  { id: 'treeGreenness', label: 'Tree Greenness', emoji: '🌲', description: 'Tree canopy coverage', source: 'Münster Baumkataster WFS' },
+  { id: 'urbanHeat', label: 'Urban Heat', emoji: '🌡️', description: 'Temperature and cooling', source: 'Heuristic (inverse green coverage)' }
 ]
 
 // Local state for filters and weights

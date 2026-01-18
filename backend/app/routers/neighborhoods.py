@@ -57,9 +57,6 @@ def get_neighborhoods(
             tree_greenness=data["tree_greenness"],
             urban_heat=data["urban_heat"],
             livability_score=score,
-            green_score=data.get("green_score"),
-            tree_cnt=data.get("tree_cnt"),
-            heat_score=data.get("heat_score"),
             latitude=data["latitude"],
             longitude=data["longitude"],
             geojson=data.get("geojson")
@@ -137,13 +134,11 @@ def get_neighborhood_detail(
         tree_greenness=data["tree_greenness"],
         urban_heat=data["urban_heat"],
         livability_score=score,
-        green_score=data.get("green_score"),
-        tree_cnt=data.get("tree_cnt"),
-        heat_score=data.get("heat_score"),
         latitude=data["latitude"],
         longitude=data["longitude"],
         insights=insights,
-        metadata=data.get("metadata")
+        metadata=data.get("metadata"),
+        geojson=data.get("geojson")
     )
 
 @router.get("/neighborhoods/{neighborhood_id}/compare/{other_id}")
