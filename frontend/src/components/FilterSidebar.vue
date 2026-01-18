@@ -15,12 +15,34 @@
         <label :for="`filter-${indicator.id}`" class="text-gray-700 font-medium cursor-pointer flex-1">
           {{ indicator.emoji }} {{ indicator.label }}
         </label>
-        <!-- Data source tooltip -->
+        <!-- Data source tooltip (Issue #39 - Enhanced Metadata) -->
         <div class="relative">
           <span class="text-gray-400 text-xs cursor-help group-hover:text-gray-600 transition">ⓘ</span>
-          <div class="absolute right-0 bottom-full mb-2 w-48 bg-gray-800 text-white text-xs rounded-lg p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg">
-            <div class="font-semibold mb-1">{{ indicator.label }}</div>
-            <div class="text-gray-300">{{ indicator.source }}</div>
+          <div class="absolute right-0 bottom-full mb-2 w-56 bg-gray-800 text-white text-xs rounded-lg p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 shadow-lg">
+            <div class="font-semibold mb-2 pb-1 border-b border-gray-600">{{ indicator.label }}</div>
+            
+            <div class="space-y-1.5">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-400">Freshness:</span>
+                <span :class="['px-1.5 py-0.5 rounded text-[10px] font-medium', indicator.freshnessColor]">{{ indicator.freshness }}</span>
+              </div>
+              
+              <div class="flex justify-between">
+                <span class="text-gray-400">Last Updated:</span>
+                <span class="text-white">{{ indicator.lastUpdated }}</span>
+              </div>
+              
+              <div class="flex justify-between">
+                <span class="text-gray-400">Frequency:</span>
+                <span class="text-white">{{ indicator.updateFrequency }}</span>
+              </div>
+              
+              <div class="pt-1 mt-1 border-t border-gray-600">
+                <span class="text-gray-400">Source:</span>
+                <div class="text-white text-[10px] mt-0.5">{{ indicator.source }}</div>
+              </div>
+            </div>
+            
             <div class="absolute top-full right-2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800"></div>
           </div>
         </div>
@@ -131,13 +153,52 @@ import { useNeighborhoodStore } from '@/stores/neighborhoods'
 
 const store = useNeighborhoodStore()
 
-// Define all livability indicators
+// Define all livability indicators with full metadata (Issue #39)
 const indicators = [
-  { id: 'air', label: 'Air Quality', emoji: '💨', description: 'PM2.5 and pollutants', source: 'LUQS NRW + Sensor.Community' },
-  { id: 'noise', label: 'Noise Pollution', emoji: '🔊', description: 'Traffic and ambient noise', source: 'Münster Lärmkartierung (2022)' },
-  { id: 'greenSpaces', label: 'Green Spaces', emoji: '🌳', description: 'Parks and vegetation', source: 'Münster Grünflächen WFS' },
-  { id: 'treeGreenness', label: 'Tree Greenness', emoji: '🌲', description: 'Tree canopy coverage', source: 'Münster Baumkataster WFS' },
-  { id: 'urbanHeat', label: 'Urban Heat', emoji: '🌡️', description: 'Temperature and cooling', source: 'Heuristic (inverse green coverage)' }
+  { 
+    id: 'air', 
+    label: 'Air Quality', 
+    emoji: '💨', 
+    description: 'PM2.5, PM10, and NO2 pollutants',
+    freshness: 'Live',
+    freshnessColor: 'bg-green-500 text-white',
+    lastUpdated: 'Real-time',
+    updateFrequency: 'Hourly',
+    source: 'LUQS NRW (LANUV) + Sensor.Community citizen science network'
+  },
+  { 
+    id: 'noise', 
+    label: 'Noise Pollution', 
+    emoji: '🔊', 
+    description: 'Traffic and industrial noise levels',
+    freshness: 'Old',
+    freshnessColor: 'bg-amber-500 text-white',
+    lastUpdated: '2022',
+    updateFrequency: 'Every 5 years (EU Directive)',
+    source: 'Lärmkartierung NRW 2022 (LANUV/Münster Open Data)'
+  },
+  { 
+    id: 'greenCoverage', 
+    label: 'Green Coverage', 
+    emoji: '🌿', 
+    description: 'Green spaces + tree canopy coverage',
+    freshness: 'Recent',
+    freshnessColor: 'bg-blue-500 text-white',
+    lastUpdated: '2024',
+    updateFrequency: 'Annual updates',
+    source: 'Grünflächen WFS + Baumkataster WFS (Stadt Münster Open Data)'
+  },
+  { 
+    id: 'urbanHeat', 
+    label: 'Urban Heat', 
+    emoji: '🌡️', 
+    description: 'Heat island resilience score',
+    freshness: 'Recent',
+    freshnessColor: 'bg-blue-500 text-white',
+    lastUpdated: '2025',
+    updateFrequency: 'On data refresh',
+    source: 'Multi-factor UHI Model (Green Coverage + Distance + Density proxy)'
+  }
 ]
 
 // Local state for filters and weights
@@ -258,36 +319,32 @@ const resetFilters = async () => {
   await store.resetWeights()
 }
 
-// Apply preset configurations
+// Apply preset configurations (now with 4 indicators)
 const applyPreset = async (preset) => {
   const presets = {
     balanced: {
-      air: 20,
-      noise: 20,
-      greenSpaces: 20,
-      treeGreenness: 20,
-      urbanHeat: 20,
+      air: 25,
+      noise: 25,
+      greenCoverage: 25,
+      urbanHeat: 25,
     },
     health: {
-      air: 35,
-      noise: 25,
-      greenSpaces: 15,
-      treeGreenness: 15,
+      air: 40,
+      noise: 30,
+      greenCoverage: 20,
       urbanHeat: 10,
     },
     nature: {
       air: 20,
-      noise: 12,
-      greenSpaces: 35,
-      treeGreenness: 25,
-      urbanHeat: 8,
+      noise: 15,
+      greenCoverage: 45,
+      urbanHeat: 20,
     },
     cooling: {
       air: 15,
       noise: 15,
-      greenSpaces: 25,
-      treeGreenness: 25,
-      urbanHeat: 20,
+      greenCoverage: 35,
+      urbanHeat: 35,
     }
   }
 
