@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import neighborhoods
+from app.routers import neighborhoods, feedback
 
 app = FastAPI(
     title="Sound City API",
@@ -24,11 +24,8 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(
-    neighborhoods.router,
-    prefix="/api/v1",
-    tags=["neighborhoods"]
-)
+app.include_router(feedback.router)
+app.include_router(neighborhoods.router)
 
 @app.get("/")
 def root():

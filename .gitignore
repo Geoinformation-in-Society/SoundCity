@@ -36,5 +36,6 @@ Thumbs.db
 # Ignore all data subdirectories
 backend/app/data/raw/
 backend/app/data/processed/
+backend/app/data/feedback/
 # But always track geojson boundaries (stable reference data)
 !backend/app/data/geojson/neighborhoods_boundaries.geojson

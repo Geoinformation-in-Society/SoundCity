@@ -2,12 +2,14 @@
   <div id="app">
     <NavBar />
     <RouterView />
+    <FeedbackModal />
   </div>
 </template>
 
 <script setup>
-import NavBar from '@/components/NavBar.vue'
 import { RouterView } from 'vue-router'
+import NavBar from '@/components/NavBar.vue'
+import FeedbackModal from '@/components/FeedbackModal.vue'
 </script>
 
 <style>
