@@ -7,9 +7,9 @@ from app.models.schemas import Neighborhood, NeighborhoodDetail, ScoreWeights
 from app.services.data_loader import load_neighborhoods_data, find_neighborhood_by_id
 from app.services.scoring import calculate_livability_score, generate_insights
 
-router = APIRouter()
+router = APIRouter(prefix="/api/v1/neighborhoods", tags=["neighborhoods"])
 
-@router.get("/neighborhoods", response_model=List[Neighborhood])
+@router.get("/", response_model=List[Neighborhood])
 def get_neighborhoods(
     air_weight: float = Query(0.25, ge=0.0, le=1.0, description="Weight for air quality"),
     noise_weight: float = Query(0.25, ge=0.0, le=1.0, description="Weight for noise level"),
@@ -64,7 +64,7 @@ def get_neighborhoods(
 
     return neighborhoods
 
-@router.get("/neighborhoods/{neighborhood_id}", response_model=NeighborhoodDetail)
+@router.get("/{neighborhood_id}", response_model=NeighborhoodDetail)
 def get_neighborhood_detail(
     neighborhood_id: str,
     air_weight: float = Query(0.25, ge=0.0, le=1.0),
@@ -129,7 +129,7 @@ def get_neighborhood_detail(
         metadata=data.get("metadata")
     )
 
-@router.get("/neighborhoods/{neighborhood_id}/compare/{other_id}")
+@router.get("/{neighborhood_id}/compare/{other_id}")
 def compare_neighborhoods(
     neighborhood_id: str,
     other_id: str,

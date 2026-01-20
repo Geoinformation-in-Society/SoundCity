@@ -48,6 +48,7 @@ class ScoreWeights(BaseModel):
     noise_weight: float = Field(0.25, ge=0.0, le=1.0, description="Weight for noise level (0-1)")
     green_space_weight: float = Field(0.25, ge=0.0, le=1.0, description="Weight for green environment (0-1)")
     urban_heat_weight: float = Field(0.25, ge=0.0, le=1.0, description="Weight for urban heat island effect (0-1)")
+    
     class Config:
         json_schema_extra = {
             "example": {
@@ -57,3 +58,43 @@ class ScoreWeights(BaseModel):
                 "urban_heat_weight": 0.25
             }
         }
+
+
+class FeedbackSubmission(BaseModel):
+    """User feedback submission"""
+    satisfaction: int = Field(..., ge=1, le=5, description="Satisfaction rating (1-5)")
+    useful_feature: str = Field(..., description="Most useful feature")
+    most_important_indicator: str = Field(..., description="Most important indicator (air/noise/green/heat)")
+    housing_decision: str = Field(..., description="Would use for housing decisions (definitely/maybe/no)")
+    improvement: Optional[str] = Field(None, description="Suggested improvements")
+    would_recommend: bool = Field(..., description="Would recommend to others")
+    session_data: Optional[Dict] = Field(None, description="Session metadata")
+    
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "satisfaction": 5,
+                "useful_feature": "comparison",
+                "most_important_indicator": "air",
+                "housing_decision": "definitely",
+                "improvement": "Add more neighborhoods",
+                "would_recommend": True,
+                "session_data": {"page": "comparison", "duration": 120}
+            }
+        }
+
+
+class FeedbackResponse(BaseModel):
+    """Feedback submission response"""
+    status: str = Field(..., description="Response status")
+    message: str = Field(..., description="Response message")
+    feedback_id: int = Field(..., description="Unique feedback identifier")
+
+
+class FeedbackStats(BaseModel):
+    """Feedback statistics"""
+    total_responses: int = Field(..., description="Total number of responses")
+    average_satisfaction: float = Field(..., description="Average satisfaction score")
+    recommendation_rate: float = Field(..., description="Percentage of users who would recommend")
+    most_useful_feature: Optional[str] = Field(None, description="Most popular feature")
+    feature_breakdown: Dict[str, int] = Field(..., description="Feature popularity breakdown")
