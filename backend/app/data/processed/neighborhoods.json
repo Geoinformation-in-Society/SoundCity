@@ -7,7 +7,7 @@
     "air_quality": 3.2,
     "noise_level": 4.0,
     "green_space": 1.6,
-    "urban_heat": 2.1,
+    "urban_heat": 2.7,
     "geojson": {
       "type": "Polygon",
       "coordinates": [
