@@ -15,7 +15,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",  # Vite dev server
-        "https://web-production-1b810.up.railway.app",  # Deployed frontend
+        "https://geoinformation-in-society.github.io/SoundCity/",  # Deployed frontend
     ],
     allow_credentials=True,
     allow_methods=["*"],
