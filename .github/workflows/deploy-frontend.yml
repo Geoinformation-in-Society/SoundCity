@@ -2,7 +2,7 @@ name: Deploy Frontend to GitHub Pages
 
 on:
   push:
-    branches: [ production ]
+    branches: [ master ]
     paths:
       - 'frontend/**'
       - '.github/workflows/deploy-frontend.yml'
@@ -33,10 +33,12 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./frontend
-        run: npm install
+        run: npm ci
 
       - name: Build
         working-directory: ./frontend
+        env:
+          VITE_API_URL: https://web-production-1b810.up.railway.app/api/v1
         run: npm run build
 
       - name: Setup Pages

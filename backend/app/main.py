@@ -1,4 +1,3 @@
-import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import neighborhoods, feedback
@@ -11,14 +10,13 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-allow_origins = os.getenv(
-    "CORS_ORIGINS", 
-    "http://localhost:5173,http://localhost:5173"
-).split(",")
-
+# CORS middleware - allows frontend to communicate
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allow_origins,
+    allow_origins=[
+        "https://geoinformation-in-society.github.io",  # GitHub Pages
+        "https://web-production-1b810.up.railway.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
