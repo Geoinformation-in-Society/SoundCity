@@ -116,13 +116,13 @@
           @click="applyPreset('nature')"
           class="text-xs py-2 px-3 rounded bg-gray-100 hover:bg-gray-200 transition font-medium"
         >
-          🌿 Nature
+          🌿 Nature & Recreation
         </button>
         <button
-          @click="applyPreset('cooling')"
+          @click="applyPreset('climateResilience')"
           class="text-xs py-2 px-3 rounded bg-gray-100 hover:bg-gray-200 transition font-medium"
         >
-          🌳 Cooling
+          🌳 Climate Resilience
         </button>
       </div>
     </div>
@@ -188,33 +188,33 @@ const indicators = [
     label: 'Noise Pollution', 
     emoji: '🔊', 
     description: 'Traffic and ambient noise levels',
-    freshness: 'Current',
+    freshness: 'Old',
     freshnessColor: 'bg-blue-500 text-white',
-    lastUpdated: 'Today',
-    updateFrequency: 'Daily',
-    dataSource: 'Münster Lärmkartierung'
+    lastUpdated: '2022',
+    updateFrequency: 'Every 5 years (EU Directive)',
+    dataSource: 'Lärmkartierung NRW 2022 (LANUV/Münster Open Data)'
   },
   { 
     id: 'greenSpaces', 
     label: 'Green Environment', 
     emoji: '🌳', 
     description: 'Parks, vegetation & tree coverage',
-    freshness: 'Updated',
+    freshness: 'Recent',
     freshnessColor: 'bg-emerald-500 text-white',
-    lastUpdated: 'This week',
-    updateFrequency: 'Weekly',
+    lastUpdated: '2024',
+    updateFrequency: 'Annually',
     dataSource: 'Münster Grünflächen + Baumkataster'
   },
   { 
     id: 'urbanHeat', 
     label: 'Urban Heat', 
     emoji: '🌡️', 
-    description: 'Temperature and cooling zones',
+    description: 'Heat island resilience score',
     freshness: 'Recent',
     freshnessColor: 'bg-orange-500 text-white',
-    lastUpdated: '2 days ago',
-    updateFrequency: 'Every 2 days',
-    dataSource: 'Landsat 8 satellite imagery'
+    lastUpdated: '2025',
+    updateFrequency: 'On data updates',
+    dataSource: 'Multi-factor UHI Model (Green Coverage + Distance + Density proxy)'
   }
 ]
 
@@ -346,22 +346,22 @@ const applyPreset = async (preset) => {
       urbanHeat: 25,
     },
     health: {
-      air: 35,
-      noise: 25,
-      greenSpaces: 30,
+      air: 40,
+      noise: 30,
+      greenSpaces: 20,
       urbanHeat: 10,
     },
     nature: {
-      air: 20,
-      noise: 12,
-      greenSpaces: 60,
-      urbanHeat: 8,
-    },
-    cooling: {
       air: 15,
       noise: 15,
-      greenSpaces: 50,
-      urbanHeat: 20,
+      greenSpaces: 45,
+      urbanHeat: 25,
+    },
+    climateResilience: {
+      air: 15,
+      noise: 10,
+      greenSpaces: 35,
+      urbanHeat: 40,
     }
   }
 
