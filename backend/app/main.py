@@ -1,4 +1,3 @@
-import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import neighborhoods, feedback
@@ -11,15 +10,13 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-allow_origins = os.getenv(
-    "CORS_ORIGINS", 
-    "http://localhost:5173,
-    "https://web-production-1b810.up.railway.app",
-).split(",")
-
+# CORS middleware - allows frontend to communicate
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allow_origins,
+    allow_origins=[
+        "http://localhost:5173",  # Vite dev server
+        "https://web-production-1b810.up.railway.app",  # Deployed frontend
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
