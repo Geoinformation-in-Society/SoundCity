@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from app.routers import neighborhoods, feedback
 
 app = FastAPI(
@@ -8,18 +7,6 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
-)
-
-# CORS middleware - allows frontend to communicate
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "https://geoinformation-in-society.github.io/SoundCity",  # GitHub Pages
-        "https://web-production-1b810.up.railway.app",
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
 )
 
 # Include routers
