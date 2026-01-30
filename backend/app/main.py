@@ -14,7 +14,6 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",  # Vite dev server
         "https://geoinformation-in-society.github.io",  # GitHub Pages
         "https://web-production-1b810.up.railway.app",
     ],
