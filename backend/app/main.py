@@ -13,7 +13,8 @@ app = FastAPI(
 
 allow_origins = os.getenv(
     "CORS_ORIGINS", 
-    "http://localhost:5173,http://localhost:5173"
+    "http://localhost:5173,
+    "https://web-production-1b810.up.railway.app"
 ).split(",")
 
 app.add_middleware(
