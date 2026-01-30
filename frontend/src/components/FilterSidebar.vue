@@ -29,7 +29,7 @@
           </button>
           
           <!-- Popover Content -->
-          <div class="absolute right-full top-1/2 -translate-y-1/2 mr-3 w-64 bg-white rounded-lg shadow-xl border border-gray-200 p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-[9999]">
+          <div class="absolute right-full top-1/2 -translate-y-1/2 mr-3 w-58 bg-white rounded-lg shadow-xl border border-gray-200 p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-[9999]">
             <div class="text-xs space-y-2">
               <div class="font-semibold text-gray-800 border-b pb-1">
                 {{ indicator.label }} {{ indicator.emoji }}
