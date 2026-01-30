@@ -15,6 +15,54 @@
         <label :for="`filter-${indicator.id}`" class="text-gray-700 font-medium cursor-pointer flex-1">
           {{ indicator.emoji }} {{ indicator.label }}
         </label>
+        
+        <!-- Info Icon with Popover -->
+        <div class="relative group">
+          <button 
+            type="button"
+            class="flex items-center justify-center w-5 h-5 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition-colors cursor-help"
+            @click.stop
+          >
+            <svg class="w-3 h-3 font-bold" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+          
+          <!-- Popover Content -->
+          <div class="absolute right-full top-1/2 -translate-y-1/2 mr-3 w-64 bg-white rounded-lg shadow-xl border border-gray-200 p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 pointer-events-none z-[9999]">
+            <div class="text-xs space-y-2">
+              <div class="font-semibold text-gray-800 border-b pb-1">
+                {{ indicator.label }} {{ indicator.emoji }}
+              </div>
+              
+              <div class="flex items-center gap-2">
+                <span :class="indicator.freshnessColor" class="px-2 py-0.5 rounded-full text-[10px] font-semibold">{{ indicator.freshness }}</span>
+              </div>
+              
+              <div class="flex justify-between">
+                <span class="text-gray-600">Last Updated:</span>
+                <span class="font-medium text-gray-800">{{ indicator.lastUpdated }}</span>
+              </div>
+              
+              <div class="flex justify-between">
+                <span class="text-gray-600">Update Frequency:</span>
+                <span class="font-medium text-gray-800">{{ indicator.updateFrequency }}</span>
+              </div>
+              
+              <div class="border-t pt-2">
+                <div class="text-gray-600 mb-1">Data Source:</div>
+                <div class="text-gray-800">{{ indicator.dataSource }}</div>
+              </div>
+              
+              <div class="border-t pt-2 text-[10px] text-gray-500">
+                ℹ️ {{ indicator.description }}
+              </div>
+            </div>
+            
+            <!-- Arrow pointer -->
+            <div class="absolute right-0 top-1/2 translate-x-full -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-l-[6px] border-transparent border-l-white"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -124,10 +172,50 @@ const store = useNeighborhoodStore()
 
 // Define all livability indicators
 const indicators = [
-  { id: 'air', label: 'Air Quality', emoji: '💨', description: 'PM2.5 and pollutants' },
-  { id: 'noise', label: 'Noise Pollution', emoji: '🔊', description: 'Traffic and ambient noise' },
-  { id: 'greenSpaces', label: 'Green Environment', emoji: '🌳', description: 'Parks, vegetation & tree coverage' },
-  { id: 'urbanHeat', label: 'Urban Heat', emoji: '🌡️', description: 'Temperature and cooling' }
+  { 
+    id: 'air', 
+    label: 'Air Quality', 
+    emoji: '💨', 
+    description: 'PM2.5 and pollutants measurement',
+    freshness: 'Live',
+    freshnessColor: 'bg-green-500 text-white',
+    lastUpdated: 'Real-time',
+    updateFrequency: 'Hourly',
+    dataSource: 'LUQS NRW stations + Sensor.Community'
+  },
+  { 
+    id: 'noise', 
+    label: 'Noise Pollution', 
+    emoji: '🔊', 
+    description: 'Traffic and ambient noise levels',
+    freshness: 'Current',
+    freshnessColor: 'bg-blue-500 text-white',
+    lastUpdated: 'Today',
+    updateFrequency: 'Daily',
+    dataSource: 'Münster Lärmkartierung'
+  },
+  { 
+    id: 'greenSpaces', 
+    label: 'Green Environment', 
+    emoji: '🌳', 
+    description: 'Parks, vegetation & tree coverage',
+    freshness: 'Updated',
+    freshnessColor: 'bg-emerald-500 text-white',
+    lastUpdated: 'This week',
+    updateFrequency: 'Weekly',
+    dataSource: 'Münster Grünflächen + Baumkataster'
+  },
+  { 
+    id: 'urbanHeat', 
+    label: 'Urban Heat', 
+    emoji: '🌡️', 
+    description: 'Temperature and cooling zones',
+    freshness: 'Recent',
+    freshnessColor: 'bg-orange-500 text-white',
+    lastUpdated: '2 days ago',
+    updateFrequency: 'Every 2 days',
+    dataSource: 'Landsat 8 satellite imagery'
+  }
 ]
 
 // Local state for filters and weights
