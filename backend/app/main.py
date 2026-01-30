@@ -14,7 +14,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://geoinformation-in-society.github.io",  # GitHub Pages
+        "https://geoinformation-in-society.github.io/SoundCity",  # GitHub Pages
         "https://web-production-1b810.up.railway.app",
     ],
     allow_credentials=True,
