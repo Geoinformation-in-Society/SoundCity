@@ -33,6 +33,7 @@ class MunsterDataCollector:
         # Load raw geospatial data for analysis
         self.green_shapes = self._load_green_spaces()
         self.tree_points = self._load_trees()
+        self.building_shapes = self._load_buildings()  # ALKIS building footprints
         self.air_sensors = self._load_air_sensors()
         self.noise_shapes = self._load_noise_shapes()
 
@@ -242,14 +243,17 @@ class MunsterDataCollector:
             green_score_val = 0.0
             tree_count = 0
             heat_score = 3.0
+            impervious_ratio = 0.0
             
             if shapely_geom:
                 print("\n🌳 GREEN & HEAT:")
                 green_score_val = self.calculate_green_score(shapely_geom)
                 tree_count = self.calculate_tree_density(shapely_geom)
+                impervious_ratio = self.calculate_impervious_surface(shapely_geom)
                 # Use multi-factor UHI model with geometry and location
                 heat_score = self.calculate_heat_score(green_score_val, shapely_geom, lat, lon)
-                print(f"    ✓ Green: {green_score_val*100:.1f}%, Trees: {tree_count}, Heat Resilience: {heat_score}/5")
+                print(f"    ✓ Green: {green_score_val*100:.1f}%, Trees: {tree_count}")
+                print(f"    ✓ Impervious (ALKIS): {impervious_ratio*100:.1f}%, Heat Resilience: {heat_score}/5")
 
             
             # Collect air quality
@@ -317,13 +321,14 @@ class MunsterDataCollector:
                     "pm10_raw": air_data.get('pm10'),
                     "estimated_db": noise_data.get('estimated_db'),
                     "green_coverage_pct": round(green_score_val * 100, 1),
+                    "impervious_pct": round(impervious_ratio * 100, 1),  # From ALKIS buildings
                     "raw_tree_count": tree_count,
                     "data_sources": {
                         "air_quality": "LUQS NRW (LANUV) + Sensor.Community" if not air_data.get('estimated') else "Spatial Heuristic",
                         "noise": noise_data.get('method', 'Estimated'),
                         "green_coverage": "Grünflächen WFS + Baumkataster WFS",
-                        "urban_heat": "Multi-factor UHI Model (Green Coverage + Distance + Density)",
-                        "boundaries": "OpenStreetMap"
+                        "urban_heat": "Multi-factor UHI Model (ALKIS Buildings + Green Coverage + Distance)",
+                        "boundaries": "Stadt Münster Open Data"
                     },
                     "last_updated": datetime.now().isoformat()
                 }
@@ -425,6 +430,52 @@ class MunsterDataCollector:
                 except: pass
         print(f"    ✓ Loaded {len(points)} tree points")
         return points
+    
+    def _load_buildings(self) -> List[Polygon]:
+        """Load ALKIS building footprints as Shapely polygons for impervious surface calculation"""
+        print("  🏢 Loading building footprints (ALKIS)...")
+        data = self._load_geojson_raw("buildings.geojson")
+        shapes = []
+        if data:
+            for feature in data.get("features", []):
+                try:
+                    geom = shape(feature["geometry"])
+                    if geom.is_valid:
+                        # Handle both Polygon and MultiPolygon
+                        if isinstance(geom, Polygon):
+                            shapes.append(geom)
+                        elif isinstance(geom, MultiPolygon):
+                            for poly in geom.geoms:
+                                shapes.append(poly)
+                except: pass
+        print(f"    ✓ Loaded {len(shapes)} building footprints")
+        return shapes
+    
+    def calculate_impervious_surface(self, district_geom: Polygon) -> float:
+        """
+        Calculate actual impervious surface ratio from ALKIS building footprints.
+        
+        Returns:
+            Ratio of building area to district area (0-1)
+        """
+        if not self.building_shapes or not district_geom:
+            return 0.0
+        
+        district_area = district_geom.area
+        if district_area == 0:
+            return 0.0
+        
+        # Calculate total building footprint area within district
+        building_area = 0.0
+        for building in self.building_shapes:
+            try:
+                if district_geom.intersects(building):
+                    intersection = district_geom.intersection(building)
+                    building_area += intersection.area
+            except: pass
+        
+        # Return ratio (capped at 1.0)
+        return min(1.0, building_area / district_area)
     
     def load_neighborhoods(self) -> List[Dict]:
         """
@@ -825,14 +876,15 @@ class MunsterDataCollector:
         Calculate Urban Heat Island resilience score (1-5) using multi-factor model.
         Higher score = more heat-resilient (cooler).
         
-        Factors considered:
-        1. Green coverage - vegetation provides evaporative cooling
-        2. Distance from city center - urban cores have higher heat island effect
-        3. Impervious surface estimate - based on lack of green coverage
-        4. District size - larger districts tend to have more variation
+        Factors considered (all using REAL data):
+        1. Green coverage (40%) - vegetation provides evaporative cooling
+        2. Distance from city center (30%) - urban cores have higher UHI effect
+        3. Impervious surface (20%) - REAL building footprint data from ALKIS
+        4. District density (10%) - building count per area from ALKIS
         
         Based on urban climatology research: UHI intensity correlates with
         vegetation fraction, building density, and distance from urban core.
+        Reference: Yuan & Bauer (2007), Remote Sensing of Environment
         
         Returns:
             Heat resilience score 1-5 (5 = coolest/most resilient)
@@ -843,43 +895,71 @@ class MunsterDataCollector:
         
         # Factor 2: Distance from city center (30% weight)
         # Further from center = typically less urban heat island effect
-        center_lat, center_lon = 51.9607, 7.6261  # Münster city center
+        center_lat, center_lon = 51.9607, 7.6261  # Münster Prinzipalmarkt (city center)
         
         distance_factor = 0.5  # default
-        if lat is not None and lon is not None:
-            # Calculate distance in km
-            dist_km = ((lat - center_lat)**2 + (lon - center_lon)**2)**0.5 * 111
+        if district_geom is not None:
+            # Use centroid distance to city center
+            centroid = district_geom.centroid
+            # Haversine approximation for short distances
+            lat_diff = centroid.y - center_lat
+            lon_diff = centroid.x - center_lon
+            # Convert to km (1 degree lat ≈ 111km, lon varies with latitude)
+            lat_km = lat_diff * 111.0
+            lon_km = lon_diff * 111.0 * 0.63  # cos(52°) ≈ 0.63 for Münster
+            dist_km = (lat_km**2 + lon_km**2)**0.5
             
             # Map distance to factor (0-1): 0km = 0, 3km = 0.5, 6km+ = 1.0
             distance_factor = min(1.0, dist_km / 6.0)
-        elif district_geom is not None:
-            # Use centroid if geometry is provided
-            centroid = district_geom.centroid
-            dist_km = ((centroid.y - center_lat)**2 + (centroid.x - center_lon)**2)**0.5 * 111
+        elif lat is not None and lon is not None:
+            lat_diff = lat - center_lat
+            lon_diff = lon - center_lon
+            lat_km = lat_diff * 111.0
+            lon_km = lon_diff * 111.0 * 0.63
+            dist_km = (lat_km**2 + lon_km**2)**0.5
             distance_factor = min(1.0, dist_km / 6.0)
         
-        # Factor 3: Impervious surface estimate (20% weight)
-        # Estimated as inverse of green coverage, representing built-up areas
-        # Less impervious = cooler (heat absorbed and radiated by pavement/buildings)
-        impervious_estimate = 1.0 - green_score_val
-        impervious_factor = 1.0 - impervious_estimate  # Invert so low impervious = high factor
-        
-        # Factor 4: District density proxy (10% weight)
-        # Smaller districts near center tend to be denser
-        density_factor = 0.5  # default
+        # Factor 3: Impervious surface from REAL ALKIS building data (20% weight)
+        # Uses actual building footprint area / district area
+        # Less impervious = cooler (heat absorbed and radiated by built surfaces)
+        impervious_ratio = 0.3  # default (30% built-up, typical urban)
         if district_geom is not None:
-            # Area in sq km (rough estimate from degree area)
+            impervious_ratio = self.calculate_impervious_surface(district_geom)
+        
+        # Invert so low impervious = high factor (cooler)
+        impervious_factor = 1.0 - impervious_ratio
+        
+        # Factor 4: Building density (10% weight) - buildings per km²
+        # Uses REAL building count from ALKIS
+        density_factor = 0.5  # default
+        if district_geom is not None and self.building_shapes:
+            # Calculate area in km²
             area_sq_deg = district_geom.area
-            area_sq_km = area_sq_deg * (111 * 111)  # Very rough conversion
+            # More accurate conversion using cosine for latitude
+            area_sq_km = area_sq_deg * (111.0 * 111.0 * 0.63)
             
-            # Larger areas tend to be less dense (more rural)
-            # Map: <1km² = 0.3, 1-5km² = 0.5, >5km² = 0.8
-            if area_sq_km < 1:
-                density_factor = 0.3
-            elif area_sq_km < 5:
-                density_factor = 0.5
-            else:
-                density_factor = 0.8
+            if area_sq_km > 0:
+                # Count buildings in district
+                building_count = 0
+                for building in self.building_shapes:
+                    try:
+                        if district_geom.intersects(building):
+                            building_count += 1
+                    except: pass
+                
+                # Buildings per km²
+                density_per_km2 = building_count / area_sq_km
+                
+                # Map density to factor (0-1)
+                # <100 buildings/km² = 0.8 (low density, rural-like)
+                # 100-500 = 0.5 (medium density)
+                # >500 = 0.2 (high density, urban core)
+                if density_per_km2 < 100:
+                    density_factor = 0.8
+                elif density_per_km2 < 500:
+                    density_factor = 0.5
+                else:
+                    density_factor = 0.2
         
         # Combine factors with weights
         # Green: 40%, Distance: 30%, Impervious: 20%, Density: 10%

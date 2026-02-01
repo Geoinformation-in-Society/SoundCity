@@ -13,6 +13,8 @@ URLS = {
     "green_spaces": "https://www.stadt-muenster.de/ows/mapserv706/odgruenserv?REQUEST=GetFeature&SERVICE=WFS&VERSION=2.0.0&TYPENAME=ms:Gruenflaechen&OUTPUTFORMAT=GEOJSON&EXCEPTIONS=XML&MAXFEATURES=1000&SRSNAME=EPSG:4326",
     "noise_traffic_day": "https://opendata.stadt-muenster.de/sites/default/files/laerm_stra%C3%9Fe_tag.json",
     "trees": "https://www.stadt-muenster.de/ows/mapserv706/odgruenserv?REQUEST=GetFeature&SERVICE=WFS&VERSION=2.0.0&TYPENAME=ms:Baeume&OUTPUTFORMAT=GEOJSON&EXCEPTIONS=XML&MAXFEATURES=100000&SRSNAME=EPSG:4326",
+    # ALKIS building footprints for impervious surface calculation (ms:gebaeude = buildings)
+    "buildings": "https://www.stadt-muenster.de/ows/mapserv706/odalkisserv?REQUEST=GetFeature&SERVICE=WFS&VERSION=2.0.0&TYPENAME=ms:gebaeude&OUTPUTFORMAT=GEOJSON&MAXFEATURES=200000&SRSNAME=EPSG:4326",
     # Global air quality data (will need filtering)
     "air_quality_api": "https://data.sensor.community/static/v1/data.json"
 }
@@ -70,8 +72,11 @@ def fetch_all_data(force: bool = False):
     
     # 4. Trees
     download_file(URLS["trees"], "trees.geojson", force)
+    
+    # 5. Building footprints (ALKIS) for impervious surface
+    download_file(URLS["buildings"], "buildings.geojson", force)
 
-    # 5. Air Quality
+    # 6. Air Quality
     # This is a large file, might perform better if we just get it fresh every X minutes
     # For now, let's treat it like static data for the MVP
     download_file(URLS["air_quality_api"], "air_sensors_global.json", force)
