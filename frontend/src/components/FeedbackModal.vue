@@ -221,7 +221,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
 
-const API_BASE_URL = 'https://soundcity.onrender.com/api/v1'
+const API_BASE_URL = import.meta.env.VITE_API_URL
 const route = useRoute()
 
 const showModal = ref(false)
