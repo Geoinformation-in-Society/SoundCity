@@ -919,55 +919,24 @@ class MunsterDataCollector:
             dist_km = (lat_km**2 + lon_km**2)**0.5
             distance_factor = min(1.0, dist_km / 6.0)
         
-        # Factor 3: Impervious surface from REAL ALKIS building data (20% weight)
+        # Factor 3: Impervious surface from REAL ALKIS building data (30% weight)
         # Uses actual building footprint area / district area
-        # Less impervious = cooler (heat absorbed and radiated by built surfaces)
+        # Historically, ISA is the strongest building-related predictor of LST.
+        # Reference: Yuan & Bauer (2007)
         impervious_ratio = 0.3  # default (30% built-up, typical urban)
         if district_geom is not None:
             impervious_ratio = self.calculate_impervious_surface(district_geom)
         
         # Invert so low impervious = high factor (cooler)
+        # Note: Building density is implicitly captured by ISA at the district level.
         impervious_factor = 1.0 - impervious_ratio
         
-        # Factor 4: Building density (10% weight) - buildings per km²
-        # Uses REAL building count from ALKIS
-        density_factor = 0.5  # default
-        if district_geom is not None and self.building_shapes:
-            # Calculate area in km²
-            area_sq_deg = district_geom.area
-            # More accurate conversion using cosine for latitude
-            area_sq_km = area_sq_deg * (111.0 * 111.0 * 0.63)
-            
-            if area_sq_km > 0:
-                # Count buildings in district
-                building_count = 0
-                for building in self.building_shapes:
-                    try:
-                        if district_geom.intersects(building):
-                            building_count += 1
-                    except: pass
-                
-                # Buildings per km²
-                density_per_km2 = building_count / area_sq_km
-                
-                # Map density to factor (0-1)
-                # <100 buildings/km² = 0.8 (low density, rural-like)
-                # 100-500 = 0.5 (medium density)
-                # >500 = 0.2 (high density, urban core)
-                if density_per_km2 < 100:
-                    density_factor = 0.8
-                elif density_per_km2 < 500:
-                    density_factor = 0.5
-                else:
-                    density_factor = 0.2
-        
         # Combine factors with weights
-        # Green: 40%, Distance: 30%, Impervious: 20%, Density: 10%
+        # Green: 40%, Distance: 30%, Impervious: 30%
         combined_score = (
             green_factor * 0.40 +
             distance_factor * 0.30 +
-            impervious_factor * 0.20 +
-            density_factor * 0.10
+            impervious_factor * 0.30
         )
         
         # Scale to 1-5 range (combined_score is 0-1)
