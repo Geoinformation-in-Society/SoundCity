@@ -52,90 +52,96 @@
               <p class="text-sm text-gray-500 mt-1">Takes 30 seconds • Anonymous</p>
             </div>
 
-            <!-- Satisfaction Rating -->
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-3">
-                How satisfied are you with SoundCity?
-              </label>
-              <div class="flex justify-between gap-2">
-                <button
-                  v-for="rating in 5"
-                  :key="rating"
-                  type="button"
-                  @click="feedback.satisfaction = rating"
-                  class="flex-1 py-3 text-2xl rounded-lg border-2 transition-all"
-                  :class="feedback.satisfaction === rating 
-                    ? 'border-emerald-600 bg-emerald-50 scale-110' 
-                    : 'border-gray-200 hover:border-gray-300'"
-                >
-                  {{ ['😞', '😐', '🙂', '😊', '🤩'][rating - 1] }}
-                </button>
-              </div>
-              <div class="flex justify-between text-xs text-gray-500 mt-1 px-1">
-                <span>Poor</span>
-                <span>Excellent</span>
-              </div>
-            </div>
-
-            <!-- Most Useful Feature -->
+            <!-- Most Useful Features (up to 2) -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Which feature do you find most useful?
+                Which features did you use during this session? <br>(Select up to 2)
               </label>
               <div class="space-y-2">
                 <label
                   v-for="feature in features"
                   :key="feature.value"
                   class="flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition"
-                  :class="feedback.useful_feature === feature.value 
+                  :class="feedback.useful_features.includes(feature.value)
                     ? 'border-emerald-600 bg-emerald-50' 
                     : 'border-gray-200 hover:border-gray-300'"
                 >
                   <input
-                    type="radio"
+                    type="checkbox"
                     :value="feature.value"
-                    v-model="feedback.useful_feature"
-                    class="w-4 h-4 text-emerald-600"
+                    :checked="feedback.useful_features.includes(feature.value)"
+                    @change="toggleFeature(feature.value)"
+                    :disabled="feedback.useful_features.length >= 2 && !feedback.useful_features.includes(feature.value)"
+                    class="w-4 h-4 text-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
-                  <span class="text-gray-700">{{ feature.label }}</span>
+                  <span class="text-gray-700" :class="feedback.useful_features.length >= 2 && !feedback.useful_features.includes(feature.value) ? 'text-gray-400' : ''">{{ feature.label }}</span>
                 </label>
               </div>
+              <p class="text-xs text-gray-500 mt-2">{{ feedback.useful_features.length }}/2 selected</p>
             </div>
 
-            <!-- Most Important Indicator -->
+            <!-- Most Important Indicators (up to 2) -->
             <div>
               <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Which indicator matters most to you?
+                Which indicators did you pay most attention to? <br>(Select up to 2)
               </label>
               <div class="grid grid-cols-2 gap-2">
-                <button
+                <label
                   v-for="indicator in indicators"
                   :key="indicator.value"
-                  type="button"
-                  @click="feedback.most_important_indicator = indicator.value"
-                  class="py-3 px-4 rounded-lg border-2 font-medium transition-all text-sm"
-                  :class="feedback.most_important_indicator === indicator.value
-                    ? 'border-emerald-600 bg-emerald-600 text-white'
-                    : 'border-gray-200 text-gray-700 hover:border-gray-300'"
+                  class="flex items-center gap-2 p-3 rounded-lg border-2 cursor-pointer transition"
+                  :class="feedback.most_important_indicators.includes(indicator.value)
+                    ? 'border-emerald-600 bg-emerald-50' 
+                    : 'border-gray-200 hover:border-gray-300'"
                 >
-                  {{ indicator.label }}
-                </button>
+                  <input
+                    type="checkbox"
+                    :value="indicator.value"
+                    :checked="feedback.most_important_indicators.includes(indicator.value)"
+                    @change="toggleIndicator(indicator.value)"
+                    :disabled="feedback.most_important_indicators.length >= 2 && !feedback.most_important_indicators.includes(indicator.value)"
+                    class="w-4 h-4 text-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  />
+                  <span class="text-sm" :class="feedback.most_important_indicators.length >= 2 && !feedback.most_important_indicators.includes(indicator.value) ? 'text-gray-400' : 'text-gray-700'">{{ indicator.label }}</span>
+                </label>
               </div>
+              <p class="text-xs text-gray-500 mt-2">{{ feedback.most_important_indicators.length }}/2 selected</p>
             </div>
 
-            <!-- Housing Decision -->
+            <!-- Housing Decision Support -->
             <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Would you use this to make housing decisions?
+              <label class="block text-sm font-semibold text-gray-700 mb-3">
+                To what extent could SoundCity support a housing-related decision?
               </label>
-              <div class="flex gap-2">
+              <div class="space-y-2">
                 <button
                   v-for="option in housingDecisionOptions"
                   :key="option.value"
                   type="button"
                   @click="feedback.housing_decision = option.value"
-                  class="flex-1 py-3 rounded-lg border-2 font-medium transition-all"
+                  class="w-full py-2 px-3 rounded-lg border-2 font-medium transition-all text-sm"
                   :class="feedback.housing_decision === option.value
+                    ? 'border-emerald-600 bg-emerald-600 text-white'
+                    : 'border-gray-200 text-gray-700 hover:border-gray-300'"
+                >
+                  {{ option.label }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Data Clarity -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-3">
+                The way data and indicators are combined is clear.
+              </label>
+              <div class="space-y-2">
+                <button
+                  v-for="option in dataClarity"
+                  :key="option.value"
+                  type="button"
+                  @click="feedback.data_clarity = option.value"
+                  class="w-full py-2 px-3 rounded-lg border-2 font-medium transition-all text-sm"
+                  :class="feedback.data_clarity === option.value
                     ? 'border-emerald-600 bg-emerald-600 text-white'
                     : 'border-gray-200 text-gray-700 hover:border-gray-300'"
                 >
@@ -155,35 +161,6 @@
                 placeholder="Your suggestions..."
                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
               ></textarea>
-            </div>
-
-            <!-- Recommendation -->
-            <div>
-              <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Would you recommend SoundCity?
-              </label>
-              <div class="flex gap-3">
-                <button
-                  type="button"
-                  @click="feedback.would_recommend = true"
-                  class="flex-1 py-3 rounded-lg border-2 font-medium transition-all"
-                  :class="feedback.would_recommend === true
-                    ? 'border-emerald-600 bg-emerald-600 text-white'
-                    : 'border-gray-200 text-gray-700 hover:border-gray-300'"
-                >
-                  👍 Yes
-                </button>
-                <button
-                  type="button"
-                  @click="feedback.would_recommend = false"
-                  class="flex-1 py-3 rounded-lg border-2 font-medium transition-all"
-                  :class="feedback.would_recommend === false
-                    ? 'border-red-600 bg-red-600 text-white'
-                    : 'border-gray-200 text-gray-700 hover:border-gray-300'"
-                >
-                  👎 No
-                </button>
-              </div>
             </div>
 
             <!-- Actions -->
@@ -248,12 +225,11 @@ watch(showModal, (isOpen) => {
 })
 
 const feedback = ref({
-  satisfaction: null,
-  useful_feature: null,
-  most_important_indicator: null,
+  useful_features: [],
+  most_important_indicators: [],
   housing_decision: null,
-  improvement: '',
-  would_recommend: null
+  data_clarity: null,
+  improvement: ''
 })
 
 const features = [
@@ -261,29 +237,104 @@ const features = [
   { value: 'comparison', label: '⚖️ Comparison Tool' },
   { value: 'filters', label: '🎯 Custom Filters' },
   { value: 'presets', label: '🛠️ Presets' },
-  { value: 'charts', label: '📊 Radar Charts' }
+  { value: 'charts', label: '📊 Radar Charts' },
+  { value: 'none', label: '🤷 Did not use any extensively' }
 ]
 
 const indicators = [
   { value: 'air', label: '💨 Air Quality' },
   { value: 'noise', label: '🔇 Noise Level' },
   { value: 'green', label: '🌳 Green Space' },
-  { value: 'heat', label: '🌡️ Urban Heat' }
+  { value: 'heat', label: '🌡️ Urban Heat' },
+  { value: 'none', label: '🤷 None' }
 ]
 
 const housingDecisionOptions = [
-  { value: 'definitely', label: '✅ Definitely' },
-  { value: 'maybe', label: '🤔 Maybe' },
-  { value: 'no', label: '❌ No' }
+  { value: 'not_at_all', label: 'Not at all' },
+  { value: 'slightly', label: 'Slightly' },
+  { value: 'moderately', label: 'Moderately' },
+  { value: 'largely', label: 'Largely' },
+  { value: 'fully', label: 'Fully' }
+]
+
+const dataClarity = [
+  { value: 'strongly_disagree', label: 'Strongly disagree' },
+  { value: 'disagree', label: 'Disagree' },
+  { value: 'neutral', label: 'Neutral' },
+  { value: 'agree', label: 'Agree' },
+  { value: 'strongly_agree', label: 'Strongly agree' }
 ]
 
 const isValid = computed(() => {
-  return feedback.value.satisfaction !== null &&
-         feedback.value.useful_feature !== null &&
-         feedback.value.most_important_indicator !== null &&
+  return feedback.value.useful_features.length > 0 &&
+         feedback.value.most_important_indicators.length > 0 &&
          feedback.value.housing_decision !== null &&
-         feedback.value.would_recommend !== null
+         feedback.value.data_clarity !== null
 })
+
+const toggleFeature = (featureValue) => {
+  const index = feedback.value.useful_features.indexOf(featureValue)
+  
+  // Handle "none" as exclusive option
+  if (featureValue === 'none') {
+    if (index > -1) {
+      // Deselect "none"
+      feedback.value.useful_features.splice(index, 1)
+    } else {
+      // Select "none" and clear all other features
+      feedback.value.useful_features = ['none']
+    }
+  } else {
+    // Handle regular features
+    if (index > -1) {
+      // Remove if already selected
+      feedback.value.useful_features.splice(index, 1)
+    } else {
+      // Remove "none" if selected, then add the new feature
+      const noneIndex = feedback.value.useful_features.indexOf('none')
+      if (noneIndex > -1) {
+        feedback.value.useful_features.splice(noneIndex, 1)
+      }
+      
+      // Add if less than 2 are selected
+      if (feedback.value.useful_features.length < 2) {
+        feedback.value.useful_features.push(featureValue)
+      }
+    }
+  }
+}
+
+const toggleIndicator = (indicatorValue) => {
+  const index = feedback.value.most_important_indicators.indexOf(indicatorValue)
+  
+  // Handle "none" as exclusive option
+  if (indicatorValue === 'none') {
+    if (index > -1) {
+      // Deselect "none"
+      feedback.value.most_important_indicators.splice(index, 1)
+    } else {
+      // Select "none" and clear all other indicators
+      feedback.value.most_important_indicators = ['none']
+    }
+  } else {
+    // Handle regular indicators
+    if (index > -1) {
+      // Remove if already selected
+      feedback.value.most_important_indicators.splice(index, 1)
+    } else {
+      // Remove "none" if selected, then add the new indicator
+      const noneIndex = feedback.value.most_important_indicators.indexOf('none')
+      if (noneIndex > -1) {
+        feedback.value.most_important_indicators.splice(noneIndex, 1)
+      }
+      
+      // Add if less than 2 are selected
+      if (feedback.value.most_important_indicators.length < 2) {
+        feedback.value.most_important_indicators.push(indicatorValue)
+      }
+    }
+  }
+}
 
 const submitFeedback = async () => {
   if (!isValid.value) return
@@ -331,12 +382,11 @@ const closeModal = () => {
   setTimeout(() => {
     submitted.value = false
     feedback.value = {
-      satisfaction: null,
-      useful_feature: null,
-      most_important_indicator: null,
+      useful_features: [],
+      most_important_indicators: [],
       housing_decision: null,
-      improvement: '',
-      would_recommend: null
+      data_clarity: null,
+      improvement: ''
     }
     error.value = null
   }, 300)

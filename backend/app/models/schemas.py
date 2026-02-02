@@ -62,24 +62,22 @@ class ScoreWeights(BaseModel):
 
 class FeedbackSubmission(BaseModel):
     """User feedback submission"""
-    satisfaction: int = Field(..., ge=1, le=5, description="Satisfaction rating (1-5)")
-    useful_feature: str = Field(..., description="Most useful feature")
-    most_important_indicator: str = Field(..., description="Most important indicator (air/noise/green/heat)")
-    housing_decision: str = Field(..., description="Would use for housing decisions (definitely/maybe/no)")
+    useful_features: list = Field(..., description="Features used during session (up to 2)")
+    most_important_indicators: list = Field(..., description="Indicators user paid attention to (up to 2)")
+    housing_decision: str = Field(..., description="Support for housing decisions (not_at_all/slightly/moderately/largely/fully)")
+    data_clarity: str = Field(..., description="Data clarity rating (strongly_disagree/disagree/neutral/agree/strongly_agree)")
     improvement: Optional[str] = Field(None, description="Suggested improvements")
-    would_recommend: bool = Field(..., description="Would recommend to others")
     session_data: Optional[Dict] = Field(None, description="Session metadata")
     
     class Config:
         json_schema_extra = {
             "example": {
-                "satisfaction": 5,
-                "useful_feature": "comparison",
-                "most_important_indicator": "air",
-                "housing_decision": "definitely",
+                "useful_features": ["map", "comparison"],
+                "most_important_indicators": ["air", "green"],
+                "housing_decision": "largely",
+                "data_clarity": "agree",
                 "improvement": "Add more neighborhoods",
-                "would_recommend": True,
-                "session_data": {"page": "comparison", "duration": 120}
+                "session_data": {"page": "home", "session_duration": 245, "time_on_modal": 45}
             }
         }
 
@@ -94,7 +92,7 @@ class FeedbackResponse(BaseModel):
 class FeedbackStats(BaseModel):
     """Feedback statistics"""
     total_responses: int = Field(..., description="Total number of responses")
-    average_satisfaction: float = Field(..., description="Average satisfaction score")
-    recommendation_rate: float = Field(..., description="Percentage of users who would recommend")
-    most_useful_feature: Optional[str] = Field(None, description="Most popular feature")
-    feature_breakdown: Dict[str, int] = Field(..., description="Feature popularity breakdown")
+    average_data_clarity: float = Field(..., description="Average data clarity score (1-5)")
+    housing_decision_distribution: Dict[str, int] = Field(..., description="Distribution of housing decision support levels")
+    feature_breakdown: Dict[str, int] = Field(..., description="Feature usage breakdown")
+    indicator_breakdown: Dict[str, int] = Field(..., description="Indicator attention breakdown")

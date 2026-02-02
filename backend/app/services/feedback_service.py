@@ -59,52 +59,49 @@ class FeedbackService:
     
     def submit_feedback(
         self,
-        satisfaction: int,
-        useful_feature: str,
-        most_important_indicator: str,
+        useful_features: list,
+        most_important_indicators: list,
         housing_decision: str,
+        data_clarity: str,
         improvement: Optional[str],
-        would_recommend: bool,
         session_data: Optional[Dict] = None
     ) -> int:
         """
         Submit new feedback entry
-        
+
         Args:
-            satisfaction: Satisfaction rating (1-5)
-            useful_feature: Most useful feature
-            most_important_indicator: Most important indicator (air/noise/green/heat)
-            housing_decision: Would use for housing decisions (definitely/maybe/no)
+            useful_features: List of features used (up to 2)
+            most_important_indicators: List of indicators user focused on (up to 2)
+            housing_decision: Support level for housing decisions (not_at_all/slightly/moderately/largely/fully)
+            data_clarity: Data clarity rating (strongly_disagree/disagree/neutral/agree/strongly_agree)
             improvement: Suggested improvements (optional)
-            would_recommend: Would recommend to others
             session_data: Additional session metadata (optional)
-        
+
         Returns:
             Feedback ID of the newly created entry
         """
         # Load existing feedback
         data = self._load_feedback()
-        
+
         # Create new entry
         feedback_id = len(data) + 1
         entry = {
             "id": feedback_id,
-            "satisfaction": satisfaction,
-            "useful_feature": useful_feature,
-            "most_important_indicator": most_important_indicator,
+            "useful_features": useful_features,
+            "most_important_indicators": most_important_indicators,
             "housing_decision": housing_decision,
+            "data_clarity": data_clarity,
             "improvement": improvement,
-            "would_recommend": would_recommend,
             "session_data": session_data,
             "timestamp": datetime.now().isoformat()
         }
-        
+
         # Add and save
         data.append(entry)
         self._save_feedback(data)
-        
-        logger.info(f"Feedback submitted: ID={feedback_id}, Satisfaction={satisfaction}")
-        
+
+        logger.info(f"Feedback submitted: ID={feedback_id}, Features={useful_features}, Indicators={most_important_indicators}")
+
         return feedback_id
     
     def get_statistics(self) -> Dict:
@@ -119,32 +116,52 @@ class FeedbackService:
         if not data:
             return {
                 "total_responses": 0,
-                "average_satisfaction": 0.0,
-                "recommendation_rate": 0.0,
-                "most_useful_feature": None,
-                "feature_breakdown": {}
+                "average_data_clarity": 0.0,
+                "housing_decision_distribution": {},
+                "feature_breakdown": {},
+                "indicator_breakdown": {}
             }
         
         # Calculate basic stats
         total = len(data)
-        avg_satisfaction = sum(item['satisfaction'] for item in data) / total
-        recommendations = sum(1 for item in data if item['would_recommend'])
-        recommendation_rate = (recommendations / total) * 100
         
-        # Feature popularity
+        # Data clarity: Convert Likert scale to numeric for averaging
+        clarity_scale = {
+            "strongly_disagree": 1,
+            "disagree": 2,
+            "neutral": 3,
+            "agree": 4,
+            "strongly_agree": 5
+        }
+        clarity_scores = [clarity_scale.get(item.get('data_clarity', 'neutral'), 3) for item in data]
+        avg_clarity = sum(clarity_scores) / total if clarity_scores else 0
+        
+        # Housing decision distribution
+        housing_counts = {}
+        for item in data:
+            decision = item.get('housing_decision', 'Unknown')
+            housing_counts[decision] = housing_counts.get(decision, 0) + 1
+        
+        # Feature popularity (accounting for multi-select)
         feature_counts = {}
         for item in data:
-            feature = item.get('useful_feature', 'Unknown')
-            feature_counts[feature] = feature_counts.get(feature, 0) + 1
+            features = item.get('useful_features', [])
+            for feature in features:
+                feature_counts[feature] = feature_counts.get(feature, 0) + 1
         
-        most_useful = max(feature_counts, key=feature_counts.get) if feature_counts else None
+        # Indicator popularity (accounting for multi-select)
+        indicator_counts = {}
+        for item in data:
+            indicators = item.get('most_important_indicators', [])
+            for indicator in indicators:
+                indicator_counts[indicator] = indicator_counts.get(indicator, 0) + 1
         
         return {
             "total_responses": total,
-            "average_satisfaction": round(avg_satisfaction, 2),
-            "recommendation_rate": round(recommendation_rate, 1),
-            "most_useful_feature": most_useful,
-            "feature_breakdown": feature_counts
+            "average_data_clarity": round(avg_clarity, 2),
+            "housing_decision_distribution": housing_counts,
+            "feature_breakdown": feature_counts,
+            "indicator_breakdown": indicator_counts
         }
     
     def get_all_feedback(self) -> List[Dict]:

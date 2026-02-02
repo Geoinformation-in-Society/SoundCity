@@ -19,12 +19,11 @@ async def submit_feedback(feedback: FeedbackSubmission):
     """
     try:
         feedback_id = feedback_service.submit_feedback(
-            satisfaction=feedback.satisfaction,
-            useful_feature=feedback.useful_feature,
-            most_important_indicator=feedback.most_important_indicator,
+            useful_features=feedback.useful_features,
+            most_important_indicators=feedback.most_important_indicators,
             housing_decision=feedback.housing_decision,
+            data_clarity=feedback.data_clarity,
             improvement=feedback.improvement,
-            would_recommend=feedback.would_recommend,
             session_data=feedback.session_data
         )
         
